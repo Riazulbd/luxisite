@@ -1,0 +1,8 @@
+node_modules/
+dist/
+preview.png
+desktop-preview.png
+mobile-preview.png
+vite.log
+.DS_Store
+npm-debug.log*
