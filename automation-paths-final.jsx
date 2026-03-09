@@ -8,11 +8,11 @@ const TYPOGRAPHY = {
 };
 
 const THEMES = [
-  { id: "crystal", name: "Crystal Blue", dark: false, bg: "#FEF7F0", bgDark: "#1C1825", card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.05)", text: "#1C1825", text2: "#52495E", text3: "#8B839A", a1: "#5B6CFF", a2: "#9B72FF", grad: "linear-gradient(135deg,#5B6CFF,#9B72FF,#FF6B9D)", glow1: "rgba(91,108,255,0.22)", glow2: "rgba(155,114,255,0.16)", glow3: "rgba(52,211,153,0.10)", cardGlow: "0 0 40px rgba(91,108,255,0.06)", btnGlow: "0 6px 30px rgba(91,108,255,0.35)", chipBg: "rgba(91,108,255,0.08)", chipC: "#5B6CFF", tagBg: "rgba(91,108,255,0.08)", tagC: "#5B6CFF", starG: "linear-gradient(135deg,#FFCB47,#FF8C42)", navBg: "rgba(255,255,255,0.72)", navBorder: "rgba(255,255,255,0.8)", hoverBorder: "rgba(91,108,255,0.3)", iL: 0.7, iD: 0.04 },
-  { id: "emerald", name: "Midnight Emerald", dark: true, bg: "#080F0C", bgDark: "#050A07", card: "rgba(255,255,255,0.045)", cardBorder: "rgba(52,211,153,0.08)", text: "#D8F0E4", text2: "#7DBB9E", text3: "#4A8068", a1: "#34D399", a2: "#2DD4BF", grad: "linear-gradient(135deg,#34D399,#2DD4BF,#06B6D4)", glow1: "rgba(52,211,153,0.22)", glow2: "rgba(45,212,191,0.16)", glow3: "rgba(6,182,212,0.12)", cardGlow: "0 0 50px rgba(52,211,153,0.05)", btnGlow: "0 6px 30px rgba(52,211,153,0.35), 0 0 50px rgba(52,211,153,0.15)", chipBg: "rgba(52,211,153,0.1)", chipC: "#34D399", tagBg: "rgba(52,211,153,0.1)", tagC: "#34D399", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(8,15,12,0.75)", navBorder: "rgba(52,211,153,0.08)", hoverBorder: "rgba(52,211,153,0.35)", iL: 0.05, iD: 0.2 },
-  { id: "flame", name: "Sunset Flame", dark: false, bg: "#FFFAF5", bgDark: "#1F1510", card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.05)", text: "#1F1510", text2: "#6B5040", text3: "#A08878", a1: "#FF6B35", a2: "#FF4F81", grad: "linear-gradient(135deg,#FF6B35,#FF4F81,#FF2D87)", glow1: "rgba(255,107,53,0.2)", glow2: "rgba(255,79,129,0.15)", glow3: "rgba(255,140,66,0.12)", cardGlow: "0 0 40px rgba(255,107,53,0.05)", btnGlow: "0 6px 30px rgba(255,107,53,0.35), 0 0 50px rgba(255,79,129,0.12)", chipBg: "rgba(255,107,53,0.08)", chipC: "#E85A28", tagBg: "rgba(255,107,53,0.08)", tagC: "#E85A28", starG: "linear-gradient(135deg,#FFCB47,#FF8C42)", navBg: "rgba(255,250,245,0.75)", navBorder: "rgba(255,255,255,0.8)", hoverBorder: "rgba(255,107,53,0.3)", iL: 0.7, iD: 0.04 },
-  { id: "violet", name: "Electric Violet", dark: true, bg: "#0C0814", bgDark: "#08050F", card: "rgba(255,255,255,0.05)", cardBorder: "rgba(168,85,247,0.08)", text: "#E8DEFF", text2: "#B09AD8", text3: "#7A68A0", a1: "#A855F7", a2: "#EC4899", grad: "linear-gradient(135deg,#A855F7,#EC4899,#F472B6)", glow1: "rgba(168,85,247,0.25)", glow2: "rgba(236,72,153,0.18)", glow3: "rgba(139,92,246,0.14)", cardGlow: "0 0 60px rgba(168,85,247,0.06)", btnGlow: "0 6px 30px rgba(168,85,247,0.4), 0 0 60px rgba(236,72,153,0.18)", chipBg: "rgba(168,85,247,0.12)", chipC: "#C084FC", tagBg: "rgba(168,85,247,0.12)", tagC: "#C084FC", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(12,8,20,0.75)", navBorder: "rgba(168,85,247,0.1)", hoverBorder: "rgba(168,85,247,0.35)", iL: 0.05, iD: 0.2 },
-  { id: "ocean", name: "Ocean Depth", dark: true, bg: "#070B14", bgDark: "#050810", card: "rgba(255,255,255,0.045)", cardBorder: "rgba(6,182,212,0.08)", text: "#D4EAFF", text2: "#7AAED4", text3: "#4A7A9E", a1: "#06B6D4", a2: "#3B82F6", grad: "linear-gradient(135deg,#06B6D4,#3B82F6,#6366F1)", glow1: "rgba(6,182,212,0.22)", glow2: "rgba(59,130,246,0.16)", glow3: "rgba(99,102,241,0.12)", cardGlow: "0 0 60px rgba(6,182,212,0.05)", btnGlow: "0 6px 30px rgba(6,182,212,0.35), 0 0 60px rgba(59,130,246,0.15)", chipBg: "rgba(6,182,212,0.12)", chipC: "#22D3EE", tagBg: "rgba(6,182,212,0.12)", tagC: "#22D3EE", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(7,11,20,0.75)", navBorder: "rgba(6,182,212,0.08)", hoverBorder: "rgba(6,182,212,0.35)", iL: 0.05, iD: 0.2 },
+  { id: "crystal", name: "Crystal Blue", dark: false, bg: "#FEF7F0", bgDark: "#EEF0FF", card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.05)", text: "#1C1825", text2: "#52495E", text3: "#8B839A", a1: "#5B6CFF", a2: "#9B72FF", grad: "linear-gradient(135deg,#5B6CFF,#9B72FF,#FF6B9D)", glow1: "rgba(91,108,255,0.18)", glow2: "rgba(155,114,255,0.12)", glow3: "rgba(52,211,153,0.10)", cardGlow: "0 0 40px rgba(91,108,255,0.06)", btnGlow: "0 6px 30px rgba(91,108,255,0.35)", chipBg: "rgba(91,108,255,0.08)", chipC: "#5B6CFF", tagBg: "rgba(91,108,255,0.08)", tagC: "#5B6CFF", starG: "linear-gradient(135deg,#FFCB47,#FF8C42)", navBg: "rgba(255,255,255,0.72)", navBorder: "rgba(255,255,255,0.8)", hoverBorder: "rgba(91,108,255,0.3)", iL: 0.7, iD: 0.04 },
+  { id: "emerald", name: "Mint Ledger", dark: false, bg: "#F5FCF8", bgDark: "#E4F8ED", card: "#FFFFFF", cardBorder: "rgba(16,84,63,0.08)", text: "#133128", text2: "#456A5C", text3: "#80A193", a1: "#2FB98B", a2: "#1FB6D0", grad: "linear-gradient(135deg,#2FB98B,#21C7B9,#3BB8F5)", glow1: "rgba(47,185,139,0.18)", glow2: "rgba(31,182,208,0.12)", glow3: "rgba(59,184,245,0.10)", cardGlow: "0 0 42px rgba(47,185,139,0.05)", btnGlow: "0 6px 30px rgba(47,185,139,0.28)", chipBg: "rgba(47,185,139,0.10)", chipC: "#1A9B72", tagBg: "rgba(47,185,139,0.10)", tagC: "#1A9B72", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(255,255,255,0.78)", navBorder: "rgba(255,255,255,0.84)", hoverBorder: "rgba(47,185,139,0.28)", iL: 0.7, iD: 0.04 },
+  { id: "flame", name: "Sunset Flame", dark: false, bg: "#FFFAF5", bgDark: "#FFECE0", card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.05)", text: "#1F1510", text2: "#6B5040", text3: "#A08878", a1: "#FF6B35", a2: "#FF4F81", grad: "linear-gradient(135deg,#FF6B35,#FF4F81,#FF2D87)", glow1: "rgba(255,107,53,0.18)", glow2: "rgba(255,79,129,0.12)", glow3: "rgba(255,140,66,0.10)", cardGlow: "0 0 40px rgba(255,107,53,0.05)", btnGlow: "0 6px 30px rgba(255,107,53,0.35), 0 0 50px rgba(255,79,129,0.12)", chipBg: "rgba(255,107,53,0.08)", chipC: "#E85A28", tagBg: "rgba(255,107,53,0.08)", tagC: "#E85A28", starG: "linear-gradient(135deg,#FFCB47,#FF8C42)", navBg: "rgba(255,250,245,0.75)", navBorder: "rgba(255,255,255,0.8)", hoverBorder: "rgba(255,107,53,0.3)", iL: 0.7, iD: 0.04 },
+  { id: "violet", name: "Rose Quartz", dark: false, bg: "#FFF7FC", bgDark: "#F6EAF7", card: "#FFFFFF", cardBorder: "rgba(120,71,136,0.08)", text: "#2B1732", text2: "#6A5372", text3: "#A28CAD", a1: "#A855F7", a2: "#EC4899", grad: "linear-gradient(135deg,#A855F7,#EC4899,#F472B6)", glow1: "rgba(168,85,247,0.18)", glow2: "rgba(236,72,153,0.12)", glow3: "rgba(244,114,182,0.10)", cardGlow: "0 0 45px rgba(168,85,247,0.05)", btnGlow: "0 6px 30px rgba(168,85,247,0.28)", chipBg: "rgba(168,85,247,0.10)", chipC: "#A855F7", tagBg: "rgba(168,85,247,0.10)", tagC: "#A855F7", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(255,255,255,0.78)", navBorder: "rgba(255,255,255,0.84)", hoverBorder: "rgba(168,85,247,0.28)", iL: 0.7, iD: 0.04 },
+  { id: "ocean", name: "Sky Glass", dark: false, bg: "#F5FBFF", bgDark: "#E6F4FF", card: "#FFFFFF", cardBorder: "rgba(19,79,125,0.08)", text: "#14314B", text2: "#52748F", text3: "#8BA9BF", a1: "#06B6D4", a2: "#3B82F6", grad: "linear-gradient(135deg,#06B6D4,#3B82F6,#6366F1)", glow1: "rgba(6,182,212,0.18)", glow2: "rgba(59,130,246,0.12)", glow3: "rgba(99,102,241,0.10)", cardGlow: "0 0 45px rgba(6,182,212,0.05)", btnGlow: "0 6px 30px rgba(6,182,212,0.28)", chipBg: "rgba(6,182,212,0.10)", chipC: "#1599BF", tagBg: "rgba(6,182,212,0.10)", tagC: "#1599BF", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(255,255,255,0.78)", navBorder: "rgba(255,255,255,0.84)", hoverBorder: "rgba(6,182,212,0.28)", iL: 0.7, iD: 0.04 },
 ];
 
 const logos = ["GoHighLevel", "HubSpot", "Salesforce", "VAPI", "Retell AI", "Twilio", "OpenAI", "Claude AI", "n8n", "Next.js", "Supabase", "Cloudflare", "Docker", "Make", "LinkedIn", "Playwright"];
@@ -284,7 +284,7 @@ const ServiceCard = ({ service, index, theme, compact }) => {
               width: compact ? 36 : 40,
               height: compact ? 36 : 40,
               borderRadius: 12,
-              background: theme.dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.03)",
+              background: "rgba(0,0,0,0.03)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -555,7 +555,7 @@ export default function App() {
           <div style={{ display: "flex", gap: isMobile ? 10 : 14, animation: "logoScroll 50s linear infinite", width: "max-content" }}>
             {[...logos, ...logos].map((name, index) => (
               <div key={`${name}-${index}`} style={{ display: "flex", alignItems: "center", gap: 8, padding: isMobile ? "7px 12px 7px 7px" : "7px 14px 7px 7px", background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 999, boxShadow: clay(), flexShrink: 0, whiteSpace: "nowrap" }}>
-                <div style={{ width: isMobile ? 28 : 32, height: isMobile ? 28 : 32, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: theme.dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.02)" }}>
+                <div style={{ width: isMobile ? 28 : 32, height: isMobile ? 28 : 32, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: "rgba(0,0,0,0.02)" }}>
                   <LogoSVG name={name} size={isMobile ? 18 : 20} />
                 </div>
                 <span style={{ fontWeight: 700, fontSize: isMobile ? "0.74rem" : "0.8rem", color: theme.text }}>{name}</span>
@@ -588,26 +588,39 @@ export default function App() {
         </div>
       </section>
 
-      <section id="process" style={{ background: theme.bgDark, borderRadius: isMobile ? 28 : 36, margin: isMobile ? "0 12px" : "0 16px", padding: isMobile ? "52px 18px" : "64px 32px", position: "relative", overflow: "hidden", zIndex: 1 }}>
-        <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 40% 40% at 20% 80%,${theme.glow1},transparent), radial-gradient(ellipse 35% 35% at 80% 20%,${theme.glow2},transparent)`, pointerEvents: "none" }} />
+      <section
+        id="process"
+        style={{
+          background: `linear-gradient(135deg,${theme.bgDark},${theme.card} 72%)`,
+          border: `1px solid ${theme.cardBorder}`,
+          borderRadius: isMobile ? 28 : 36,
+          margin: isMobile ? "0 12px" : "0 16px",
+          padding: isMobile ? "52px 18px" : "64px 32px",
+          position: "relative",
+          overflow: "hidden",
+          zIndex: 1,
+          boxShadow: clay(theme.cardGlow),
+        }}
+      >
+        <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse 40% 40% at 20% 80%,${theme.glow1},transparent), radial-gradient(ellipse 35% 35% at 80% 20%,${theme.glow2},transparent)`, pointerEvents: "none", opacity: 0.9 }} />
         <div style={{ maxWidth: 1140, margin: "0 auto", position: "relative", zIndex: 1, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "5px 14px 5px 6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 999, fontFamily: TYPOGRAPHY.mono, fontSize: "0.7rem", fontWeight: 500, color: theme.a1, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 16 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "5px 14px 5px 6px", background: "rgba(255,255,255,0.72)", border: `1px solid ${theme.cardBorder}`, borderRadius: 999, fontFamily: TYPOGRAPHY.mono, fontSize: "0.7rem", fontWeight: 500, color: theme.a1, letterSpacing: "0.04em", textTransform: "uppercase", marginBottom: 16, boxShadow: clay() }}>
             <span style={{ width: 18, height: 18, borderRadius: "50%", background: theme.grad }} />
             How We Work
           </div>
-          <h2 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: "#FFFFFF", marginBottom: 12 }}>
+          <h2 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginBottom: 12 }}>
             Think fractional CTO. <GradText>Not freelancer.</GradText>
           </h2>
-          <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.48)", maxWidth: 500, lineHeight: 1.7, marginBottom: 40 }}>
+          <p style={{ fontSize: "1rem", color: theme.text2, maxWidth: 500, lineHeight: 1.7, marginBottom: 40 }}>
             We diagnose bottlenecks, design architecture, ship infrastructure, and optimize for compound returns.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(220px, 1fr))", gap: 14, width: "100%" }}>
             {processSteps.map((step) => (
-              <div key={step.number} style={{ background: "rgba(255,255,255,0.04)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 24, padding: "28px 20px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "45%", background: "linear-gradient(to bottom,rgba(255,255,255,0.04),transparent)", borderRadius: "24px 24px 50% 50%" }} />
-                <div style={{ fontFamily: TYPOGRAPHY.head, fontSize: "2.5rem", fontWeight: 900, background: theme.grad, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", opacity: 0.45, lineHeight: 1, marginBottom: 12, position: "relative" }}>{step.number}</div>
-                <h3 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "1.15rem", fontWeight: 700, color: "#fff", marginBottom: 6, position: "relative" }}>{step.title}</h3>
-                <p style={{ fontSize: "0.83rem", color: "rgba(255,255,255,0.42)", lineHeight: 1.6, position: "relative" }}>{step.description}</p>
+              <div key={step.number} style={{ background: "rgba(255,255,255,0.78)", backdropFilter: "blur(14px)", border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: "28px 20px", textAlign: "center", position: "relative", overflow: "hidden", boxShadow: clay(theme.cardGlow) }}>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "45%", background: `linear-gradient(to bottom,${theme.chipBg},transparent)`, borderRadius: "24px 24px 50% 50%" }} />
+                <div style={{ fontFamily: TYPOGRAPHY.head, fontSize: "2.5rem", fontWeight: 900, background: theme.grad, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", opacity: 0.58, lineHeight: 1, marginBottom: 12, position: "relative" }}>{step.number}</div>
+                <h3 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "1.15rem", fontWeight: 700, color: theme.text, marginBottom: 6, position: "relative" }}>{step.title}</h3>
+                <p style={{ fontSize: "0.83rem", color: theme.text2, lineHeight: 1.6, position: "relative" }}>{step.description}</p>
               </div>
             ))}
           </div>
@@ -662,8 +675,8 @@ export default function App() {
       </section>
 
       <section id="cta" style={{ padding: isMobile ? "56px 16px 72px" : "60px 20px 80px", textAlign: "center", position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: 760, margin: "0 auto", background: theme.dark ? "rgba(255,255,255,0.04)" : `linear-gradient(135deg,${theme.chipBg},rgba(255,230,230,0.06),${theme.tagBg})`, border: `1px solid ${theme.dark ? "rgba(255,255,255,0.07)" : theme.cardBorder}`, borderRadius: isMobile ? 28 : 36, padding: isMobile ? "40px 22px" : "56px 36px", boxShadow: `0 4px 8px rgba(0,0,0,${theme.iD}), 0 20px 50px rgba(0,0,0,${theme.iD * 1.5}), 0 40px 100px rgba(0,0,0,${theme.iD}), ${theme.cardGlow}` }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "5px 14px 5px 6px", background: theme.dark ? "rgba(255,255,255,0.06)" : theme.card, border: `1px solid ${theme.dark ? "rgba(255,255,255,0.07)" : theme.cardBorder}`, borderRadius: 999, fontFamily: TYPOGRAPHY.mono, fontSize: "0.7rem", fontWeight: 500, color: theme.chipC, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 16, boxShadow: theme.dark ? "none" : clay() }}>
+        <div style={{ maxWidth: 760, margin: "0 auto", background: `linear-gradient(135deg,${theme.chipBg},rgba(255,230,230,0.06),${theme.tagBg})`, border: `1px solid ${theme.cardBorder}`, borderRadius: isMobile ? 28 : 36, padding: isMobile ? "40px 22px" : "56px 36px", boxShadow: `0 4px 8px rgba(0,0,0,${theme.iD}), 0 20px 50px rgba(0,0,0,${theme.iD * 1.5}), 0 40px 100px rgba(0,0,0,${theme.iD}), ${theme.cardGlow}` }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "5px 14px 5px 6px", background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 999, fontFamily: TYPOGRAPHY.mono, fontSize: "0.7rem", fontWeight: 500, color: theme.chipC, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 16, boxShadow: clay() }}>
             <span style={{ width: 18, height: 18, borderRadius: "50%", background: theme.grad }} />
             Limited Availability
           </div>
