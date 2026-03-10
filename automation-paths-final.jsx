@@ -749,7 +749,7 @@ export default function App() {
           to { opacity: 1; transform: translateY(0); }
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; scroll-padding-top: ${isMobile ? 112 : 128}px; }
+        html { scroll-behavior: smooth; scroll-padding-top: ${isMobile ? 24 : 32}px; }
         body { -webkit-font-smoothing: antialiased; }
         ::selection { background: ${theme.a1}; color: white; }
         .hero-scroll { scrollbar-width: none; -ms-overflow-style: none; }
@@ -830,7 +830,7 @@ export default function App() {
         </div>
       )}
 
-      <nav style={{ position: "fixed", top: 0, width: "100%", zIndex: 1000, padding: isMobile ? "12px 14px" : "12px 20px" }}>
+      <nav style={{ position: "relative", zIndex: 20, padding: isMobile ? "12px 14px 0" : "12px 20px 0" }}>
         <div
           style={{
             maxWidth: 1200,
@@ -876,7 +876,7 @@ export default function App() {
         </div>
       </nav>
 
-      <section style={{ minHeight: isMobile ? "auto" : "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: isMobile ? "108px 14px 20px" : isTablet ? "138px 20px 72px" : "136px 20px 74px", position: "relative", zIndex: 1 }}>
+      <section style={{ minHeight: isMobile ? "auto" : "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: isMobile ? "28px 14px 20px" : isTablet ? "48px 20px 72px" : "54px 20px 74px", position: "relative", zIndex: 1 }}>
         <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: isMobile ? "5px 12px 5px 6px" : "6px 16px 6px 7px", background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 999, fontSize: isMobile ? "0.7rem" : "0.82rem", fontWeight: 600, color: theme.text2, marginBottom: isMobile ? 14 : 28, boxShadow: clay(theme.cardGlow), position: "relative", zIndex: 2, maxWidth: isMobile ? "100%" : "none", animation: "heroFadeUp 0.7s ease-out both" }}>
           <span style={{ width: 24, height: 24, background: "linear-gradient(135deg,#34D399,#2DD4BF)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", color: "#fff" }}>
             +
