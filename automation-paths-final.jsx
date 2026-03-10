@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import automationPathsBrandLogo from "./Automation Paths Logo (3).png";
 import linkedInLogo from "./src/assets/logos/LinkedIn_2021.svg";
 import vapiLogo from "./src/assets/logos/VAPI.svg";
 import zapierLogo from "./src/assets/logos/zapier-2.svg";
@@ -18,10 +19,7 @@ const TYPOGRAPHY = {
 };
 
 const THEMES = [
-  { id: "crystal", name: "Crystal Blue", dark: false, bg: "#FEF7F0", bgDark: "#EEF0FF", card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.05)", text: "#1C1825", text2: "#52495E", text3: "#8B839A", a1: "#5B6CFF", a2: "#9B72FF", grad: "linear-gradient(135deg,#5B6CFF,#9B72FF,#FF6B9D)", glow1: "rgba(91,108,255,0.18)", glow2: "rgba(155,114,255,0.12)", glow3: "rgba(52,211,153,0.10)", cardGlow: "0 0 40px rgba(91,108,255,0.06)", btnGlow: "0 6px 30px rgba(91,108,255,0.35)", chipBg: "rgba(91,108,255,0.08)", chipC: "#5B6CFF", tagBg: "rgba(91,108,255,0.08)", tagC: "#5B6CFF", starG: "linear-gradient(135deg,#FFCB47,#FF8C42)", navBg: "rgba(255,255,255,0.72)", navBorder: "rgba(255,255,255,0.8)", hoverBorder: "rgba(91,108,255,0.3)", iL: 0.7, iD: 0.04 },
-  { id: "emerald", name: "Mint Ledger", dark: false, bg: "#F5FCF8", bgDark: "#E4F8ED", card: "#FFFFFF", cardBorder: "rgba(16,84,63,0.08)", text: "#133128", text2: "#456A5C", text3: "#80A193", a1: "#2FB98B", a2: "#1FB6D0", grad: "linear-gradient(135deg,#2FB98B,#21C7B9,#3BB8F5)", glow1: "rgba(47,185,139,0.18)", glow2: "rgba(31,182,208,0.12)", glow3: "rgba(59,184,245,0.10)", cardGlow: "0 0 42px rgba(47,185,139,0.05)", btnGlow: "0 6px 30px rgba(47,185,139,0.28)", chipBg: "rgba(47,185,139,0.10)", chipC: "#1A9B72", tagBg: "rgba(47,185,139,0.10)", tagC: "#1A9B72", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(255,255,255,0.78)", navBorder: "rgba(255,255,255,0.84)", hoverBorder: "rgba(47,185,139,0.28)", iL: 0.7, iD: 0.04 },
   { id: "flame", name: "Sunset Flame", dark: false, bg: "#FFFAF5", bgDark: "#FFECE0", card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.05)", text: "#1F1510", text2: "#6B5040", text3: "#A08878", a1: "#FF6B35", a2: "#FF4F81", grad: "linear-gradient(135deg,#FF6B35,#FF4F81,#FF2D87)", glow1: "rgba(255,107,53,0.18)", glow2: "rgba(255,79,129,0.12)", glow3: "rgba(255,140,66,0.10)", cardGlow: "0 0 40px rgba(255,107,53,0.05)", btnGlow: "0 6px 30px rgba(255,107,53,0.35), 0 0 50px rgba(255,79,129,0.12)", chipBg: "rgba(255,107,53,0.08)", chipC: "#E85A28", tagBg: "rgba(255,107,53,0.08)", tagC: "#E85A28", starG: "linear-gradient(135deg,#FFCB47,#FF8C42)", navBg: "rgba(255,250,245,0.75)", navBorder: "rgba(255,255,255,0.8)", hoverBorder: "rgba(255,107,53,0.3)", iL: 0.7, iD: 0.04 },
-  { id: "violet", name: "Rose Quartz", dark: false, bg: "#FFF7FC", bgDark: "#F6EAF7", card: "#FFFFFF", cardBorder: "rgba(120,71,136,0.08)", text: "#2B1732", text2: "#6A5372", text3: "#A28CAD", a1: "#A855F7", a2: "#EC4899", grad: "linear-gradient(135deg,#A855F7,#EC4899,#F472B6)", glow1: "rgba(168,85,247,0.18)", glow2: "rgba(236,72,153,0.12)", glow3: "rgba(244,114,182,0.10)", cardGlow: "0 0 45px rgba(168,85,247,0.05)", btnGlow: "0 6px 30px rgba(168,85,247,0.28)", chipBg: "rgba(168,85,247,0.10)", chipC: "#A855F7", tagBg: "rgba(168,85,247,0.10)", tagC: "#A855F7", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(255,255,255,0.78)", navBorder: "rgba(255,255,255,0.84)", hoverBorder: "rgba(168,85,247,0.28)", iL: 0.7, iD: 0.04 },
   { id: "ocean", name: "Sky Glass", dark: false, bg: "#F5FBFF", bgDark: "#E6F4FF", card: "#FFFFFF", cardBorder: "rgba(19,79,125,0.08)", text: "#14314B", text2: "#52748F", text3: "#8BA9BF", a1: "#06B6D4", a2: "#3B82F6", grad: "linear-gradient(135deg,#06B6D4,#3B82F6,#6366F1)", glow1: "rgba(6,182,212,0.18)", glow2: "rgba(59,130,246,0.12)", glow3: "rgba(99,102,241,0.10)", cardGlow: "0 0 45px rgba(6,182,212,0.05)", btnGlow: "0 6px 30px rgba(6,182,212,0.28)", chipBg: "rgba(6,182,212,0.10)", chipC: "#1599BF", tagBg: "rgba(6,182,212,0.10)", tagC: "#1599BF", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(255,255,255,0.78)", navBorder: "rgba(255,255,255,0.84)", hoverBorder: "rgba(6,182,212,0.28)", iL: 0.7, iD: 0.04 },
 ];
 
@@ -83,17 +81,17 @@ const heroPrinciples = [
   {
     emoji: "\u{1F50E}",
     title: "Audit before adding tools",
-    copy: "Start by finding the leaks in lead flow, response time, routing, and reporting before layering on more software.",
+    copy: "Find where leads die, where response time breaks, and where routing fails - before touching a single new platform.",
   },
   {
     emoji: "\u{1F9E9}",
-    title: "Build around the revenue path",
-    copy: "CRM, AI, outbound, and dashboards get rebuilt around how leads should move from first touch to closed revenue.",
+    title: "Rebuild around the revenue path",
+    copy: "CRM, AI, outbound, and dashboards get redesigned around how leads actually move from first touch to closed revenue.",
   },
   {
     emoji: "\u{1F680}",
-    title: "Ship with QA and handoff",
-    copy: "Every implementation is tested, documented, and handed over clearly so the system survives after launch.",
+    title: "Ship with QA, docs, and handoff",
+    copy: "Every system is tested, documented, and handed over clearly so it survives after launch - without depending on you to maintain it.",
   },
 ];
 
@@ -161,9 +159,9 @@ const testimonials = [
 ];
 
 const founderBullets = [
-  "Most teams do not need more tools. They need the current stack to stop contradicting itself.",
-  "The work starts with the revenue path, then rebuilds CRM, AI, automation, and reporting around that path.",
-  "Every build includes architecture, QA, handoff, and clearer ownership so the system survives after launch.",
+  "The work starts with the revenue path.",
+  "CRM, AI, automation, and reporting get rebuilt around that path.",
+  "Every build includes architecture, QA, handoff, and clear ownership.",
 ];
 
 const deliveryLanes = [
@@ -685,7 +683,9 @@ const FaqCard = ({ item, theme, clay }) => (
 );
 
 export default function App() {
-  const [themeIndex, setThemeIndex] = useState(0);
+  const [themeIndex] = useState(() =>
+    typeof window === "undefined" ? 0 : Math.floor(Math.random() * THEMES.length)
+  );
   const [viewportWidth, setViewportWidth] = useState(() =>
     typeof window === "undefined" ? 1280 : window.innerWidth
   );
@@ -748,6 +748,14 @@ export default function App() {
           from { opacity: 0; transform: translateY(18px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes cardFloat {
+          0%,100% { transform: translateY(0px); }
+          50% { transform: translateY(-7px); }
+        }
+        @keyframes linkedInBob {
+          0%,100% { transform: translateY(0px); }
+          50% { transform: translateY(-4px); }
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; scroll-padding-top: ${isMobile ? 24 : 32}px; }
         body { -webkit-font-smoothing: antialiased; }
@@ -781,55 +789,6 @@ export default function App() {
         ))}
       </div>
 
-      {!isMobile && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: 20,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 999,
-            display: "flex",
-            gap: 5,
-            padding: "5px 7px",
-            maxWidth: "calc(100vw - 32px)",
-            background: theme.navBg,
-            backdropFilter: "blur(20px)",
-            borderRadius: 999,
-            boxShadow: clay(theme.cardGlow),
-            border: `1px solid ${theme.navBorder}`,
-            transition,
-          }}
-        >
-          {THEMES.map((entry, index) => (
-            <button
-              key={entry.id}
-              onClick={() => setThemeIndex(index)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                padding: themeIndex === index ? "8px 18px 8px 10px" : "8px 12px",
-                background: themeIndex === index ? theme.grad : "transparent",
-                color: themeIndex === index ? "#fff" : theme.text2,
-                border: "none",
-                borderRadius: 999,
-                cursor: "pointer",
-                fontFamily: TYPOGRAPHY.body,
-                fontWeight: 700,
-                fontSize: "0.76rem",
-                transition: "all 0.4s cubic-bezier(0.34,1.56,0.64,1)",
-                transform: themeIndex === index ? "scale(1.06)" : "scale(1)",
-                boxShadow: themeIndex === index ? theme.btnGlow : "none",
-              }}
-            >
-              <span style={{ width: 10, height: 10, borderRadius: "50%", background: entry.a1, boxShadow: "0 0 0 2px rgba(255,255,255,0.18)" }} />
-              {themeIndex === index && <span>{entry.name}</span>}
-            </button>
-          ))}
-        </div>
-      )}
-
       <nav style={{ position: "relative", zIndex: 20, padding: isMobile ? "12px 14px 0" : "12px 20px 0" }}>
         <div
           style={{
@@ -849,11 +808,17 @@ export default function App() {
             transition,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: TYPOGRAPHY.display, fontWeight: 700, fontSize: isMobile ? "0.98rem" : "1.06rem", color: theme.text }}>
-            <div style={{ width: 34, height: 34, background: theme.grad, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 900, fontSize: "0.9rem", fontFamily: TYPOGRAPHY.display, boxShadow: `${theme.btnGlow}, inset 0 2px 4px rgba(255,255,255,0.35)` }}>
-              A
-            </div>
-            Automation Paths
+          <div style={{ display: "flex", alignItems: "center", color: theme.text }}>
+            <img
+              src={automationPathsBrandLogo}
+              alt="Automation Paths"
+              style={{
+                display: "block",
+                height: isMobile ? 30 : 36,
+                width: "auto",
+                objectFit: "contain",
+              }}
+            />
           </div>
 
           <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", width: isMobile ? "100%" : isTablet ? "100%" : "auto", justifyContent: isMobile ? "flex-start" : isTablet ? "space-between" : "flex-end" }}>
@@ -877,23 +842,23 @@ export default function App() {
       </nav>
 
       <section style={{ minHeight: isMobile ? "auto" : "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: isMobile ? "28px 14px 20px" : isTablet ? "48px 20px 72px" : "54px 20px 74px", position: "relative", zIndex: 1 }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: isMobile ? "5px 12px 5px 6px" : "6px 16px 6px 7px", background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 999, fontSize: isMobile ? "0.7rem" : "0.82rem", fontWeight: 600, color: theme.text2, marginBottom: isMobile ? 14 : 28, boxShadow: clay(theme.cardGlow), position: "relative", zIndex: 2, maxWidth: isMobile ? "100%" : "none", animation: "heroFadeUp 0.7s ease-out both" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: isMobile ? "5px 12px 5px 6px" : "6px 16px 6px 7px", background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 999, fontSize: isMobile ? "0.7rem" : "0.82rem", fontWeight: 600, color: theme.text2, marginBottom: isMobile ? 14 : 28, boxShadow: clay(theme.cardGlow), position: "relative", zIndex: 2, maxWidth: isMobile ? "100%" : "none", animation: "heroFadeUp 0.7s ease-out both, cardFloat 8s ease-in-out 1.1s infinite" }}>
           <span style={{ width: 24, height: 24, background: "linear-gradient(135deg,#34D399,#2DD4BF)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", color: "#fff" }}>
             +
           </span>
           Built for agencies, consultants, and operators fixing revenue systems
         </div>
 
-        <h1 style={{ fontFamily: TYPOGRAPHY.head, fontSize: isMobile ? "clamp(2.15rem,11vw,3.1rem)" : "clamp(4.1rem,7.6vw,6.3rem)", lineHeight: isMobile ? 0.88 : 0.9, letterSpacing: isMobile ? "-0.07em" : "-0.055em", maxWidth: isTablet ? 760 : 980, marginBottom: isMobile ? 10 : 22, color: theme.text, position: "relative", zIndex: 2 }}>
-          <span style={{ display: "block", fontStyle: "normal", fontWeight: 800, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) both", transformOrigin: "center bottom" }}>Build the revenue system</span>
-          <span style={{ display: "block", fontStyle: "italic", fontWeight: 350, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) 0.12s both", transformOrigin: "center bottom" }}>your agency should have</span>
+        <h1 style={{ fontFamily: TYPOGRAPHY.head, fontSize: isMobile ? "clamp(2.15rem,11vw,3.1rem)" : "clamp(4.1rem,7.6vw,6.3rem)", lineHeight: isMobile ? 0.88 : 0.9, letterSpacing: isMobile ? "-0.07em" : "-0.055em", maxWidth: isTablet ? 880 : 1040, marginBottom: isMobile ? 10 : 22, color: theme.text, position: "relative", zIndex: 2 }}>
+          <span style={{ display: "block", fontStyle: "normal", fontWeight: 800, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) both", transformOrigin: "center bottom" }}>Your revenue system is</span>
+          <span style={{ display: "block", fontStyle: "italic", fontWeight: 350, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) 0.12s both", transformOrigin: "center bottom" }}>either compounding or leaking.</span>
           <span style={{ display: "block", fontStyle: "normal", fontWeight: 800, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) 0.24s both", transformOrigin: "center bottom" }}>
-            launched <span style={{ color: theme.a1, fontWeight: 700, display: "inline-block", animation: "heroAccentPulse 2.8s ease-in-out 1.1s infinite" }}>already.</span>
+            Most are <span style={{ color: theme.a1, fontWeight: 700, display: "inline-block", animation: "heroAccentPulse 2.8s ease-in-out 1.1s infinite" }}>leaking.</span>
           </span>
         </h1>
 
         <p style={{ fontSize: isMobile ? "0.9rem" : "1.14rem", color: theme.text2, maxWidth: isMobile ? 322 : 720, lineHeight: isMobile ? 1.58 : 1.78, marginBottom: isMobile ? 16 : 32, position: "relative", zIndex: 2, animation: "heroFadeUp 0.72s ease-out 0.32s both" }}>
-          GoHighLevel architect, AI automation engineer, and GTM systems builder. I design CRM logic, automations, voice AI, and reporting layers that remove manual bottlenecks and make your growth stack trustworthy again.
+          I'm a Revenue Systems Architect and Fractional CTO. I design CRM logic, Voice AI, automation pipelines, and reporting layers that remove manual bottlenecks - and make your growth stack work the way it should.
         </p>
 
         <div style={{ display: isMobile ? "grid" : "flex", gap: isMobile ? 10 : 12, gridTemplateColumns: isMobile ? "repeat(2, minmax(0, 1fr))" : undefined, flexWrap: isMobile ? undefined : "wrap", width: isMobile ? "100%" : "auto", maxWidth: isMobile ? 340 : "none", justifyContent: "center", position: "relative", zIndex: 2, animation: "heroFadeUp 0.72s ease-out 0.44s both" }}>
@@ -906,8 +871,8 @@ export default function App() {
         </div>
 
         <div className="hero-scroll" style={{ width: "100%", maxWidth: 1140, marginTop: isMobile ? 14 : 34, display: isMobile ? "flex" : "grid", gridTemplateColumns: isMobile ? undefined : "repeat(3, minmax(0, 1fr))", gap: isMobile ? 10 : 14, position: "relative", zIndex: 2, overflowX: isMobile ? "auto" : "visible", paddingBottom: isMobile ? 4 : 0, scrollSnapType: isMobile ? "x mandatory" : "none", animation: "heroFadeUp 0.76s ease-out 0.56s both" }}>
-          {heroPrinciples.map((item) => (
-            <div key={item.title} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: isMobile ? "14px 14px 12px" : "22px 22px", boxShadow: clay(theme.cardGlow), textAlign: "left", minWidth: isMobile ? "76vw" : "auto", maxWidth: isMobile ? 286 : "none", scrollSnapAlign: isMobile ? "start" : "none", flexShrink: 0 }}>
+          {heroPrinciples.map((item, index) => (
+            <div key={item.title} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: isMobile ? "14px 14px 12px" : "22px 22px", boxShadow: clay(theme.cardGlow), textAlign: "left", minWidth: isMobile ? "76vw" : "auto", maxWidth: isMobile ? 286 : "none", scrollSnapAlign: isMobile ? "start" : "none", flexShrink: 0, animation: `heroFadeUp 0.76s ease-out ${0.56 + index * 0.12}s both, cardFloat ${7 + index}s ease-in-out ${1 + index * 0.35}s infinite` }}>
               <div style={{ width: isMobile ? 38 : 42, height: isMobile ? 38 : 42, borderRadius: 14, background: theme.chipBg, color: theme.a1, display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? "1rem" : "1.1rem", marginBottom: isMobile ? 8 : 14 }}>
                 {item.emoji}
               </div>
@@ -958,7 +923,7 @@ export default function App() {
               More than automations. <GradText>It is operating design.</GradText>
             </h2>
             <p style={{ fontSize: "1rem", color: theme.text2, lineHeight: 1.76, maxWidth: 620, marginBottom: 20 }}>
-              Most teams do not need another tool. They need their existing tools to stop contradicting each other. The work here starts with the revenue path, then rebuilds the stack around that path.
+              Most teams don't need more tools. They need their existing stack to stop contradicting itself.
             </p>
             <div style={{ display: "grid", gap: 12 }}>
               {founderBullets.map((item, index) => (
@@ -1170,16 +1135,41 @@ export default function App() {
 
       <footer style={{ padding: isMobile ? "16px 16px 32px" : "24px 20px 32px", maxWidth: 1140, margin: "0 auto", display: "flex", justifyContent: isMobile ? "center" : "space-between", alignItems: "center", flexWrap: "wrap", textAlign: isMobile ? "center" : "left", gap: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
-          <span style={{ fontFamily: TYPOGRAPHY.display, fontWeight: 700, fontSize: "0.92rem", color: theme.text2 }}>Automation Paths</span>
+          <img
+            src={automationPathsBrandLogo}
+            alt="Automation Paths"
+            style={{
+              display: "block",
+              height: isMobile ? 28 : 32,
+              width: "auto",
+              objectFit: "contain",
+            }}
+          />
           <span style={{ fontSize: "0.75rem", color: theme.text3 }}>(c) 2026 All rights reserved.</span>
         </div>
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
-          {["LinkedIn", "YouTube", "Upwork"].map((item) => (
-            <a key={item} href="#" style={{ fontSize: "0.82rem", fontWeight: 600, color: theme.text3, textDecoration: "none" }}>
-              {item}
-            </a>
-          ))}
-        </div>
+        <a
+          href="https://www.linkedin.com/in/riazulap/"
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "12px 16px",
+            borderRadius: 999,
+            background: theme.card,
+            border: `1px solid ${theme.cardBorder}`,
+            boxShadow: clay(theme.cardGlow),
+            textDecoration: "none",
+            color: theme.text,
+            fontWeight: 700,
+            fontSize: "0.86rem",
+            animation: "linkedInBob 6s ease-in-out 1.2s infinite",
+          }}
+        >
+          <img src={linkedInLogo} alt="LinkedIn" style={{ height: 18, width: "auto", display: "block" }} />
+          <span>LinkedIn</span>
+        </a>
       </footer>
 
       <div style={{ height: isMobile ? 16 : 90 }} />
