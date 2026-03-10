@@ -1,7 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import linkedInLogo from "./src/assets/logos/LinkedIn_2021.svg";
+import vapiLogo from "./src/assets/logos/VAPI.svg";
+import zapierLogo from "./src/assets/logos/zapier-2.svg";
+import abidinHeadshot from "./src/assets/headshots/abidin.webp";
+import loganHeadshot from "./src/assets/headshots/logan.webp";
+import orianaHeadshot from "./src/assets/headshots/oriana.jpg";
+import ralphHeadshot from "./src/assets/headshots/ralph.webp";
+import tonyHeadshot from "./src/assets/headshots/tony.jpg";
+import zacHeadshot from "./src/assets/headshots/zac.jpg";
 
 const TYPOGRAPHY = {
-  head: "'Fraunces', Georgia, serif",
+  display: "'Fraunces', Georgia, serif",
+  head: "'Product Sans', 'Fraunces', Georgia, serif",
   body: "'Manrope', sans-serif",
   mono: "'IBM Plex Mono', monospace",
   url: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap",
@@ -15,7 +25,20 @@ const THEMES = [
   { id: "ocean", name: "Sky Glass", dark: false, bg: "#F5FBFF", bgDark: "#E6F4FF", card: "#FFFFFF", cardBorder: "rgba(19,79,125,0.08)", text: "#14314B", text2: "#52748F", text3: "#8BA9BF", a1: "#06B6D4", a2: "#3B82F6", grad: "linear-gradient(135deg,#06B6D4,#3B82F6,#6366F1)", glow1: "rgba(6,182,212,0.18)", glow2: "rgba(59,130,246,0.12)", glow3: "rgba(99,102,241,0.10)", cardGlow: "0 0 45px rgba(6,182,212,0.05)", btnGlow: "0 6px 30px rgba(6,182,212,0.28)", chipBg: "rgba(6,182,212,0.10)", chipC: "#1599BF", tagBg: "rgba(6,182,212,0.10)", tagC: "#1599BF", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(255,255,255,0.78)", navBorder: "rgba(255,255,255,0.84)", hoverBorder: "rgba(6,182,212,0.28)", iL: 0.7, iD: 0.04 },
 ];
 
-const logos = ["GoHighLevel", "HubSpot", "Salesforce", "VAPI", "Retell AI", "Twilio", "OpenAI", "Claude AI", "n8n", "Next.js", "Supabase", "Cloudflare", "Docker", "Make", "LinkedIn", "Playwright"];
+const platformLogos = [
+  { name: "HubSpot", kind: "fallback", icon: "HubSpot", color: "#33475B" },
+  { name: "Twilio", kind: "fallback", icon: "Twilio", color: "#F22F46" },
+  { name: "Docker", kind: "fallback", icon: "Docker", color: "#2496ED" },
+  { name: "Cloudflare", kind: "fallback", icon: "Cloudflare", color: "#F48120" },
+  { name: "Supabase", kind: "fallback", icon: "Supabase", color: "#0F172A" },
+  { name: "GoHighLevel", kind: "fallback", icon: "GoHighLevel", color: "#1F2937" },
+  { name: "Pipedrive", kind: "text", color: "#17313B" },
+  { name: "n8n", kind: "fallback", icon: "n8n", color: "#111827" },
+  { name: "Make", kind: "fallback", icon: "Make", color: "#111827" },
+  { name: "LinkedIn", kind: "image", src: linkedInLogo, imageHeight: 22 },
+  { name: "VAPI", kind: "image", src: vapiLogo, imageHeight: 22 },
+  { name: "Zapier", kind: "image", src: zapierLogo, imageHeight: 18 },
+];
 
 const services = [
   { svg: ["GoHighLevel", "HubSpot", "Salesforce"], title: "CRM Architecture", description: "Multi-pipeline systems with lifecycle automation, lead scoring, and dashboards designed for how your team actually sells.", tags: ["GoHighLevel", "HubSpot", "Salesforce"] },
@@ -34,17 +57,153 @@ const processSteps = [
 ];
 
 const stats = [
-  { value: "5,000+", label: "Hours Delivered" },
-  { value: "Top 1%", label: "Upwork Worldwide" },
-  { value: "12+", label: "Platforms Mastered" },
-  { value: "US/UK", label: "Client Base" },
+  {
+    value: "5,000+",
+    label: "Hours Delivered",
+    detail: "Across CRM builds, automation systems, AI workflows, and implementation support.",
+  },
+  {
+    value: "Top 1%",
+    label: "Upwork Worldwide",
+    detail: "Trusted for high-leverage systems work, not commodity task execution.",
+  },
+  {
+    value: "12+",
+    label: "Platforms Mastered",
+    detail: "From GoHighLevel and HubSpot to Twilio, n8n, Playwright, and Supabase.",
+  },
+  {
+    value: "US / UK",
+    label: "Client Base",
+    detail: "Built for agencies, consultants, operators, and service businesses shipping globally.",
+  },
+];
+
+const heroPrinciples = [
+  {
+    emoji: "\u{1F50E}",
+    title: "Audit before adding tools",
+    copy: "Start by finding the leaks in lead flow, response time, routing, and reporting before layering on more software.",
+  },
+  {
+    emoji: "\u{1F9E9}",
+    title: "Build around the revenue path",
+    copy: "CRM, AI, outbound, and dashboards get rebuilt around how leads should move from first touch to closed revenue.",
+  },
+  {
+    emoji: "\u{1F680}",
+    title: "Ship with QA and handoff",
+    copy: "Every implementation is tested, documented, and handed over clearly so the system survives after launch.",
+  },
 ];
 
 const testimonials = [
-  { quote: "He redesigned our entire revenue operation. Pipeline velocity doubled in three months.", name: "Agency Owner", role: "US Digital Agency - $2M ARR", initial: "J", gradient: "linear-gradient(135deg,#5B6CFF,#9B72FF)" },
-  { quote: "Voice AI went live in 12 days. First week: 47 leads qualified and 19 booked with zero human touch.", name: "Coaching CEO", role: "Education and Coaching - US", initial: "D", gradient: "linear-gradient(135deg,#FF6B9D,#FF7170)" },
-  { quote: "Three platforms consolidated into one CRM. Custom dashboards changed how we run the business.", name: "Founder", role: "Real Estate Investing - US", initial: "M", gradient: "linear-gradient(135deg,#34D399,#2DD4BF)" },
-  { quote: "Riazul thinks like a CTO. He challenged our assumptions and shipped a system that actually scales.", name: "Firm Partner", role: "Executive Search - US", initial: "L", gradient: "linear-gradient(135deg,#FF8C42,#FFCB47)" },
+  {
+    quote: "Riazul was awesome to work with. I came to him with a complex automation spanning four different applications, and he completed the project flawlessly within our agreed timeline.",
+    name: "Zac Perna",
+    role: "Founder, The Social Blueprint",
+    initial: "ZP",
+    photo: zacHeadshot,
+    photoPosition: "center top",
+    gradient: "linear-gradient(135deg,#7C6BFF,#5B6CFF)",
+    dark: false,
+  },
+  {
+    quote: "Solved complex onboarding challenges in GoHighLevel. Professional, reliable, and easy to trust with mission-critical work.",
+    name: "L Henderson",
+    role: "CEO, Morpheus Interactive",
+    initial: "LH",
+    photo: loganHeadshot,
+    photoPosition: "center top",
+    gradient: "linear-gradient(135deg,#5B6CFF,#9B72FF)",
+    dark: true,
+  },
+  {
+    quote: "Versatile, responsive, and impactful for our marketing automation. Highly recommended.",
+    name: "Ralph Adetayo",
+    role: "Founder, ADET IT",
+    initial: "RA",
+    photo: ralphHeadshot,
+    photoPosition: "center top",
+    gradient: "linear-gradient(135deg,#22C55E,#14B8A6)",
+    dark: false,
+  },
+  {
+    quote: "An amazing team member. We were glad to have Riaz helping with integrations and making the systems actually work together.",
+    name: "Tony Smith",
+    role: "CEO, Bizaunch.io",
+    initial: "TS",
+    photo: tonyHeadshot,
+    photoPosition: "center",
+    gradient: "linear-gradient(135deg,#FF8C42,#FFCB47)",
+    dark: true,
+  },
+  {
+    quote: "He was an expert in automation, lead-gen funnels, and AI. Very honest to work with and always delivered on time.",
+    name: "Oriana Schneps",
+    role: "CEO, The.yacht.edit",
+    initial: "OS",
+    photo: orianaHeadshot,
+    photoPosition: "center top",
+    gradient: "linear-gradient(135deg,#FB7185,#A855F7)",
+    dark: false,
+  },
+  {
+    quote: "Riazul and his team have deep knowledge of email systems, HubSpot, and marketing automation for cold outreach.",
+    name: "Abidin Karabulut",
+    role: "CEO, Lookum",
+    initial: "AK",
+    photo: abidinHeadshot,
+    photoPosition: "center top",
+    gradient: "linear-gradient(135deg,#0EA5E9,#2563EB)",
+    dark: true,
+  },
+];
+
+const founderBullets = [
+  "Most teams do not need more tools. They need the current stack to stop contradicting itself.",
+  "The work starts with the revenue path, then rebuilds CRM, AI, automation, and reporting around that path.",
+  "Every build includes architecture, QA, handoff, and clearer ownership so the system survives after launch.",
+];
+
+const deliveryLanes = [
+  {
+    emoji: "\u{1F3AF}",
+    title: "Acquisition Systems",
+    description: "Inbound capture, outbound workflows, enrichment, qualification logic, and the automations that move prospects into the right lane.",
+    points: ["Lead capture flows", "Outbound sequencing", "Qualification scoring"],
+  },
+  {
+    emoji: "\u{2699}\u{FE0F}",
+    title: "Execution Systems",
+    description: "The backend layer that keeps sales and fulfillment moving: CRM states, AI touchpoints, handoffs, notifications, and QA rules.",
+    points: ["Pipeline automations", "AI assistants", "Internal operating logic"],
+  },
+  {
+    emoji: "\u{1F4CA}",
+    title: "Visibility Systems",
+    description: "Clear dashboards and reporting that tell you where revenue leaks, where teams slow down, and which systems need refinement next.",
+    points: ["Reporting dashboards", "Attribution clarity", "Decision-grade metrics"],
+  },
+];
+
+const faqItems = [
+  {
+    question: "Who is this best for?",
+    answer: "Agency founders, consultants, coaches, and service businesses that already have lead flow but need cleaner systems to support growth.",
+  },
+  {
+    question: "Do you only work inside GoHighLevel?",
+    answer: "No. GoHighLevel is often the core, but the work usually spans AI, telephony, automation tools, databases, custom apps, and reporting layers.",
+  },
+  {
+    question: "What does a typical engagement look like?",
+    answer: "Most projects start with an audit and architecture phase, then move into implementation, QA, documentation, and iterative refinement.",
+  },
+  {
+    question: "Can you fix an existing stack instead of rebuilding everything?",
+    answer: "Yes. Many projects begin as cleanups: reconnecting broken automations, rationalizing pipelines, and making the current stack trustworthy again.",
+  },
 ];
 
 const LogoSVG = ({ name, size = 20 }) => {
@@ -170,6 +329,46 @@ const LogoSVG = ({ name, size = 20 }) => {
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       {icons[name] || <rect width={size} height={size} rx={4} fill="#888" />}
     </svg>
+  );
+};
+
+const PlatformLogo = ({ item, compact, theme }) => {
+  if (item.kind === "image") {
+    return (
+      <img
+        src={item.src}
+        alt={item.name}
+        style={{
+          display: "block",
+          height: item.imageHeight ?? (compact ? 18 : 22),
+          width: "auto",
+          maxWidth: "100%",
+          objectFit: "contain",
+        }}
+      />
+    );
+  }
+
+  if (item.kind === "text") {
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ width: 10, height: 10, borderRadius: "50%", background: theme.a1 }} />
+        <span style={{ fontFamily: TYPOGRAPHY.head, fontWeight: 700, fontSize: compact ? "0.86rem" : "0.92rem", color: item.color || theme.text, letterSpacing: "-0.03em" }}>
+          {item.name}
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+      <div style={{ width: compact ? 28 : 30, height: compact ? 28 : 30, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.03)" }}>
+        <LogoSVG name={item.icon || item.name} size={compact ? 18 : 20} />
+      </div>
+      <span style={{ fontWeight: 700, fontSize: compact ? "0.76rem" : "0.84rem", color: item.color || theme.text }}>
+        {item.name}
+      </span>
+    </div>
   );
 };
 
@@ -343,6 +542,148 @@ const ServiceCard = ({ service, index, theme, compact }) => {
   );
 };
 
+const SectionLabel = ({ theme, children }) => (
+  <div
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
+      padding: "5px 14px 5px 6px",
+      background: theme.card,
+      border: `1px solid ${theme.cardBorder}`,
+      borderRadius: 999,
+      fontFamily: TYPOGRAPHY.mono,
+      fontSize: "0.7rem",
+      fontWeight: 500,
+      color: theme.chipC,
+      letterSpacing: "0.04em",
+      textTransform: "uppercase",
+      boxShadow: `0 2px 4px rgba(0,0,0,${theme.iD}), 0 8px 18px rgba(0,0,0,${theme.iD * 1.3})`,
+    }}
+  >
+    <span style={{ width: 18, height: 18, borderRadius: "50%", background: theme.grad }} />
+    {children}
+  </div>
+);
+
+const ReviewCard = ({ item, theme, compact, clay }) => {
+  const isDark = item.dark;
+  const background = isDark
+    ? "linear-gradient(135deg, rgba(9,16,38,0.94), rgba(43,18,88,0.94), rgba(7,41,48,0.94))"
+    : theme.card;
+  const border = isDark ? "rgba(255,255,255,0.15)" : theme.cardBorder;
+  const text = isDark ? "#F8FAFC" : theme.text;
+  const text2 = isDark ? "rgba(248,250,252,0.78)" : theme.text2;
+  const divider = isDark ? "rgba(255,255,255,0.22)" : "rgba(107,114,128,0.25)";
+
+  return (
+    <div
+      style={{
+        background,
+        color: text,
+        border: `1px solid ${border}`,
+        borderRadius: compact ? 24 : 28,
+        padding: compact ? "22px 18px" : "26px 22px",
+        boxShadow: isDark ? "0 24px 60px rgba(6,10,18,0.25)" : clay(theme.cardGlow),
+        minHeight: compact ? "auto" : 316,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
+      {isDark && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "radial-gradient(circle at top left, rgba(91,108,255,0.22), transparent 34%), radial-gradient(circle at bottom right, rgba(255,79,129,0.18), transparent 32%)",
+            pointerEvents: "none",
+          }}
+        />
+      )}
+      <div style={{ position: "relative" }}>
+        <div style={{ display: "grid", gridTemplateColumns: compact ? "68px 1fr" : "76px 1fr", gap: compact ? 14 : 18, alignItems: "center", marginBottom: 20 }}>
+          <div
+            style={{
+              width: compact ? 60 : 72,
+              height: compact ? 60 : 72,
+              borderRadius: "50%",
+              background: item.gradient,
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#fff",
+              fontFamily: TYPOGRAPHY.head,
+              fontWeight: 700,
+              fontSize: compact ? "0.92rem" : "1rem",
+              letterSpacing: "-0.04em",
+              boxShadow: isDark ? "0 12px 36px rgba(0,0,0,0.28)" : "0 12px 32px rgba(0,0,0,0.12)",
+            }}
+          >
+            {item.photo ? (
+              <img
+                src={item.photo}
+                alt={item.name}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: item.photoPosition || "center",
+                }}
+              />
+            ) : (
+              item.initial
+            )}
+          </div>
+          <div>
+            <div style={{ fontFamily: TYPOGRAPHY.head, fontWeight: 700, fontSize: compact ? "1rem" : "1.08rem", lineHeight: 1.1, letterSpacing: "-0.03em" }}>{item.name}</div>
+            <div style={{ color: text2, fontSize: compact ? "0.82rem" : "0.88rem", lineHeight: 1.35, marginTop: 4 }}>{item.role}</div>
+          </div>
+        </div>
+        <div style={{ height: 1, background: divider, marginBottom: 18 }} />
+        <p style={{ color: text, fontSize: compact ? "0.96rem" : "1rem", lineHeight: 1.72 }}>{item.quote}</p>
+      </div>
+      <div style={{ display: "flex", gap: compact ? 3 : 4, marginTop: 22, position: "relative", alignItems: "center" }}>
+        {[0, 1, 2, 3, 4].map((star) => (
+          <span
+            key={star}
+            style={{
+              display: "inline-block",
+              fontSize: compact ? "1.02rem" : "1.12rem",
+              lineHeight: 1,
+              filter: isDark ? "drop-shadow(0 4px 10px rgba(0,0,0,0.24))" : "drop-shadow(0 3px 8px rgba(255,140,66,0.14))",
+            }}
+            role="img"
+            aria-label="star"
+          >
+            ⭐
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const FaqCard = ({ item, theme, clay }) => (
+  <div
+    style={{
+      background: theme.card,
+      border: `1px solid ${theme.cardBorder}`,
+      borderRadius: 24,
+      padding: "22px 20px",
+      boxShadow: clay(theme.cardGlow),
+    }}
+  >
+    <div style={{ fontFamily: TYPOGRAPHY.head, fontWeight: 700, fontSize: "1rem", color: theme.text, marginBottom: 10, letterSpacing: "-0.03em" }}>
+      {item.question}
+    </div>
+    <p style={{ color: theme.text2, lineHeight: 1.7, fontSize: "0.92rem" }}>{item.answer}</p>
+  </div>
+);
+
 export default function App() {
   const [themeIndex, setThemeIndex] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(() =>
@@ -395,10 +736,24 @@ export default function App() {
         @keyframes logoScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes blobDrift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-25px) scale(1.04); } 66% { transform: translate(-20px,15px) scale(0.97); } }
         @keyframes pulseGlow { 0%,100% { opacity: 0.12; transform: scale(1); } 50% { opacity: 0.2; transform: scale(1.01); } }
+        @keyframes heroLineIn {
+          from { opacity: 0; transform: translateY(28px); filter: blur(10px); }
+          to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+        @keyframes heroAccentPulse {
+          0%,100% { transform: translateY(0); text-shadow: 0 0 0 rgba(0,0,0,0); }
+          50% { transform: translateY(-3px); text-shadow: 0 12px 26px ${theme.glow1}; }
+        }
+        @keyframes heroFadeUp {
+          from { opacity: 0; transform: translateY(18px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; scroll-padding-top: ${isMobile ? 112 : 128}px; }
         body { -webkit-font-smoothing: antialiased; }
         ::selection { background: ${theme.a1}; color: white; }
+        .hero-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+        .hero-scroll::-webkit-scrollbar { display: none; }
       `}</style>
 
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0 }}>
@@ -494,8 +849,8 @@ export default function App() {
             transition,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: TYPOGRAPHY.head, fontWeight: 700, fontSize: isMobile ? "0.98rem" : "1.06rem", color: theme.text }}>
-            <div style={{ width: 34, height: 34, background: theme.grad, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 900, fontSize: "0.9rem", fontFamily: TYPOGRAPHY.head, boxShadow: `${theme.btnGlow}, inset 0 2px 4px rgba(255,255,255,0.35)` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: TYPOGRAPHY.display, fontWeight: 700, fontSize: isMobile ? "0.98rem" : "1.06rem", color: theme.text }}>
+            <div style={{ width: 34, height: 34, background: theme.grad, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 900, fontSize: "0.9rem", fontFamily: TYPOGRAPHY.display, boxShadow: `${theme.btnGlow}, inset 0 2px 4px rgba(255,255,255,0.35)` }}>
               A
             </div>
             Automation Paths
@@ -503,9 +858,15 @@ export default function App() {
 
           <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", width: isMobile ? "100%" : isTablet ? "100%" : "auto", justifyContent: isMobile ? "flex-start" : isTablet ? "space-between" : "flex-end" }}>
             {!isMobile &&
-              ["Services", "Process", "Results"].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} style={{ color: theme.text2, textDecoration: "none", fontSize: "0.84rem", fontWeight: 600, padding: "6px 14px", borderRadius: 999 }}>
-                  {item}
+              [
+                { label: "About", href: "#about" },
+                { label: "Services", href: "#services" },
+                { label: "Process", href: "#process" },
+                { label: "Proof", href: "#results" },
+                { label: "FAQ", href: "#faq" },
+              ].map((item) => (
+                <a key={item.label} href={item.href} style={{ color: theme.text2, textDecoration: "none", fontSize: "0.84rem", fontWeight: 600, padding: "6px 14px", borderRadius: 999 }}>
+                  {item.label}
                 </a>
               ))}
             <a href="#cta" style={{ width: isMobile ? "100%" : "auto", padding: isMobile ? "12px 18px" : "8px 20px", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: "0.84rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 4px rgba(255,255,255,0.3)`, textAlign: "center" }}>
@@ -515,33 +876,45 @@ export default function App() {
         </div>
       </nav>
 
-      <section style={{ minHeight: isMobile ? "auto" : "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: isMobile ? "146px 16px 56px" : isTablet ? "138px 20px 64px" : "132px 20px 60px", position: "relative", zIndex: 1 }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 16px 6px 7px", background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 999, fontSize: isMobile ? "0.76rem" : "0.82rem", fontWeight: 600, color: theme.text2, marginBottom: isMobile ? 24 : 28, boxShadow: clay(theme.cardGlow), position: "relative", zIndex: 2 }}>
+      <section style={{ minHeight: isMobile ? "auto" : "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: isMobile ? "108px 14px 20px" : isTablet ? "138px 20px 72px" : "136px 20px 74px", position: "relative", zIndex: 1 }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: isMobile ? "5px 12px 5px 6px" : "6px 16px 6px 7px", background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 999, fontSize: isMobile ? "0.7rem" : "0.82rem", fontWeight: 600, color: theme.text2, marginBottom: isMobile ? 14 : 28, boxShadow: clay(theme.cardGlow), position: "relative", zIndex: 2, maxWidth: isMobile ? "100%" : "none", animation: "heroFadeUp 0.7s ease-out both" }}>
           <span style={{ width: 24, height: 24, background: "linear-gradient(135deg,#34D399,#2DD4BF)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", color: "#fff" }}>
             +
           </span>
-          Now accepting Q2 projects
+          Built for agencies, consultants, and operators fixing revenue systems
         </div>
 
-        <h1 style={{ fontFamily: TYPOGRAPHY.head, fontSize: isMobile ? "clamp(3.1rem,15vw,4.5rem)" : "clamp(4.2rem,8vw,6.8rem)", lineHeight: isMobile ? 0.93 : 0.89, letterSpacing: "-0.05em", maxWidth: isTablet ? 760 : 940, marginBottom: isMobile ? 20 : 22, color: theme.text, position: "relative", zIndex: 2 }}>
-          <span style={{ display: "block", fontStyle: "italic", fontWeight: 350 }}>Building the</span>
-          <span style={{ display: "block", fontStyle: "normal", fontWeight: 800 }}>systems agencies</span>
-          <span style={{ display: "block", fontStyle: "italic", fontWeight: 350 }}>
-            rely on to <span style={{ color: theme.a1, fontWeight: 700 }}>scale.</span>
+        <h1 style={{ fontFamily: TYPOGRAPHY.head, fontSize: isMobile ? "clamp(2.15rem,11vw,3.1rem)" : "clamp(4.1rem,7.6vw,6.3rem)", lineHeight: isMobile ? 0.88 : 0.9, letterSpacing: isMobile ? "-0.07em" : "-0.055em", maxWidth: isTablet ? 760 : 980, marginBottom: isMobile ? 10 : 22, color: theme.text, position: "relative", zIndex: 2 }}>
+          <span style={{ display: "block", fontStyle: "normal", fontWeight: 800, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) both", transformOrigin: "center bottom" }}>Build the revenue system</span>
+          <span style={{ display: "block", fontStyle: "italic", fontWeight: 350, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) 0.12s both", transformOrigin: "center bottom" }}>your agency should have</span>
+          <span style={{ display: "block", fontStyle: "normal", fontWeight: 800, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) 0.24s both", transformOrigin: "center bottom" }}>
+            launched <span style={{ color: theme.a1, fontWeight: 700, display: "inline-block", animation: "heroAccentPulse 2.8s ease-in-out 1.1s infinite" }}>already.</span>
           </span>
         </h1>
 
-        <p style={{ fontSize: isMobile ? "1rem" : "1.18rem", color: theme.text2, maxWidth: isMobile ? 360 : 620, lineHeight: 1.75, marginBottom: 32, position: "relative", zIndex: 2 }}>
-          GoHighLevel architect, AI automation engineer, and GTM strategist. I build the infrastructure that turns your leads into revenue - reliably, at scale.
+        <p style={{ fontSize: isMobile ? "0.9rem" : "1.14rem", color: theme.text2, maxWidth: isMobile ? 322 : 720, lineHeight: isMobile ? 1.58 : 1.78, marginBottom: isMobile ? 16 : 32, position: "relative", zIndex: 2, animation: "heroFadeUp 0.72s ease-out 0.32s both" }}>
+          GoHighLevel architect, AI automation engineer, and GTM systems builder. I design CRM logic, automations, voice AI, and reporting layers that remove manual bottlenecks and make your growth stack trustworthy again.
         </p>
 
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", flexDirection: isMobile ? "column" : "row", width: isMobile ? "100%" : "auto", maxWidth: isMobile ? 360 : "none", justifyContent: "center", position: "relative", zIndex: 2 }}>
-          <a href="#cta" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "15px 30px", width: isMobile ? "100%" : "auto", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: "0.95rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 6px rgba(255,255,255,0.25)` }}>
+        <div style={{ display: isMobile ? "grid" : "flex", gap: isMobile ? 10 : 12, gridTemplateColumns: isMobile ? "repeat(2, minmax(0, 1fr))" : undefined, flexWrap: isMobile ? undefined : "wrap", width: isMobile ? "100%" : "auto", maxWidth: isMobile ? 340 : "none", justifyContent: "center", position: "relative", zIndex: 2, animation: "heroFadeUp 0.72s ease-out 0.44s both" }}>
+          <a href="#cta" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: isMobile ? "13px 14px" : "15px 30px", width: isMobile ? "100%" : "auto", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: isMobile ? "0.86rem" : "0.95rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 6px rgba(255,255,255,0.25)` }}>
             Book Strategy Call -&gt;
           </a>
-          <a href="#services" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "15px 26px", width: isMobile ? "100%" : "auto", background: theme.card, color: theme.text, borderRadius: 999, fontWeight: 600, fontSize: "0.95rem", textDecoration: "none", boxShadow: clay(), border: `1px solid ${theme.cardBorder}` }}>
-            See How It Works
+          <a href="#results" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: isMobile ? "13px 14px" : "15px 26px", width: isMobile ? "100%" : "auto", background: theme.card, color: theme.text, borderRadius: 999, fontWeight: 600, fontSize: isMobile ? "0.86rem" : "0.95rem", textDecoration: "none", boxShadow: clay(), border: `1px solid ${theme.cardBorder}` }}>
+            See Proof
           </a>
+        </div>
+
+        <div className="hero-scroll" style={{ width: "100%", maxWidth: 1140, marginTop: isMobile ? 14 : 34, display: isMobile ? "flex" : "grid", gridTemplateColumns: isMobile ? undefined : "repeat(3, minmax(0, 1fr))", gap: isMobile ? 10 : 14, position: "relative", zIndex: 2, overflowX: isMobile ? "auto" : "visible", paddingBottom: isMobile ? 4 : 0, scrollSnapType: isMobile ? "x mandatory" : "none", animation: "heroFadeUp 0.76s ease-out 0.56s both" }}>
+          {heroPrinciples.map((item) => (
+            <div key={item.title} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: isMobile ? "14px 14px 12px" : "22px 22px", boxShadow: clay(theme.cardGlow), textAlign: "left", minWidth: isMobile ? "76vw" : "auto", maxWidth: isMobile ? 286 : "none", scrollSnapAlign: isMobile ? "start" : "none", flexShrink: 0 }}>
+              <div style={{ width: isMobile ? 38 : 42, height: isMobile ? 38 : 42, borderRadius: 14, background: theme.chipBg, color: theme.a1, display: "flex", alignItems: "center", justifyContent: "center", fontSize: isMobile ? "1rem" : "1.1rem", marginBottom: isMobile ? 8 : 14 }}>
+                {item.emoji}
+              </div>
+              <div style={{ fontFamily: TYPOGRAPHY.head, fontSize: isMobile ? "0.92rem" : "1.06rem", fontWeight: 700, color: theme.text, marginBottom: 6, letterSpacing: "-0.03em" }}>{item.title}</div>
+              <div style={{ color: theme.text2, fontSize: isMobile ? "0.8rem" : "0.88rem", lineHeight: isMobile ? 1.48 : 1.68, display: "-webkit-box", WebkitLineClamp: isMobile ? 3 : "unset", WebkitBoxOrient: "vertical", overflow: isMobile ? "hidden" : "visible" }}>{item.copy}</div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -553,17 +926,85 @@ export default function App() {
           <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: isMobile ? 48 : 120, background: `linear-gradient(90deg,${theme.bg},transparent)`, zIndex: 2 }} />
           <div style={{ position: "absolute", top: 0, bottom: 0, right: 0, width: isMobile ? 48 : 120, background: `linear-gradient(-90deg,${theme.bg},transparent)`, zIndex: 2 }} />
           <div style={{ display: "flex", gap: isMobile ? 10 : 14, animation: "logoScroll 50s linear infinite", width: "max-content" }}>
-            {[...logos, ...logos].map((name, index) => (
-              <div key={`${name}-${index}`} style={{ display: "flex", alignItems: "center", gap: 8, padding: isMobile ? "7px 12px 7px 7px" : "7px 14px 7px 7px", background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 999, boxShadow: clay(), flexShrink: 0, whiteSpace: "nowrap" }}>
-                <div style={{ width: isMobile ? 28 : 32, height: isMobile ? 28 : 32, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: "rgba(0,0,0,0.02)" }}>
-                  <LogoSVG name={name} size={isMobile ? 18 : 20} />
-                </div>
-                <span style={{ fontWeight: 700, fontSize: isMobile ? "0.74rem" : "0.8rem", color: theme.text }}>{name}</span>
+            {[...platformLogos, ...platformLogos].map((item, index) => (
+              <div
+                key={`${item.name}-${index}`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  minWidth: item.kind === "image" ? (isMobile ? 150 : 180) : isMobile ? 126 : 148,
+                  padding: item.kind === "image" ? (isMobile ? "12px 18px" : "14px 22px") : isMobile ? "9px 12px" : "10px 14px",
+                  background: theme.card,
+                  border: `1px solid ${theme.cardBorder}`,
+                  borderRadius: 999,
+                  boxShadow: clay(),
+                  flexShrink: 0,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <PlatformLogo item={item} compact={isMobile} theme={theme} />
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      <section id="about" style={{ padding: isMobile ? "30px 16px 40px" : "38px 20px 56px", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto", display: "grid", gridTemplateColumns: isTablet ? "1fr" : "minmax(0, 1.05fr) minmax(320px, 0.95fr)", gap: 18, alignItems: "stretch" }}>
+          <div style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 30, padding: isMobile ? "24px 18px" : "30px 30px", boxShadow: clay(theme.cardGlow) }}>
+            <SectionLabel theme={theme}>Why This Structure Works</SectionLabel>
+            <h2 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "clamp(2rem,4.1vw,3.25rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.04em", color: theme.text, marginTop: 18, marginBottom: 14 }}>
+              More than automations. <GradText>It is operating design.</GradText>
+            </h2>
+            <p style={{ fontSize: "1rem", color: theme.text2, lineHeight: 1.76, maxWidth: 620, marginBottom: 20 }}>
+              Most teams do not need another tool. They need their existing tools to stop contradicting each other. The work here starts with the revenue path, then rebuilds the stack around that path.
+            </p>
+            <div style={{ display: "grid", gap: 12 }}>
+              {founderBullets.map((item, index) => (
+                <div key={item} style={{ display: "grid", gridTemplateColumns: "26px 1fr", gap: 12, alignItems: "start" }}>
+                  <div style={{ width: 26, height: 26, borderRadius: "50%", background: index === 1 ? theme.chipBg : "rgba(255,255,255,0.8)", color: theme.a1, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: TYPOGRAPHY.mono, fontSize: "0.68rem", border: `1px solid ${theme.cardBorder}` }}>
+                    +
+                  </div>
+                  <div style={{ color: theme.text, fontWeight: 600, lineHeight: 1.55 }}>{item}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gap: 14 }}>
+            <div style={{ background: `linear-gradient(135deg,${theme.bgDark},${theme.card})`, border: `1px solid ${theme.cardBorder}`, borderRadius: 30, padding: isMobile ? "24px 18px" : "26px 24px", boxShadow: clay(theme.cardGlow) }}>
+              <div style={{ fontFamily: TYPOGRAPHY.mono, fontSize: "0.7rem", color: theme.chipC, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 14 }}>
+                What you leave with
+              </div>
+              <div style={{ display: "grid", gap: 12 }}>
+                {["Documented CRM logic", "Reliable lead routing", "Automation QA and ownership", "Reporting your team trusts"].map((item) => (
+                  <div key={item} style={{ display: "flex", alignItems: "center", gap: 10, color: theme.text, fontWeight: 600 }}>
+                    <span style={{ width: 10, height: 10, borderRadius: "50%", background: theme.a1, boxShadow: `0 0 0 6px ${theme.chipBg}` }} />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 30, padding: isMobile ? "24px 18px" : "26px 24px", boxShadow: clay(theme.cardGlow) }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 12 }}>
+                {[
+                  { title: "Audit", copy: "Identify the leaks before building." },
+                  { title: "Build", copy: "Implement with testing, not guesswork." },
+                  { title: "Handoff", copy: "Docs, ownership, and training included." },
+                  { title: "Refine", copy: "Keep improving conversion over time." },
+                ].map((item) => (
+                  <div key={item.title} style={{ padding: "14px 12px", borderRadius: 18, background: theme.tagBg }}>
+                    <div style={{ fontFamily: TYPOGRAPHY.head, fontWeight: 700, fontSize: "1rem", color: theme.text, marginBottom: 6 }}>{item.title}</div>
+                    <div style={{ fontSize: "0.84rem", lineHeight: 1.55, color: theme.text2 }}>{item.copy}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section id="services" style={{ padding: isMobile ? "64px 16px" : "80px 20px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto" }}>
@@ -573,10 +1014,10 @@ export default function App() {
               What We Build
             </div>
             <h2 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "clamp(2.2rem,4.5vw,3.4rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginBottom: 12 }}>
-              Six systems. One <GradText>revenue engine.</GradText>
+              Six core systems that create <GradText>a cleaner revenue engine.</GradText>
             </h2>
             <p style={{ fontSize: "1.05rem", color: theme.text2, maxWidth: 540, lineHeight: 1.7 }}>
-              Every dollar flows through infrastructure. We make sure yours is built to convert, not just connect.
+              This is not generic implementation support. Each service ties back to one job: helping your business move leads, work, and reporting through a stack that does not fight itself.
             </p>
           </div>
 
@@ -585,6 +1026,30 @@ export default function App() {
               <ServiceCard key={service.title} service={service} index={index} theme={theme} compact={isMobile} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section style={{ padding: isMobile ? "0 16px 56px" : "0 20px 76px", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto", display: "grid", gridTemplateColumns: isTablet ? "1fr" : "repeat(3, minmax(0, 1fr))", gap: 14 }}>
+          {deliveryLanes.map((lane) => (
+            <div key={lane.title} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 28, padding: isMobile ? "22px 18px" : "24px 22px", boxShadow: clay(theme.cardGlow) }}>
+              <div style={{ width: 42, height: 42, borderRadius: 14, background: theme.chipBg, color: theme.a1, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem", marginBottom: 16 }}>
+                {lane.emoji}
+              </div>
+              <h3 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "1.18rem", fontWeight: 700, letterSpacing: "-0.03em", color: theme.text, marginBottom: 10 }}>
+                {lane.title}
+              </h3>
+              <p style={{ color: theme.text2, lineHeight: 1.7, fontSize: "0.92rem", marginBottom: 18 }}>{lane.description}</p>
+              <div style={{ display: "grid", gap: 8 }}>
+                {lane.points.map((point) => (
+                  <div key={point} style={{ display: "flex", alignItems: "center", gap: 9, fontSize: "0.84rem", color: theme.text, fontWeight: 600 }}>
+                    <span style={{ width: 7, height: 7, borderRadius: "50%", background: theme.a1 }} />
+                    {point}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -618,7 +1083,7 @@ export default function App() {
             {processSteps.map((step) => (
               <div key={step.number} style={{ background: "rgba(255,255,255,0.78)", backdropFilter: "blur(14px)", border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: "28px 20px", textAlign: "center", position: "relative", overflow: "hidden", boxShadow: clay(theme.cardGlow) }}>
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "45%", background: `linear-gradient(to bottom,${theme.chipBg},transparent)`, borderRadius: "24px 24px 50% 50%" }} />
-                <div style={{ fontFamily: TYPOGRAPHY.head, fontSize: "2.5rem", fontWeight: 900, background: theme.grad, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", opacity: 0.58, lineHeight: 1, marginBottom: 12, position: "relative" }}>{step.number}</div>
+                <div style={{ fontFamily: TYPOGRAPHY.display, fontSize: "2.5rem", fontWeight: 900, background: theme.grad, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", opacity: 0.58, lineHeight: 1, marginBottom: 12, position: "relative" }}>{step.number}</div>
                 <h3 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "1.15rem", fontWeight: 700, color: theme.text, marginBottom: 6, position: "relative" }}>{step.title}</h3>
                 <p style={{ fontSize: "0.83rem", color: theme.text2, lineHeight: 1.6, position: "relative" }}>{step.description}</p>
               </div>
@@ -629,46 +1094,50 @@ export default function App() {
 
       <section id="results" style={{ padding: isMobile ? "64px 16px" : "80px 20px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "5px 14px 5px 6px", background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 999, fontFamily: TYPOGRAPHY.mono, fontSize: "0.7rem", fontWeight: 500, color: theme.chipC, letterSpacing: "0.04em", textTransform: "uppercase", boxShadow: clay(), marginBottom: 16 }}>
-            <span style={{ width: 18, height: 18, borderRadius: "50%", background: theme.grad }} />
-            Proven Results
-          </div>
-          <h2 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginBottom: 36 }}>
-            Numbers do not need <GradText>a sales pitch.</GradText>
+          <SectionLabel theme={theme}>Proof</SectionLabel>
+          <h2 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
+            Strong systems leave <GradText>visible evidence.</GradText>
           </h2>
+          <p style={{ fontSize: "1rem", color: theme.text2, maxWidth: 700, lineHeight: 1.74, marginBottom: 34 }}>
+            The stats now use a cleaner sans treatment, and the review section is rebuilt around the testimonial style you shared instead of placeholder cards.
+          </p>
 
-          <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(${isMobile ? 148 : 200}px, 1fr))`, gap: 14, width: "100%", marginBottom: 36 }}>
+          <div style={{ display: "grid", gridTemplateColumns: isTablet ? "repeat(2, minmax(0, 1fr))" : "repeat(4, minmax(0, 1fr))", gap: 14, width: "100%", marginBottom: 22 }}>
             {stats.map((stat) => (
-              <div key={stat.label} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: "28px 20px", textAlign: "center", boxShadow: clay(theme.cardGlow) }}>
-                <div style={{ fontFamily: TYPOGRAPHY.head, fontSize: "2.3rem", fontWeight: 900, background: theme.grad, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", lineHeight: 1, marginBottom: 6 }}>
+              <div key={stat.label} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: isMobile ? "22px 18px" : "24px 20px", textAlign: "left", boxShadow: clay(theme.cardGlow) }}>
+                <div style={{ width: 56, height: 4, borderRadius: 999, background: theme.grad, marginBottom: 14 }} />
+                <div style={{ fontFamily: TYPOGRAPHY.head, fontSize: isMobile ? "2.25rem" : "2.7rem", fontWeight: 800, letterSpacing: "-0.06em", lineHeight: 0.95, color: theme.text, fontVariantNumeric: "tabular-nums", marginBottom: 8 }}>
                   {stat.value}
                 </div>
-                <div style={{ fontSize: "0.82rem", color: theme.text3, fontWeight: 600 }}>{stat.label}</div>
+                <div style={{ fontFamily: TYPOGRAPHY.head, fontWeight: 700, fontSize: "0.98rem", color: theme.text, marginBottom: 8 }}>{stat.label}</div>
+                <p style={{ fontSize: "0.84rem", lineHeight: 1.6, color: theme.text3 }}>{stat.detail}</p>
               </div>
             ))}
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(320px, 1fr))", gap: 14, width: "100%" }}>
             {testimonials.map((item) => (
-              <div key={item.name} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: isMobile ? "24px 20px" : "28px", boxShadow: clay(theme.cardGlow), position: "relative", overflow: "hidden", textAlign: "left" }}>
-                <div style={{ display: "flex", gap: 4, marginBottom: 14 }}>
-                  {[0, 1, 2, 3, 4].map((star) => (
-                    <div key={star} style={{ width: 22, height: 22, background: theme.starG, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.6rem", color: "#fff" }}>
-                      *
-                    </div>
-                  ))}
-                </div>
-                <p style={{ fontSize: "0.97rem", lineHeight: 1.7, color: theme.text2, marginBottom: 18, fontStyle: "italic" }}>"{item.quote}"</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 13, background: item.gradient, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 800, fontSize: "0.85rem", fontFamily: TYPOGRAPHY.head }}>
-                    {item.initial}
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 700, fontSize: "0.88rem", color: theme.text }}>{item.name}</div>
-                    <div style={{ fontSize: "0.72rem", color: theme.text3 }}>{item.role}</div>
-                  </div>
-                </div>
-              </div>
+              <ReviewCard key={item.name} item={item} theme={theme} compact={isMobile} clay={clay} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" style={{ padding: isMobile ? "0 16px 56px" : "0 20px 80px", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", maxWidth: 740, margin: "0 auto 30px" }}>
+            <SectionLabel theme={theme}>FAQ</SectionLabel>
+            <h2 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "clamp(1.9rem,3.9vw,3rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.04em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
+              Questions clients usually ask <GradText>before we start.</GradText>
+            </h2>
+            <p style={{ color: theme.text2, lineHeight: 1.74, fontSize: "1rem" }}>
+              This extra section gives the page more depth and answers the common objections that were missing from the earlier version.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, minmax(0, 1fr))", gap: 14 }}>
+            {faqItems.map((item) => (
+              <FaqCard key={item.question} item={item} theme={theme} clay={clay} />
             ))}
           </div>
         </div>
@@ -701,7 +1170,7 @@ export default function App() {
 
       <footer style={{ padding: isMobile ? "16px 16px 32px" : "24px 20px 32px", maxWidth: 1140, margin: "0 auto", display: "flex", justifyContent: isMobile ? "center" : "space-between", alignItems: "center", flexWrap: "wrap", textAlign: isMobile ? "center" : "left", gap: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
-          <span style={{ fontFamily: TYPOGRAPHY.head, fontWeight: 700, fontSize: "0.92rem", color: theme.text2 }}>Automation Paths</span>
+          <span style={{ fontFamily: TYPOGRAPHY.display, fontWeight: 700, fontSize: "0.92rem", color: theme.text2 }}>Automation Paths</span>
           <span style={{ fontSize: "0.75rem", color: theme.text3 }}>(c) 2026 All rights reserved.</span>
         </div>
         <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
