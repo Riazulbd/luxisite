@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import automationPathsBrandLogo from "./Automation Paths Logo (3).png";
-import linkedInLogo from "./src/assets/logos/LinkedIn_2021.svg";
 import vapiLogo from "./src/assets/logos/VAPI.svg";
 import zapierLogo from "./src/assets/logos/zapier-2.svg";
 import abidinHeadshot from "./src/assets/headshots/abidin.webp";
@@ -18,6 +17,8 @@ const TYPOGRAPHY = {
   url: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap",
 };
 
+const UPWORK_URL = "https://www.upwork.com/freelancers/automationpaths";
+
 const THEMES = [
   { id: "flame", name: "Sunset Flame", dark: false, bg: "#FFFAF5", bgDark: "#FFECE0", card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.05)", text: "#1F1510", text2: "#6B5040", text3: "#A08878", a1: "#FF6B35", a2: "#FF4F81", grad: "linear-gradient(135deg,#FF6B35,#FF4F81,#FF2D87)", glow1: "rgba(255,107,53,0.18)", glow2: "rgba(255,79,129,0.12)", glow3: "rgba(255,140,66,0.10)", cardGlow: "0 0 40px rgba(255,107,53,0.05)", btnGlow: "0 6px 30px rgba(255,107,53,0.35), 0 0 50px rgba(255,79,129,0.12)", chipBg: "rgba(255,107,53,0.08)", chipC: "#E85A28", tagBg: "rgba(255,107,53,0.08)", tagC: "#E85A28", starG: "linear-gradient(135deg,#FFCB47,#FF8C42)", navBg: "rgba(255,250,245,0.75)", navBorder: "rgba(255,255,255,0.8)", hoverBorder: "rgba(255,107,53,0.3)", iL: 0.7, iD: 0.04 },
   { id: "ocean", name: "Sky Glass", dark: false, bg: "#F5FBFF", bgDark: "#E6F4FF", card: "#FFFFFF", cardBorder: "rgba(19,79,125,0.08)", text: "#14314B", text2: "#52748F", text3: "#8BA9BF", a1: "#06B6D4", a2: "#3B82F6", grad: "linear-gradient(135deg,#06B6D4,#3B82F6,#6366F1)", glow1: "rgba(6,182,212,0.18)", glow2: "rgba(59,130,246,0.12)", glow3: "rgba(99,102,241,0.10)", cardGlow: "0 0 45px rgba(6,182,212,0.05)", btnGlow: "0 6px 30px rgba(6,182,212,0.28)", chipBg: "rgba(6,182,212,0.10)", chipC: "#1599BF", tagBg: "rgba(6,182,212,0.10)", tagC: "#1599BF", starG: "linear-gradient(135deg,#FBBF24,#F59E0B)", navBg: "rgba(255,255,255,0.78)", navBorder: "rgba(255,255,255,0.84)", hoverBorder: "rgba(6,182,212,0.28)", iL: 0.7, iD: 0.04 },
@@ -33,7 +34,6 @@ const platformLogos = [
   { name: "Pipedrive", kind: "text", color: "#17313B" },
   { name: "n8n", kind: "fallback", icon: "n8n", color: "#111827" },
   { name: "Make", kind: "fallback", icon: "Make", color: "#111827" },
-  { name: "LinkedIn", kind: "image", src: linkedInLogo, imageHeight: 22 },
   { name: "VAPI", kind: "image", src: vapiLogo, imageHeight: 22 },
   { name: "Zapier", kind: "image", src: zapierLogo, imageHeight: 18 },
 ];
@@ -44,7 +44,7 @@ const services = [
   { svg: ["OpenAI", "Claude AI"], title: "SMS and Chat AI", description: "Intelligent conversational AI that nurtures leads and knows exactly when to hand off to a human.", tags: ["OpenAI", "Claude", "Custom"] },
   { svg: ["n8n", "Make"], title: "Automation Pipelines", description: "Complex workflows unifying CRM, AI agents, databases, and every third-party tool into one automated revenue machine.", tags: ["n8n", "Make", "Custom APIs"] },
   { svg: ["Next.js", "Supabase"], title: "Full-Stack Applications", description: "Custom dashboards, lead capture tools, and client portals built from scratch with modern frameworks.", tags: ["Next.js", "React", "Supabase"] },
-  { svg: ["LinkedIn", "Playwright", "Supabase"], title: "Lead Gen Systems", description: "Automated prospecting, lead scoring, geographic qualification, and CRM enrichment that runs while you sleep.", tags: ["Playwright", "LinkedIn", "Supabase"] },
+  { svg: ["Playwright", "Pipedrive", "Supabase"], title: "Lead Routing Systems", description: "Automated sourcing, lead scoring, geographic qualification, and CRM enrichment that keeps your pipeline clean while you sleep.", tags: ["Playwright", "Pipedrive", "Supabase"] },
 ];
 
 const processSteps = [
@@ -147,7 +147,7 @@ const testimonials = [
     dark: false,
   },
   {
-    quote: "Riazul and his team have deep knowledge of email systems, HubSpot, and marketing automation for cold outreach.",
+    quote: "Riazul and his team have deep knowledge of outreach systems, HubSpot, and marketing automation for cold outreach.",
     name: "Abidin Karabulut",
     role: "CEO, Lookum",
     initial: "AK",
@@ -303,14 +303,6 @@ const LogoSVG = ({ name, size = 20 }) => {
         <rect width={size} height={size} rx={4} fill="#6B21A8" />
         <circle cx={size * 0.35} cy={size / 2} r={2.8} fill="#fff" opacity="0.9" />
         <circle cx={size * 0.65} cy={size / 2} r={2.8} fill="#fff" opacity="0.9" />
-      </>
-    ),
-    LinkedIn: (
-      <>
-        <rect width={size} height={size} rx={4} fill="#0077B5" />
-        <rect x="4" y="8" width="3" height="8" rx="0.5" fill="#fff" />
-        <circle cx="5.5" cy="5.5" r="1.8" fill="#fff" />
-        <path d="M9,8 L9,16 M9,11 Q9,8 12,8 Q15,8 15,11 L15,16" stroke="#fff" strokeWidth="2.5" fill="none" strokeLinecap="round" />
       </>
     ),
     Playwright: (
@@ -752,7 +744,7 @@ export default function App() {
           0%,100% { transform: translateY(0px); }
           50% { transform: translateY(-7px); }
         }
-        @keyframes linkedInBob {
+        @keyframes footerCtaBob {
           0%,100% { transform: translateY(0px); }
           50% { transform: translateY(-4px); }
         }
@@ -796,7 +788,7 @@ export default function App() {
             margin: "0 auto",
             display: "flex",
             justifyContent: "space-between",
-            alignItems: isMobile ? "stretch" : "center",
+            alignItems: "center",
             flexWrap: isTablet ? "wrap" : "nowrap",
             gap: 12,
             background: theme.navBg,
@@ -808,7 +800,7 @@ export default function App() {
             transition,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", color: theme.text }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: isMobile ? "center" : "flex-start", width: isMobile ? "100%" : "auto", color: theme.text }}>
             <img
               src={automationPathsBrandLogo}
               alt="Automation Paths"
@@ -827,15 +819,15 @@ export default function App() {
                 { label: "About", href: "#about" },
                 { label: "Services", href: "#services" },
                 { label: "Process", href: "#process" },
-                { label: "Proof", href: "#results" },
+                { label: "Results", href: "#results" },
                 { label: "FAQ", href: "#faq" },
               ].map((item) => (
                 <a key={item.label} href={item.href} style={{ color: theme.text2, textDecoration: "none", fontSize: "0.84rem", fontWeight: 600, padding: "6px 14px", borderRadius: 999 }}>
                   {item.label}
                 </a>
               ))}
-            <a href="#cta" style={{ width: isMobile ? "100%" : "auto", padding: isMobile ? "12px 18px" : "8px 20px", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: "0.84rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 4px rgba(255,255,255,0.3)`, textAlign: "center" }}>
-              Book a Call -&gt;
+            <a href={UPWORK_URL} target="_blank" rel="noreferrer" style={{ width: isMobile ? "100%" : "auto", padding: isMobile ? "12px 18px" : "8px 20px", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: "0.84rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 4px rgba(255,255,255,0.3)`, textAlign: "center" }}>
+              Hire on Upwork -&gt;
             </a>
           </div>
         </div>
@@ -862,11 +854,11 @@ export default function App() {
         </p>
 
         <div style={{ display: isMobile ? "grid" : "flex", gap: isMobile ? 10 : 12, gridTemplateColumns: isMobile ? "repeat(2, minmax(0, 1fr))" : undefined, flexWrap: isMobile ? undefined : "wrap", width: isMobile ? "100%" : "auto", maxWidth: isMobile ? 340 : "none", justifyContent: "center", position: "relative", zIndex: 2, animation: "heroFadeUp 0.72s ease-out 0.44s both" }}>
-          <a href="#cta" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: isMobile ? "13px 14px" : "15px 30px", width: isMobile ? "100%" : "auto", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: isMobile ? "0.86rem" : "0.95rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 6px rgba(255,255,255,0.25)` }}>
-            Book Strategy Call -&gt;
+          <a href={UPWORK_URL} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: isMobile ? "13px 14px" : "15px 30px", width: isMobile ? "100%" : "auto", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: isMobile ? "0.86rem" : "0.95rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 6px rgba(255,255,255,0.25)` }}>
+            Hire on Upwork -&gt;
           </a>
           <a href="#results" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: isMobile ? "13px 14px" : "15px 26px", width: isMobile ? "100%" : "auto", background: theme.card, color: theme.text, borderRadius: 999, fontWeight: 600, fontSize: isMobile ? "0.86rem" : "0.95rem", textDecoration: "none", boxShadow: clay(), border: `1px solid ${theme.cardBorder}` }}>
-            See Proof
+            See Results
           </a>
         </div>
 
@@ -982,7 +974,7 @@ export default function App() {
               Six core systems that create <GradText>a cleaner revenue engine.</GradText>
             </h2>
             <p style={{ fontSize: "1.05rem", color: theme.text2, maxWidth: 540, lineHeight: 1.7 }}>
-              This is not generic implementation support. Each service ties back to one job: helping your business move leads, work, and reporting through a stack that does not fight itself.
+              Each engagement is built around one outcome: a stack that captures leads cleanly, routes work correctly, and gives you numbers you can trust.
             </p>
           </div>
 
@@ -1059,12 +1051,12 @@ export default function App() {
 
       <section id="results" style={{ padding: isMobile ? "64px 16px" : "80px 20px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <SectionLabel theme={theme}>Proof</SectionLabel>
+          <SectionLabel theme={theme}>Results</SectionLabel>
           <h2 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
             Strong systems leave <GradText>visible evidence.</GradText>
           </h2>
           <p style={{ fontSize: "1rem", color: theme.text2, maxWidth: 700, lineHeight: 1.74, marginBottom: 34 }}>
-            The stats now use a cleaner sans treatment, and the review section is rebuilt around the testimonial style you shared instead of placeholder cards.
+            Better systems show up in delivery speed, cleaner handoffs, stronger reporting, and client feedback that speaks for itself.
           </p>
 
           <div style={{ display: "grid", gridTemplateColumns: isTablet ? "repeat(2, minmax(0, 1fr))" : "repeat(4, minmax(0, 1fr))", gap: 14, width: "100%", marginBottom: 22 }}>
@@ -1093,10 +1085,10 @@ export default function App() {
           <div style={{ textAlign: "center", maxWidth: 740, margin: "0 auto 30px" }}>
             <SectionLabel theme={theme}>FAQ</SectionLabel>
             <h2 style={{ fontFamily: TYPOGRAPHY.head, fontSize: "clamp(1.9rem,3.9vw,3rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.04em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
-              Questions clients usually ask <GradText>before we start.</GradText>
+              Questions clients usually ask <GradText>before hiring.</GradText>
             </h2>
             <p style={{ color: theme.text2, lineHeight: 1.74, fontSize: "1rem" }}>
-              This extra section gives the page more depth and answers the common objections that were missing from the earlier version.
+              Most projects start with the same few questions around scope, stack compatibility, and whether to fix or rebuild.
             </p>
           </div>
 
@@ -1120,21 +1112,18 @@ export default function App() {
             <GradText>compounding or leaking.</GradText>
           </h2>
           <p style={{ fontSize: "1.02rem", color: theme.text2, maxWidth: 450, margin: "0 auto 28px", lineHeight: 1.7 }}>
-            Book a free 30-minute strategy call. We will diagnose your pipeline and show you what a purpose-built system should look like.
+            Hire on Upwork for a scoped build or ongoing systems work. I will review your stack, define the execution plan, and ship against a clear scope.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", flexDirection: isMobile ? "column" : "row" }}>
-            <a href="#" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "15px 28px", width: isMobile ? "100%" : "auto", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: "0.95rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 6px rgba(255,255,255,0.25)` }}>
-              Book Your Strategy Call -&gt;
-            </a>
-            <a href="mailto:hello@automationpaths.com" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "15px 22px", width: isMobile ? "100%" : "auto", background: theme.card, color: theme.text, borderRadius: 999, fontWeight: 600, fontSize: "0.95rem", textDecoration: "none", boxShadow: clay(), border: `1px solid ${theme.cardBorder}` }}>
-              hello@automationpaths.com
+            <a href={UPWORK_URL} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "15px 28px", width: isMobile ? "100%" : "auto", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: "0.95rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 6px rgba(255,255,255,0.25)` }}>
+              Hire on Upwork -&gt;
             </a>
           </div>
         </div>
       </section>
 
       <footer style={{ padding: isMobile ? "16px 16px 32px" : "24px 20px 32px", maxWidth: 1140, margin: "0 auto", display: "flex", justifyContent: isMobile ? "center" : "space-between", alignItems: "center", flexWrap: "wrap", textAlign: isMobile ? "center" : "left", gap: 16 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
+        <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", alignItems: "center", gap: isMobile ? 8 : 20, flexWrap: "wrap", justifyContent: "center", width: isMobile ? "100%" : "auto" }}>
           <img
             src={automationPathsBrandLogo}
             alt="Automation Paths"
@@ -1148,7 +1137,7 @@ export default function App() {
           <span style={{ fontSize: "0.75rem", color: theme.text3 }}>(c) 2026 All rights reserved.</span>
         </div>
         <a
-          href="https://www.linkedin.com/in/riazulap/"
+          href={UPWORK_URL}
           target="_blank"
           rel="noreferrer"
           style={{
@@ -1164,11 +1153,11 @@ export default function App() {
             color: theme.text,
             fontWeight: 700,
             fontSize: "0.86rem",
-            animation: "linkedInBob 6s ease-in-out 1.2s infinite",
+            animation: "footerCtaBob 6s ease-in-out 1.2s infinite",
           }}
         >
-          <img src={linkedInLogo} alt="LinkedIn" style={{ height: 18, width: "auto", display: "block" }} />
-          <span>LinkedIn</span>
+          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#14A800", boxShadow: "0 0 0 5px rgba(20,168,0,0.14)" }} />
+          <span>Hire on Upwork</span>
         </a>
       </footer>
 
