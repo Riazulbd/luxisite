@@ -309,7 +309,7 @@ export default function App() {
               width="200"
               height="50"
               decoding="async"
-              fetchPriority="high"
+              fetchpriority="high"
               style={{
                 display: "block",
                 height: isMobile ? 30 : 36,

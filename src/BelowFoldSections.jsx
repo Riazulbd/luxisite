@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import automationPathsBrandLogo from "../Automation Paths Logo (3).png";
 import abidinHeadshot from "./assets/headshots/abidin.webp";
+import CaseStudiesSection from "./CaseStudiesSection.jsx";
 import loganHeadshot from "./assets/headshots/logan.webp";
 import orianaHeadshot from "./assets/headshots/oriana.webp";
 import ralphHeadshot from "./assets/headshots/ralph.webp";
@@ -680,7 +681,7 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
   );
 
   return (
-    <div style={{ contentVisibility: "auto", containIntrinsicSize: isMobile ? "1px 4200px" : "1px 3600px" }}>
+    <div style={{ contentVisibility: "auto", containIntrinsicSize: isMobile ? "1px 5600px" : "1px 4700px" }}>
       <section id="about" style={{ padding: isMobile ? "30px 16px 40px" : "38px 20px 56px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", display: "grid", gridTemplateColumns: isTablet ? "1fr" : "minmax(0, 1.05fr) minmax(320px, 0.95fr)", gap: 18, alignItems: "stretch" }}>
           <div style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 30, padding: isMobile ? "24px 18px" : "30px 30px", boxShadow: clay(theme.cardGlow) }}>
@@ -850,6 +851,14 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
           </div>
         </div>
       </section>
+
+      <CaseStudiesSection
+        theme={theme}
+        isMobile={isMobile}
+        isTablet={isTablet}
+        clay={clay}
+        typography={typography}
+      />
 
       <section style={{ padding: isMobile ? "0 16px 56px" : "0 20px 72px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto" }}>
