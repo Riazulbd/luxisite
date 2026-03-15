@@ -17,4 +17,3 @@ client revenue.
 
 ## Hire
 - Upwork: https://www.upwork.com/freelancers/automationpaths
-- Website: https://automationpaths.com

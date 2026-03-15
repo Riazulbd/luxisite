@@ -945,52 +945,29 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
           />
           <span style={{ fontSize: "0.75rem", color: theme.text3 }}>(c) 2026 All rights reserved.</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <a
-            href={upworkUrl}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 10,
-              padding: "12px 16px",
-              borderRadius: 999,
-              background: theme.card,
-              border: `1px solid ${theme.cardBorder}`,
-              boxShadow: clay(theme.cardGlow),
-              textDecoration: "none",
-              color: theme.text,
-              fontWeight: 700,
-              fontSize: "0.86rem",
-              animation: "footerCtaBob 6s ease-in-out 1.2s infinite",
-            }}
-          >
-            <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#14A800", boxShadow: "0 0 0 5px rgba(20,168,0,0.14)" }} />
-            <span>Hire on Upwork</span>
-          </a>
-          <a
-            href="https://linkedin.com/company/automation-paths"
-            target="_blank"
-            rel="noreferrer nofollow"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "12px 16px",
-              borderRadius: 999,
-              background: theme.card,
-              border: `1px solid ${theme.cardBorder}`,
-              boxShadow: clay(theme.cardGlow),
-              textDecoration: "none",
-              color: theme.text,
-              fontWeight: 700,
-              fontSize: "0.86rem",
-            }}
-          >
-            <span>LinkedIn</span>
-          </a>
-        </div>
+        <a
+          href={upworkUrl}
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "12px 16px",
+            borderRadius: 999,
+            background: theme.card,
+            border: `1px solid ${theme.cardBorder}`,
+            boxShadow: clay(theme.cardGlow),
+            textDecoration: "none",
+            color: theme.text,
+            fontWeight: 700,
+            fontSize: "0.86rem",
+            animation: "footerCtaBob 6s ease-in-out 1.2s infinite",
+          }}
+        >
+          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#14A800", boxShadow: "0 0 0 5px rgba(20,168,0,0.14)" }} />
+          <span>Hire on Upwork</span>
+        </a>
       </footer>
 
       <div style={{ height: isMobile ? 16 : 90 }} />
