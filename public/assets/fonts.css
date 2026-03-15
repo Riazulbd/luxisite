@@ -1,71 +1,9 @@
-@font-face {
-  font-family: "Product Sans";
-  src: url("/assets/fonts/product-sans-regular-58930287.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Product Sans";
-  src: url("/assets/fonts/product-sans-italic-173b2081.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Product Sans";
-  src: url("/assets/fonts/product-sans-bold-b11c3bbf.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Product Sans";
-  src: url("/assets/fonts/product-sans-bold-italic-d06084d1.woff2") format("woff2");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Manrope";
-  src: url("/assets/fonts/manrope-latin-a30ddcd3.woff2") format("woff2");
-  font-weight: 400 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  src: url("/assets/fonts/ibm-plex-mono-latin-400-08949f72.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "IBM Plex Mono";
-  src: url("/assets/fonts/ibm-plex-mono-latin-500-01d28544.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Fraunces";
-  src: url("/assets/fonts/fraunces-latin-900-260485eb.woff2") format("woff2");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Fraunces";
-  src: url("/assets/fonts/fraunces-latin-italic-400-475b154a.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
+@font-face{font-family:"Product Sans";src:url("/assets/fonts/product-sans-regular-58930287.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:"Product Sans";src:url("/assets/fonts/product-sans-italic-173b2081.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap;}
+@font-face{font-family:"Product Sans";src:url("/assets/fonts/product-sans-bold-b11c3bbf.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap;}
+@font-face{font-family:"Product Sans";src:url("/assets/fonts/product-sans-bold-italic-d06084d1.woff2") format("woff2");font-weight:700;font-style:italic;font-display:swap;}
+@font-face{font-family:"Manrope";src:url("/assets/fonts/manrope-latin-a30ddcd3.woff2") format("woff2");font-weight:400 800;font-style:normal;font-display:swap;}
+@font-face{font-family:"IBM Plex Mono";src:url("/assets/fonts/ibm-plex-mono-latin-400-08949f72.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:"IBM Plex Mono";src:url("/assets/fonts/ibm-plex-mono-latin-500-01d28544.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap;}
+@font-face{font-family:"Fraunces";src:url("/assets/fonts/fraunces-latin-900-260485eb.woff2") format("woff2");font-weight:900;font-style:normal;font-display:swap;}
+@font-face{font-family:"Fraunces";src:url("/assets/fonts/fraunces-latin-italic-400-475b154a.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap;}
