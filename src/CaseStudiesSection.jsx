@@ -310,6 +310,7 @@ const CaseStudyPreviewCard = ({ study, clay, typography, palette, compact, onOpe
           style={{
             fontFamily: typography.head,
             fontSize: compact ? "2rem" : "2.3rem",
+            fontWeight: 800,
             lineHeight: 0.98,
             letterSpacing: "-0.05em",
             color: palette.accent,
@@ -761,6 +762,7 @@ const CaseStudyModal = ({ study, onClose, compact, typography, palette }) => {
                 style={{
                   fontFamily: typography.head,
                   fontSize: compact ? "clamp(2.3rem,11vw,3.1rem)" : "clamp(2.9rem,4vw,4rem)",
+                  fontWeight: 800,
                   lineHeight: 0.95,
                   letterSpacing: "-0.05em",
                   color: palette.text,

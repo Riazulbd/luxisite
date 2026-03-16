@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import automationPathsBrandLogo from "./Automation Paths Logo (3).png";
+import SEOHead from "./src/SEOHead.jsx";
 import vapiLogo from "./src/assets/logos/VAPI.svg";
 import zapierLogo from "./src/assets/logos/zapier-2.svg";
 
@@ -13,6 +14,51 @@ const TYPOGRAPHY = {
 };
 
 const UPWORK_URL = "https://www.upwork.com/freelancers/automationpaths";
+const HOME_CANONICAL_URL = "https://automationpaths.com";
+const HOME_TITLE = "Automation Paths - Revenue Systems Architecture & AI Automation";
+const HOME_DESCRIPTION =
+  "Riazul Islam builds revenue systems for agencies, coaches, and consultants - CRM architecture, Voice AI agents, SMS AI, and automation pipelines on GoHighLevel, VAPI, and n8n. Top Rated on Upwork with 5,000+ hours and $59.76M in attributed client revenue.";
+const HOME_SCHEMA = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${HOME_CANONICAL_URL}#website`,
+    url: HOME_CANONICAL_URL,
+    name: "Automation Paths",
+    description: HOME_DESCRIPTION,
+    publisher: {
+      "@type": "Organization",
+      "@id": `${HOME_CANONICAL_URL}#organization`,
+      name: "Automation Paths",
+      url: HOME_CANONICAL_URL,
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${HOME_CANONICAL_URL}#service`,
+    name: "Automation Paths",
+    url: HOME_CANONICAL_URL,
+    description: HOME_DESCRIPTION,
+    founder: {
+      "@type": "Person",
+      "@id": `${HOME_CANONICAL_URL}#founder`,
+      name: "Riazul Islam",
+      jobTitle: "Revenue Systems Architect",
+    },
+    areaServed: ["United States", "United Kingdom"],
+    sameAs: [UPWORK_URL],
+    knowsAbout: [
+      "CRM architecture",
+      "Voice AI agents",
+      "SMS AI",
+      "Automation pipelines",
+      "GoHighLevel",
+      "VAPI",
+      "n8n",
+    ],
+  },
+];
 
 const THEMES = [
   { id: "flame", name: "Sunset Flame", dark: false, bg: "#FFFAF5", bgDark: "#FFECE0", card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.05)", text: "#1F1510", text2: "#6B5040", text3: "#A08878", a1: "#FF6B35", a2: "#FF4F81", grad: "linear-gradient(135deg,#FF6B35,#FF4F81,#FF2D87)", glow1: "rgba(255,107,53,0.18)", glow2: "rgba(255,79,129,0.12)", glow3: "rgba(255,140,66,0.10)", cardGlow: "0 0 40px rgba(255,107,53,0.05)", btnGlow: "0 6px 30px rgba(255,107,53,0.35), 0 0 50px rgba(255,79,129,0.12)", chipBg: "rgba(255,107,53,0.08)", chipC: "#E85A28", tagBg: "rgba(255,107,53,0.08)", tagC: "#E85A28", starG: "linear-gradient(135deg,#FFCB47,#FF8C42)", navBg: "rgba(255,250,245,0.75)", navBorder: "rgba(255,255,255,0.8)", hoverBorder: "rgba(255,107,53,0.3)", iL: 0.7, iD: 0.04 },
@@ -226,6 +272,14 @@ export default function App() {
         position: "relative",
       }}
     >
+      <SEOHead
+        title={HOME_TITLE}
+        description={HOME_DESCRIPTION}
+        noindex={false}
+        publicPaths={["/"]}
+        schema={HOME_SCHEMA}
+      />
+
       <style>{`
         @keyframes logoScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @keyframes blobDrift { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-25px) scale(1.04); } 66% { transform: translate(-20px,15px) scale(0.97); } }
@@ -322,11 +376,11 @@ export default function App() {
           <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", width: isMobile ? "100%" : isTablet ? "100%" : "auto", justifyContent: isMobile ? "flex-start" : isTablet ? "space-between" : "flex-end" }}>
             {!isMobile &&
               [
-                { label: "About", href: "#about" },
-                { label: "Services", href: "#services" },
-                { label: "Process", href: "#process" },
-                { label: "Results", href: "#results" },
-                { label: "FAQ", href: "#faq" },
+                { label: "About", href: "/#about" },
+                { label: "Services", href: "/#services" },
+                { label: "Process", href: "/#process" },
+                { label: "Results", href: "/#results" },
+                { label: "FAQ", href: "/#faq" },
               ].map((item) => (
                 <a key={item.label} href={item.href} style={{ color: theme.text2, textDecoration: "none", fontSize: "0.84rem", fontWeight: 600, padding: "6px 14px", borderRadius: 999 }}>
                   {item.label}
@@ -363,7 +417,7 @@ export default function App() {
           <a href={UPWORK_URL} target="_blank" rel="noreferrer" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: isMobile ? "13px 14px" : "15px 30px", width: isMobile ? "100%" : "auto", background: theme.grad, color: "#fff", borderRadius: 999, fontWeight: 700, fontSize: isMobile ? "0.86rem" : "0.95rem", textDecoration: "none", boxShadow: `${theme.btnGlow}, inset 0 2px 6px rgba(255,255,255,0.25)` }}>
             Hire on Upwork -&gt;
           </a>
-          <a href="#results" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: isMobile ? "13px 14px" : "15px 26px", width: isMobile ? "100%" : "auto", background: theme.card, color: theme.text, borderRadius: 999, fontWeight: 600, fontSize: isMobile ? "0.86rem" : "0.95rem", textDecoration: "none", boxShadow: clay(), border: `1px solid ${theme.cardBorder}` }}>
+          <a href="/#results" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: isMobile ? "13px 14px" : "15px 26px", width: isMobile ? "100%" : "auto", background: theme.card, color: theme.text, borderRadius: 999, fontWeight: 600, fontSize: isMobile ? "0.86rem" : "0.95rem", textDecoration: "none", boxShadow: clay(), border: `1px solid ${theme.cardBorder}` }}>
             See Results
           </a>
         </div>
