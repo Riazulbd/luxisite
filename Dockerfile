@@ -1,16 +1,16 @@
-FROM node:20-alpine AS frontend-build
+FROM node:24-alpine AS frontend-build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:20-alpine AS server-build
+FROM node:24-alpine AS server-build
 WORKDIR /app/server
 COPY server/package.json server/package-lock.json ./
 RUN npm ci --omit=dev
 
-FROM node:20-alpine
+FROM node:24-alpine
 RUN apk add --no-cache nginx
 
 WORKDIR /app
