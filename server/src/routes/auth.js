@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { requireAuth } from "../middleware/auth.js";
+import { getJwtSecret } from "../utils/auth.js";
 
 const router = express.Router();
 
@@ -14,14 +15,14 @@ function serializeUser(user) {
   return safeUser;
 }
 
-function signToken(user) {
+function signToken(user, jwtSecret) {
   return jwt.sign(
     {
       id: user.id,
       email: user.email,
       name: user.name
     },
-    process.env.JWT_SECRET,
+    jwtSecret,
     { expiresIn: "7d" }
   );
 }
@@ -49,7 +50,7 @@ router.post("/login", (req, res) => {
     return res.status(401).json({ error: "Incorrect email or password" });
   }
 
-  const token = signToken(user);
+  const token = signToken(user, req.app.locals.jwtSecret || getJwtSecret(db));
   res.cookie("token", token, getCookieOptions());
 
   return res.json({

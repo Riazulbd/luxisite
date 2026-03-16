@@ -174,14 +174,31 @@ export function runMigrations(db) {
     insertSetting.run(key, value, description);
   }
 
-  const adminEmail = process.env.ADMIN_EMAIL || "admin@automationpaths.com";
+  const fallbackAdminEmail = "admin@automationpaths.com";
+  const adminEmail = (process.env.ADMIN_EMAIL || fallbackAdminEmail).trim().toLowerCase();
   const adminPassword = process.env.ADMIN_PASSWORD || "changeme123";
-  const adminExists = db
-    .prepare("SELECT id FROM users WHERE email = ?")
+  const passwordHash = bcrypt.hashSync(adminPassword, 12);
+  const configuredAdmin = db
+    .prepare("SELECT id, email, password_hash, name FROM users WHERE email = ?")
     .get(adminEmail);
+  const legacyAdmin = adminEmail === fallbackAdminEmail
+    ? null
+    : db.prepare("SELECT id, email, password_hash, name FROM users WHERE email = ?").get(fallbackAdminEmail);
 
-  if (!adminExists) {
-    const passwordHash = bcrypt.hashSync(adminPassword, 12);
+  if (configuredAdmin) {
+    if (
+      !bcrypt.compareSync(adminPassword, configuredAdmin.password_hash) ||
+      configuredAdmin.name !== "Riazul Islam"
+    ) {
+      db.prepare(
+        "UPDATE users SET password_hash = ?, name = ? WHERE id = ?"
+      ).run(passwordHash, "Riazul Islam", configuredAdmin.id);
+    }
+  } else if (legacyAdmin) {
+    db.prepare(
+      "UPDATE users SET email = ?, password_hash = ?, name = ? WHERE id = ?"
+    ).run(adminEmail, passwordHash, "Riazul Islam", legacyAdmin.id);
+  } else {
     db.prepare(
       "INSERT INTO users (email, password_hash, name) VALUES (?, ?, ?)"
     ).run(adminEmail, passwordHash, "Riazul Islam");

@@ -22,6 +22,7 @@ import revisionsRoutes from "./routes/revisions.js";
 import seoRoutes from "./routes/seo.js";
 import sitemapRoutes from "./routes/sitemap.js";
 import tagsRoutes from "./routes/tags.js";
+import { getJwtSecret } from "./utils/auth.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
@@ -39,6 +40,7 @@ const frontendDistPath = fs.existsSync(repoDistPath)
 const db = initDatabase(path.resolve(__dirname, "../data/blog.db"));
 runMigrations(db);
 app.locals.db = db;
+app.locals.jwtSecret = getJwtSecret(db);
 
 app.use(
   helmet({
