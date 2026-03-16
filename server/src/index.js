@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import fs from "fs";
 import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
@@ -27,6 +28,13 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 const app = express();
 const PORT = Number(process.env.PORT || 3001);
+const repoDistPath = path.resolve(__dirname, "../../dist");
+const nginxDistPath = "/usr/share/nginx/html";
+const frontendDistPath = fs.existsSync(repoDistPath)
+  ? repoDistPath
+  : fs.existsSync(nginxDistPath)
+    ? nginxDistPath
+    : null;
 
 const db = initDatabase(path.resolve(__dirname, "../data/blog.db"));
 runMigrations(db);
@@ -61,6 +69,29 @@ app.use("/api/seo", seoRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/", sitemapRoutes);
 app.use("/", feedRoutes);
+
+if (frontendDistPath) {
+  app.use(
+    express.static(frontendDistPath, {
+      index: false
+    })
+  );
+
+  app.get("*", (req, res, next) => {
+    if (
+      req.path.startsWith("/api/") ||
+      req.path.startsWith("/uploads/") ||
+      req.path === "/sitemap.xml" ||
+      req.path === "/feed.xml" ||
+      req.path === "/feed/atom.xml"
+    ) {
+      next();
+      return;
+    }
+
+    res.sendFile(path.join(frontendDistPath, "index.html"));
+  });
+}
 
 startScheduler(db);
 
