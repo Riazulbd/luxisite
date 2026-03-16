@@ -1,10 +1,8 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
+import { getUploadsRoot as getConfiguredUploadsRoot } from "../config/storage.js";
 
 const SITE_URL = process.env.SITE_URL || "https://automationpaths.com";
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const UPLOADS_ROOT = path.resolve(__dirname, "../../../uploads");
 
 export function slugify(value = "") {
   return String(value)
@@ -370,8 +368,7 @@ export function removeFileIfExists(filePath) {
 }
 
 export function getUploadsRoot() {
-  fs.mkdirSync(UPLOADS_ROOT, { recursive: true });
-  return UPLOADS_ROOT;
+  return getConfiguredUploadsRoot();
 }
 
 export function resolveUploadPath(relativePath) {

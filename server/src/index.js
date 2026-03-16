@@ -10,6 +10,13 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import { startScheduler } from "./cron/scheduler.js";
+import {
+  ensureStorageDirectories,
+  getDatabasePath,
+  getStorageSummary,
+  getUploadsRoot,
+  hydrateStorageFromLegacy
+} from "./config/storage.js";
 import { initDatabase } from "./db/database.js";
 import { runMigrations } from "./db/migrations.js";
 import aiRoutes from "./routes/ai.js";
@@ -37,7 +44,11 @@ const frontendDistPath = fs.existsSync(repoDistPath)
     ? nginxDistPath
     : null;
 
-const db = initDatabase(path.resolve(__dirname, "../data/blog.db"));
+ensureStorageDirectories();
+hydrateStorageFromLegacy();
+
+const storageSummary = getStorageSummary();
+const db = initDatabase(getDatabasePath());
 runMigrations(db);
 app.locals.db = db;
 app.locals.jwtSecret = getJwtSecret(db);
@@ -59,7 +70,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-app.use("/uploads", express.static(path.resolve(__dirname, "../../uploads")));
+app.use("/uploads", express.static(getUploadsRoot()));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/posts", postsRoutes);
@@ -99,4 +110,6 @@ startScheduler(db);
 
 app.listen(PORT, () => {
   console.log(`[server] API running on http://localhost:${PORT}`);
+  console.log(`[storage] DB: ${storageSummary.databasePath}`);
+  console.log(`[storage] Uploads: ${storageSummary.uploadsRoot}`);
 });

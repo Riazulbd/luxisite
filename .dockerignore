@@ -6,3 +6,7 @@ desktop-preview.png
 mobile-preview.png
 vite.log
 npm-debug.log*
+server/data/*.db
+server/data/*.db-*
+uploads/blog/*
+!uploads/blog/.gitkeep
