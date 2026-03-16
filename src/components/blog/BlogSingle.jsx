@@ -5,6 +5,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { apiFetch } from "../../hooks/useApi";
 import { clay, useTheme } from "../../hooks/useTheme";
 import { useViewport } from "../../hooks/useViewport";
+import authorAvatar from "../../assets/riazul-author-avatar.svg";
 import BlogSidebar from "./BlogSidebar";
 import PublicBlogHeader from "./PublicBlogHeader";
 import SchemaMarkup from "./SchemaMarkup";
@@ -332,6 +333,13 @@ export default function BlogSingle() {
               ) : null}
             </figure>
           ) : null}
+          {isMobile ? (
+            <div style={{ margin: "0 0 22px" }}>
+              <Suspense fallback={null}>
+                <TableOfContents content={contentWithAnchors} />
+              </Suspense>
+            </div>
+          ) : null}
           <div
             className="blog-content"
             style={{
@@ -341,13 +349,6 @@ export default function BlogSingle() {
             }}
             dangerouslySetInnerHTML={{ __html: contentWithAnchors }}
           />
-          {isMobile ? (
-            <div style={{ marginTop: 22 }}>
-              <Suspense fallback={null}>
-                <TableOfContents content={contentWithAnchors} />
-              </Suspense>
-            </div>
-          ) : null}
           {(post.tags || []).length ? (
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 28 }}>
               {post.tags.map((tag) => (
@@ -380,30 +381,63 @@ export default function BlogSingle() {
               padding: isMobile ? 18 : 24,
               borderRadius: 24,
               background: theme.surface2,
-              border: `1px solid ${theme.cardBorder}`
+              border: `1px solid ${theme.cardBorder}`,
+              display: "grid",
+              gridTemplateColumns: isMobile ? "minmax(0, 1fr)" : "112px minmax(0, 1fr)",
+              gap: 18,
+              alignItems: "center"
             }}
           >
-            <h3
+            <div
               style={{
-                margin: "0 0 10px",
-                fontFamily: "Outfit, sans-serif",
-                color: theme.text
+                width: isMobile ? 96 : 112,
+                height: isMobile ? 96 : 112,
+                borderRadius: 999,
+                overflow: "hidden",
+                background: theme.card,
+                border: `1px solid ${theme.cardBorder}`,
+                boxShadow: clay(0.85),
+                justifySelf: isMobile ? "center" : "start"
               }}
             >
-              About the author
-            </h3>
-            <p
-              style={{
-                margin: 0,
-                fontFamily: "Manrope, sans-serif",
-                color: theme.text3,
-                lineHeight: 1.8
-              }}
-            >
-              Riazul Islam is the Revenue Systems Architect behind Automation Paths,
-              helping agencies and operators turn fragmented CRM and AI tooling into
-              clearer revenue infrastructure.
-            </p>
+              <img
+                src={authorAvatar}
+                alt="Portrait illustration of Riazul Islam"
+                width="320"
+                height="320"
+                loading="lazy"
+                decoding="async"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block"
+                }}
+              />
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <h3
+                style={{
+                  margin: "0 0 10px",
+                  fontFamily: "Outfit, sans-serif",
+                  color: theme.text
+                }}
+              >
+                About the author
+              </h3>
+              <p
+                style={{
+                  margin: 0,
+                  fontFamily: "Manrope, sans-serif",
+                  color: theme.text3,
+                  lineHeight: 1.8
+                }}
+              >
+                Riazul Islam is the Revenue Systems Architect behind Automation Paths,
+                helping agencies and operators turn fragmented CRM and AI tooling into
+                clearer revenue infrastructure.
+              </p>
+            </div>
           </section>
           <Suspense fallback={null}>
             <RelatedPosts postId={post.id} />
