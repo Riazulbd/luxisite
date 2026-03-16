@@ -1,7 +1,10 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const SITE_URL = process.env.SITE_URL || "https://automationpaths.com";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const UPLOADS_ROOT = path.resolve(__dirname, "../../../uploads");
 
 export function slugify(value = "") {
   return String(value)
@@ -366,12 +369,21 @@ export function removeFileIfExists(filePath) {
   }
 }
 
+export function getUploadsRoot() {
+  fs.mkdirSync(UPLOADS_ROOT, { recursive: true });
+  return UPLOADS_ROOT;
+}
+
 export function resolveUploadPath(relativePath) {
   if (!relativePath) {
     return null;
   }
 
-  return path.resolve(process.cwd(), relativePath.replace(/^\//, ""));
+  const normalizedPath = relativePath
+    .replace(/^\/+/, "")
+    .replace(/^uploads\/?/, "");
+
+  return path.resolve(getUploadsRoot(), normalizedPath);
 }
 
 export function extractUploadCandidates(post) {

@@ -19,13 +19,20 @@ COPY --from=server-build /app/server/node_modules ./server/node_modules
 COPY server/ ./server/
 COPY --from=frontend-build /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/http.d/default.conf
-COPY .env ./.env
 COPY uploads ./uploads
 
 RUN mkdir -p /app/server/data /app/uploads/blog
 
 RUN cat <<'EOF' > /app/start.sh
 #!/bin/sh
+set -e
+
+mkdir -p /app/server/data /app/uploads/blog
+
+if [ -d /app/server/uploads ]; then
+  cp -R /app/server/uploads/. /app/uploads/ 2>/dev/null || true
+fi
+
 cd /app/server && node src/index.js &
 nginx -g 'daemon off;'
 EOF

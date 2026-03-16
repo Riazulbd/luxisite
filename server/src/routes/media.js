@@ -5,7 +5,7 @@ import multer from "multer";
 import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import { requireAuth } from "../middleware/auth.js";
-import { buildPagination, removeFileIfExists, resolveUploadPath } from "../utils/blog.js";
+import { buildPagination, getUploadsRoot, removeFileIfExists, resolveUploadPath } from "../utils/blog.js";
 
 const router = express.Router();
 
@@ -35,7 +35,7 @@ function getUploadDirectory() {
   const now = new Date();
   const year = String(now.getFullYear());
   const month = String(now.getMonth() + 1).padStart(2, "0");
-  const absoluteDir = path.resolve(process.cwd(), "uploads", "blog", year, month);
+  const absoluteDir = path.join(getUploadsRoot(), "blog", year, month);
   const relativeDir = `/uploads/blog/${year}/${month}`;
   fs.mkdirSync(absoluteDir, { recursive: true });
   return { absoluteDir, relativeDir };
