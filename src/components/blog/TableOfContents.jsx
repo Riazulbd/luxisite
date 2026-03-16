@@ -72,7 +72,7 @@ export default function TableOfContents({ content }) {
         <summary
           style={{
             cursor: "pointer",
-            fontFamily: "Product Sans, sans-serif",
+            fontFamily: "Outfit, sans-serif",
             color: theme.text
           }}
         >
@@ -114,7 +114,7 @@ export default function TableOfContents({ content }) {
       <h3
         style={{
           margin: "0 0 14px",
-          fontFamily: "Product Sans, sans-serif",
+          fontFamily: "Outfit, sans-serif",
           color: theme.text
         }}
       >
@@ -140,3 +140,4 @@ export default function TableOfContents({ content }) {
     </aside>
   );
 }
+

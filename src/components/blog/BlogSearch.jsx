@@ -5,6 +5,7 @@ import { apiFetch, buildQuery } from "../../hooks/useApi";
 import { clay, useTheme } from "../../hooks/useTheme";
 import { useViewport } from "../../hooks/useViewport";
 import BlogCard from "./BlogCard";
+import PublicBlogHeader from "./PublicBlogHeader";
 import BlogSidebar from "./BlogSidebar";
 import SeoHead from "./SeoHead";
 
@@ -26,6 +27,7 @@ export default function BlogSearch() {
         canonical={`https://automationpaths.com/blog/search${query ? `?q=${encodeURIComponent(query)}` : ""}`}
       />
       <div style={{ maxWidth: 1240, margin: "0 auto", display: "grid", gap: 28 }}>
+        <PublicBlogHeader />
         <div
           style={{
             background: theme.card,
@@ -35,7 +37,7 @@ export default function BlogSearch() {
             boxShadow: clay(1)
           }}
         >
-          <h1 style={{ margin: "0 0 10px", fontFamily: "Product Sans, sans-serif", color: theme.text }}>
+          <h1 style={{ margin: "0 0 10px", fontFamily: "Outfit, sans-serif", color: theme.text }}>
             Search results
           </h1>
           <p style={{ margin: 0, color: theme.text3, fontFamily: "Manrope, sans-serif" }}>
@@ -75,3 +77,4 @@ export default function BlogSearch() {
     </div>
   );
 }
+

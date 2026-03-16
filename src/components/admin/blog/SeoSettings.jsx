@@ -31,7 +31,7 @@ export default function SeoSettings() {
   return (
     <div style={{ display: "grid", gap: 20 }}>
       <div>
-        <h1 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>SEO settings</h1>
+        <h1 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>SEO settings</h1>
         <p style={{ margin: "8px 0 0", color: theme.text3, fontFamily: "Manrope, sans-serif" }}>
           Configure scoring thresholds and AI defaults without restarting the app.
         </p>
@@ -57,3 +57,4 @@ export default function SeoSettings() {
     </div>
   );
 }
+

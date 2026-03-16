@@ -52,7 +52,7 @@ export default function AdminLogin() {
           <p style={{ margin: "0 0 10px", color: theme.tagC, fontFamily: "IBM Plex Mono, monospace", textTransform: "uppercase", fontSize: "0.78rem" }}>
             Admin Access
           </p>
-          <h1 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Sign in to the blog CMS</h1>
+          <h1 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Sign in to the blog CMS</h1>
         </div>
         <input
           className="admin-input"
@@ -77,3 +77,4 @@ export default function AdminLogin() {
     </div>
   );
 }
+

@@ -5,6 +5,7 @@ import { apiFetch, buildQuery } from "../../hooks/useApi";
 import { clay, useTheme } from "../../hooks/useTheme";
 import { useViewport } from "../../hooks/useViewport";
 import BlogCard from "./BlogCard";
+import PublicBlogHeader from "./PublicBlogHeader";
 import BlogSidebar from "./BlogSidebar";
 import SeoHead from "./SeoHead";
 
@@ -28,6 +29,7 @@ export default function TagArchive() {
         canonical={`https://automationpaths.com/blog/tag/${slug}`}
       />
       <div style={{ maxWidth: 1240, margin: "0 auto", display: "grid", gap: 28 }}>
+        <PublicBlogHeader />
         <div
           style={{
             background: theme.card,
@@ -37,7 +39,7 @@ export default function TagArchive() {
             boxShadow: clay(1)
           }}
         >
-          <h1 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>
+          <h1 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>
             Tag: {tag?.name || slug}
           </h1>
         </div>
@@ -87,3 +89,4 @@ export default function TagArchive() {
     </div>
   );
 }
+

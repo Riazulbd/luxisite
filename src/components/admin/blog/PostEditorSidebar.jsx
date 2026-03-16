@@ -137,7 +137,7 @@ export default function PostEditorSidebar({
       </div>
 
       <div style={{ ...panelStyle(theme, { padding: 18, display: "grid", gap: 12 }) }}>
-        <div style={{ fontFamily: "Product Sans, sans-serif", color: theme.text }}>Category</div>
+        <div style={{ fontFamily: "Outfit, sans-serif", color: theme.text }}>Category</div>
         <select value={post.category_id || ""} onChange={(event) => onFieldChange("category_id", Number(event.target.value) || "")} style={inputStyle(theme)}>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
@@ -177,12 +177,12 @@ export default function PostEditorSidebar({
       </div>
 
       <div style={{ ...panelStyle(theme, { padding: 18, display: "grid", gap: 12 }) }}>
-        <div style={{ fontFamily: "Product Sans, sans-serif", color: theme.text }}>Tags</div>
+        <div style={{ fontFamily: "Outfit, sans-serif", color: theme.text }}>Tags</div>
         <TagInput tags={post.tags} onChange={(nextTags) => onFieldChange("tags", nextTags)} />
       </div>
 
       <div style={{ ...panelStyle(theme, { padding: 18, display: "grid", gap: 12 }) }}>
-        <div style={{ fontFamily: "Product Sans, sans-serif", color: theme.text }}>Featured image</div>
+        <div style={{ fontFamily: "Outfit, sans-serif", color: theme.text }}>Featured image</div>
         <FeaturedImagePicker
           value={post.featured_image}
           altText={post.featured_image_alt}
@@ -205,9 +205,10 @@ export default function PostEditorSidebar({
       />
 
       <div style={{ ...panelStyle(theme, { padding: 18, display: "grid", gap: 12 }) }}>
-        <div style={{ fontFamily: "Product Sans, sans-serif", color: theme.text }}>Revision history</div>
+        <div style={{ fontFamily: "Outfit, sans-serif", color: theme.text }}>Revision history</div>
         <RevisionHistory postId={postId} onRestore={onRestoreRevision} />
       </div>
     </div>
   );
 }
+

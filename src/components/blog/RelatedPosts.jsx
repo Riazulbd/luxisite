@@ -18,7 +18,7 @@ export default function RelatedPosts({ postId }) {
 
   return (
     <section style={{ marginTop: 36 }}>
-      <h2 style={{ fontFamily: "Product Sans, sans-serif", margin: "0 0 18px" }}>
+      <h2 style={{ fontFamily: "Outfit, sans-serif", margin: "0 0 18px" }}>
         Related posts
       </h2>
       <div
@@ -35,3 +35,4 @@ export default function RelatedPosts({ postId }) {
     </section>
   );
 }
+

@@ -202,7 +202,7 @@ export default function PostEditor() {
   return (
     <div style={{ display: "grid", gap: 20 }}>
       <div>
-        <h1 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>
+        <h1 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>
           {postId ? "Edit Post" : "New Post"}
         </h1>
         <p style={{ margin: "8px 0 0", color: theme.text3, fontFamily: "Manrope, sans-serif" }}>
@@ -282,7 +282,7 @@ export default function PostEditor() {
                 border: 0,
                 outline: "none",
                 background: "transparent",
-                fontFamily: "Product Sans, sans-serif",
+                fontFamily: "Outfit, sans-serif",
                 fontSize: isMobile ? "clamp(1.7rem, 8vw, 2.4rem)" : "clamp(2rem, 3vw, 3rem)",
                 color: theme.text,
                 width: "100%",
@@ -319,7 +319,7 @@ export default function PostEditor() {
 
           <div style={{ ...panelStyle(theme, { padding: 18, display: "grid", gap: 12 }) }}>
             <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row" }}>
-              <h2 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Excerpt</h2>
+              <h2 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Excerpt</h2>
               <button
                 type="button"
                 onClick={async () => {
@@ -590,3 +590,4 @@ export default function PostEditor() {
     </div>
   );
 }
+

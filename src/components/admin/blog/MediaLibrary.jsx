@@ -58,7 +58,7 @@ export default function MediaLibrary({ selectionMode = false, onSelect, onClose 
         }}
       >
         <input {...dropzone.getInputProps()} />
-        <div style={{ fontFamily: "Product Sans, sans-serif", color: theme.text }}>Drag images here or click to upload</div>
+        <div style={{ fontFamily: "Outfit, sans-serif", color: theme.text }}>Drag images here or click to upload</div>
         <div style={{ marginTop: 8, color: theme.text3, fontFamily: "Manrope, sans-serif" }}>
           JPEG, PNG, GIF, and WebP are converted to optimized WebP assets.
         </div>
@@ -69,7 +69,7 @@ export default function MediaLibrary({ selectionMode = false, onSelect, onClose 
           <div key={item.id} style={{ ...panelStyle(theme, { padding: 14, display: "grid", gap: 12 }) }}>
             <img src={item.thumbnail_url || item.url} alt={item.alt_text || item.original_name} style={{ width: "100%", aspectRatio: "4 / 3", objectFit: "cover", borderRadius: 16 }} />
             <div>
-              <div style={{ fontFamily: "Product Sans, sans-serif", color: theme.text, fontSize: "0.95rem" }}>{item.original_name}</div>
+              <div style={{ fontFamily: "Outfit, sans-serif", color: theme.text, fontSize: "0.95rem" }}>{item.original_name}</div>
               <div style={{ color: theme.text3, fontFamily: "IBM Plex Mono, monospace", fontSize: "0.72rem" }}>
                 {item.width || "?"}×{item.height || "?"} • {Math.round((item.file_size || 0) / 1024)}KB
               </div>
@@ -98,7 +98,7 @@ export default function MediaLibrary({ selectionMode = false, onSelect, onClose 
     <div style={{ position: "fixed", inset: 0, background: "rgba(15,23,42,0.46)", padding: isMobile ? 10 : 24, zIndex: 1000, overflow: "auto" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", ...panelStyle(theme, { padding: isMobile ? 14 : 20 }) }}>
         <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row", marginBottom: 16 }}>
-          <h2 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Media library</h2>
+          <h2 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Media library</h2>
           <button type="button" onClick={onClose} style={buttonStyle(theme, "ghost")}>Close</button>
         </div>
         {content}
@@ -106,3 +106,4 @@ export default function MediaLibrary({ selectionMode = false, onSelect, onClose 
     </div>
   );
 }
+

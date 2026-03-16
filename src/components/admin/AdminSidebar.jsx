@@ -36,7 +36,7 @@ export default function AdminSidebar({ collapsed, onToggle, user, onLogout, stac
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
           {!collapsed || stacked ? (
             <div>
-              <div style={{ fontFamily: "Product Sans, sans-serif", fontSize: "1.2rem", color: theme.text }}>
+              <div style={{ fontFamily: "Outfit, sans-serif", fontSize: "1.2rem", color: theme.text }}>
                 Automation Paths
               </div>
               <div style={{ color: theme.text3, fontFamily: "Manrope, sans-serif", fontSize: "0.9rem" }}>
@@ -75,7 +75,7 @@ export default function AdminSidebar({ collapsed, onToggle, user, onLogout, stac
       <div style={{ display: "grid", gap: 12 }}>
         {!collapsed || stacked ? (
           <div>
-            <div style={{ fontFamily: "Product Sans, sans-serif", color: theme.text }}>{user?.name || "Admin"}</div>
+            <div style={{ fontFamily: "Outfit, sans-serif", color: theme.text }}>{user?.name || "Admin"}</div>
             <div style={{ fontFamily: "Manrope, sans-serif", color: theme.text3, fontSize: "0.9rem" }}>
               {user?.email || "hello@automationpaths.com"}
             </div>
@@ -88,3 +88,4 @@ export default function AdminSidebar({ collapsed, onToggle, user, onLogout, stac
     </aside>
   );
 }
+

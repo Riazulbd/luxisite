@@ -46,7 +46,7 @@ export default function BlogDashboard() {
     <div style={{ display: "grid", gap: 20 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
         <div>
-          <h1 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Blog dashboard</h1>
+          <h1 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Blog dashboard</h1>
           <p style={{ margin: "8px 0 0", color: theme.text3, fontFamily: "Manrope, sans-serif" }}>
             A quick pulse on content production, SEO quality, and publishing momentum.
           </p>
@@ -65,7 +65,7 @@ export default function BlogDashboard() {
 
       <div style={{ display: "grid", gridTemplateColumns: isMobile || isTablet ? "minmax(0, 1fr)" : "minmax(0, 1.4fr) minmax(320px, 0.9fr)", gap: 20 }}>
         <section style={{ ...panelStyle(theme, { padding: 24, minHeight: 340 }) }}>
-          <h2 style={{ margin: "0 0 18px", fontFamily: "Product Sans, sans-serif", color: theme.text }}>SEO score distribution</h2>
+          <h2 style={{ margin: "0 0 18px", fontFamily: "Outfit, sans-serif", color: theme.text }}>SEO score distribution</h2>
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={seoDistribution}>
               <CartesianGrid strokeDasharray="3 3" stroke={theme.cardBorder} />
@@ -78,7 +78,7 @@ export default function BlogDashboard() {
         </section>
         <section style={{ display: "grid", gap: 20 }}>
           <div style={{ ...panelStyle(theme, { padding: 24 }) }}>
-            <h2 style={{ margin: "0 0 14px", fontFamily: "Product Sans, sans-serif", color: theme.text }}>Recent drafts</h2>
+            <h2 style={{ margin: "0 0 14px", fontFamily: "Outfit, sans-serif", color: theme.text }}>Recent drafts</h2>
             <div style={{ display: "grid", gap: 12 }}>
               {drafts.length ? drafts.map((post) => (
                 <Link key={post.id} to={`/admin/posts/${post.id}/edit`} style={{ textDecoration: "none", color: theme.text }}>
@@ -88,7 +88,7 @@ export default function BlogDashboard() {
             </div>
           </div>
           <div style={{ ...panelStyle(theme, { padding: 24 }) }}>
-            <h2 style={{ margin: "0 0 14px", fontFamily: "Product Sans, sans-serif", color: theme.text }}>Top posts by views</h2>
+            <h2 style={{ margin: "0 0 14px", fontFamily: "Outfit, sans-serif", color: theme.text }}>Top posts by views</h2>
             <div style={{ display: "grid", gap: 12 }}>
               {topPosts.length ? topPosts.map((post) => (
                 <div key={post.id} style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: "Manrope, sans-serif", color: theme.text2 }}>
@@ -105,3 +105,4 @@ export default function BlogDashboard() {
     </div>
   );
 }
+

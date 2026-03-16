@@ -42,7 +42,7 @@ export default function PostList() {
     <div style={{ display: "grid", gap: 20 }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
         <div>
-          <h1 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Posts</h1>
+          <h1 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Posts</h1>
           <p style={{ margin: "8px 0 0", color: theme.text3, fontFamily: "Manrope, sans-serif" }}>
             Review drafts, published posts, SEO scores, and scheduled pieces.
           </p>
@@ -147,3 +147,4 @@ export default function PostList() {
     </div>
   );
 }
+

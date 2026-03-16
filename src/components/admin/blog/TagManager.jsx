@@ -38,13 +38,13 @@ export default function TagManager() {
   return (
     <div style={{ display: "grid", gap: 20 }}>
       <div>
-        <h1 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Tags</h1>
+        <h1 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Tags</h1>
         <p style={{ margin: "8px 0 0", color: theme.text3, fontFamily: "Manrope, sans-serif" }}>
           Keep tags clean so autocomplete and tag archives stay useful.
         </p>
       </div>
       <section style={{ ...panelStyle(theme, { padding: 20, display: "grid", gap: 12 }) }}>
-        <h2 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Add tag</h2>
+        <h2 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Add tag</h2>
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "minmax(0, 1fr)" : "1fr auto", gap: 12 }}>
           <input value={name} onChange={(event) => setName(event.target.value)} placeholder="Tag name" style={inputStyle(theme)} />
           <button type="button" onClick={() => createMutation.mutate({ name })} style={buttonStyle(theme, "primary")}>
@@ -72,3 +72,4 @@ function TagRow({ tag, theme, updateMutation, deleteMutation, stacked }) {
     </div>
   );
 }
+

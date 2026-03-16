@@ -38,13 +38,13 @@ export default function CategoryManager() {
   return (
     <div style={{ display: "grid", gap: 20 }}>
       <div>
-        <h1 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Categories</h1>
+        <h1 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Categories</h1>
         <p style={{ margin: "8px 0 0", color: theme.text3, fontFamily: "Manrope, sans-serif" }}>
           Organize blog posts into clear thematic buckets and keep archive pages tidy.
         </p>
       </div>
       <section style={{ ...panelStyle(theme, { padding: 20, display: "grid", gap: 12 }) }}>
-        <h2 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Add category</h2>
+        <h2 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Add category</h2>
         <div style={{ display: "grid", gridTemplateColumns: isMobile || isTablet ? "minmax(0, 1fr)" : "1.2fr 1fr 140px auto", gap: 12 }}>
           <input value={draft.name} onChange={(event) => setDraft((value) => ({ ...value, name: event.target.value }))} placeholder="Category name" style={inputStyle(theme)} />
           <input value={draft.description} onChange={(event) => setDraft((value) => ({ ...value, description: event.target.value }))} placeholder="Description" style={inputStyle(theme)} />
@@ -76,3 +76,4 @@ function CategoryRow({ category, theme, saveMutation, deleteMutation, stacked })
     </div>
   );
 }
+

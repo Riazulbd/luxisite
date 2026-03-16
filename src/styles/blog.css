@@ -1,11 +1,11 @@
 .blog-content h2 {
-  font-family: "Product Sans", sans-serif;
+  font-family: "Outfit", sans-serif;
   font-size: 1.75rem;
   margin: 2rem 0 1rem;
 }
 
 .blog-content h3 {
-  font-family: "Product Sans", sans-serif;
+  font-family: "Outfit", sans-serif;
   font-size: 1.35rem;
   margin: 1.5rem 0 0.75rem;
 }
@@ -110,3 +110,4 @@
   max-width: 100%;
   overflow-x: auto;
 }
+

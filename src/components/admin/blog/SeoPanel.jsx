@@ -122,7 +122,7 @@ export default function SeoPanel({
             style={{
               cursor: "pointer",
               color: theme.text,
-              fontFamily: "Product Sans, sans-serif"
+              fontFamily: "Outfit, sans-serif"
             }}
           >
             Social Preview
@@ -154,7 +154,7 @@ export default function SeoPanel({
             style={{
               color: "#0f62fe",
               fontSize: "0.9rem",
-              fontFamily: "Product Sans, sans-serif",
+              fontFamily: "Outfit, sans-serif",
               overflowWrap: "anywhere"
             }}
           >
@@ -188,3 +188,4 @@ export default function SeoPanel({
     </div>
   );
 }
+

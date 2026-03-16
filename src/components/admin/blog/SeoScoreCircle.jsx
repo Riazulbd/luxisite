@@ -38,7 +38,7 @@ export default function SeoScoreCircle({ score = 0, size = 120 }) {
           strokeDashoffset={progress}
           transform={`rotate(-90 ${size / 2} ${size / 2})`}
         />
-        <text x="50%" y="47%" textAnchor="middle" fontFamily="Product Sans, sans-serif" fontSize="1.8rem" fill={theme.text}>
+        <text x="50%" y="47%" textAnchor="middle" fontFamily="Outfit, sans-serif" fontSize="1.8rem" fill={theme.text}>
           {score}
         </text>
         <text x="50%" y="62%" textAnchor="middle" fontFamily="Manrope, sans-serif" fontSize="0.78rem" fill={theme.text3}>
@@ -51,3 +51,4 @@ export default function SeoScoreCircle({ score = 0, size = 120 }) {
     </div>
   );
 }
+

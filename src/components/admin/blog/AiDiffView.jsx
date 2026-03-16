@@ -45,7 +45,7 @@ export default function AiDiffView({ original = "", improved = "", onApply, onDi
   return (
     <section style={{ ...panelStyle(theme, { padding: 20, display: "grid", gap: 16 }) }}>
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row" }}>
-        <h3 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>AI improvement diff</h3>
+        <h3 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>AI improvement diff</h3>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", width: isMobile ? "100%" : "auto" }}>
           <button type="button" onClick={onApply} style={buttonStyle(theme, "primary")}>Apply Changes</button>
           <button type="button" onClick={onDiscard} style={buttonStyle(theme, "ghost")}>Discard</button>
@@ -68,3 +68,4 @@ export default function AiDiffView({ original = "", improved = "", onApply, onDi
     </section>
   );
 }
+

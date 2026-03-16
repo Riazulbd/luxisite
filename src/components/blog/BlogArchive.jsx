@@ -5,6 +5,7 @@ import { apiFetch, buildQuery } from "../../hooks/useApi";
 import { clay, useTheme } from "../../hooks/useTheme";
 import { useViewport } from "../../hooks/useViewport";
 import BlogCard from "./BlogCard";
+import PublicBlogHeader from "./PublicBlogHeader";
 import BlogSidebar from "./BlogSidebar";
 import SeoHead from "./SeoHead";
 
@@ -101,6 +102,7 @@ export default function BlogArchive() {
         }}
       />
       <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+        <PublicBlogHeader />
         <div
           style={{
             background: theme.surface,
@@ -126,7 +128,7 @@ export default function BlogArchive() {
           <h1
             style={{
               margin: 0,
-              fontFamily: "Product Sans, sans-serif",
+              fontFamily: "Outfit, sans-serif",
               fontSize: "clamp(2.2rem, 4vw, 3.6rem)",
               color: theme.text
             }}
@@ -176,3 +178,4 @@ export default function BlogArchive() {
     </div>
   );
 }
+

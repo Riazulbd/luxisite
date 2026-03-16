@@ -8,7 +8,7 @@ const BelowFoldSections = lazy(() => import("./src/BelowFoldSections.jsx"));
 
 const TYPOGRAPHY = {
   display: "'Fraunces', Georgia, serif",
-  head: "'Product Sans', 'Fraunces', Georgia, serif",
+  head: "'Outfit', 'Fraunces', Georgia, serif",
   body: "'Manrope', sans-serif",
   mono: "'IBM Plex Mono', monospace",
 };
@@ -257,6 +257,16 @@ export default function App() {
   const theme = THEMES[themeIndex];
   const isMobile = viewportWidth < 768;
   const isTablet = viewportWidth < 1024;
+  const navigationItems = isMobile
+    ? [{ label: "Blog", href: "/#blog" }]
+    : [
+        { label: "About", href: "/#about" },
+        { label: "Services", href: "/#services" },
+        { label: "Process", href: "/#process" },
+        { label: "Results", href: "/#results" },
+        { label: "Blog", href: "/#blog" },
+        { label: "FAQ", href: "/#faq" },
+      ];
 
   const clay = (extra = "") =>
     `0 2px 4px rgba(0,0,0,${theme.iD}), 0 8px 18px rgba(0,0,0,${theme.iD * 1.3}), 0 24px 48px rgba(0,0,0,${theme.iD * 1.1}), inset 0 2px 4px rgba(255,255,255,${theme.iL}), inset 0 -1px 2px rgba(0,0,0,${theme.iD})${extra ? `, ${extra}` : ""}`;
@@ -374,14 +384,7 @@ export default function App() {
           </div>
 
           <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", width: isMobile ? "100%" : isTablet ? "100%" : "auto", justifyContent: isMobile ? "flex-start" : isTablet ? "space-between" : "flex-end" }}>
-            {!isMobile &&
-              [
-                { label: "About", href: "/#about" },
-                { label: "Services", href: "/#services" },
-                { label: "Process", href: "/#process" },
-                { label: "Results", href: "/#results" },
-                { label: "FAQ", href: "/#faq" },
-              ].map((item) => (
+            {navigationItems.map((item) => (
                 <a key={item.label} href={item.href} style={{ color: theme.text2, textDecoration: "none", fontSize: "0.84rem", fontWeight: 600, padding: "6px 14px", borderRadius: 999 }}>
                   {item.label}
                 </a>
@@ -482,3 +485,4 @@ export default function App() {
     </div>
   );
 }
+

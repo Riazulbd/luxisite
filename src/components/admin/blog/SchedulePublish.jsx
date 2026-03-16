@@ -10,7 +10,7 @@ export default function SchedulePublish({ initialValue, onSchedule, onClose }) {
 
   return (
     <div style={{ ...panelStyle(theme, { padding: 18, display: "grid", gap: 12 }) }}>
-      <div style={{ fontFamily: "Product Sans, sans-serif", color: theme.text }}>Schedule publish</div>
+      <div style={{ fontFamily: "Outfit, sans-serif", color: theme.text }}>Schedule publish</div>
       <input type="datetime-local" value={value} onChange={(event) => setValue(event.target.value)} style={inputStyle(theme)} />
       <div style={{ display: "flex", gap: 10 }}>
         <button type="button" onClick={() => onSchedule(value)} style={buttonStyle(theme, "primary")}>
@@ -23,3 +23,4 @@ export default function SchedulePublish({ initialValue, onSchedule, onClose }) {
     </div>
   );
 }
+

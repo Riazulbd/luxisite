@@ -42,14 +42,14 @@ export default function BlogAnalytics() {
   return (
     <div style={{ display: "grid", gap: 20 }}>
       <div>
-        <h1 style={{ margin: 0, fontFamily: "Product Sans, sans-serif", color: theme.text }}>Blog analytics</h1>
+        <h1 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>Blog analytics</h1>
         <p style={{ margin: "8px 0 0", color: theme.text3, fontFamily: "Manrope, sans-serif" }}>
           Performance signals pulled from publishing history and view counts.
         </p>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: isMobile || isTablet ? "minmax(0, 1fr)" : "minmax(0, 1.2fr) minmax(0, 1fr)", gap: 20 }}>
         <section style={{ ...panelStyle(theme, { padding: 24, minHeight: 340 }) }}>
-          <h2 style={{ margin: "0 0 18px", fontFamily: "Product Sans, sans-serif", color: theme.text }}>SEO score trend</h2>
+          <h2 style={{ margin: "0 0 18px", fontFamily: "Outfit, sans-serif", color: theme.text }}>SEO score trend</h2>
           <ResponsiveContainer width="100%" height={260}>
             <LineChart data={seoTrend}>
               <CartesianGrid strokeDasharray="3 3" stroke={theme.cardBorder} />
@@ -61,7 +61,7 @@ export default function BlogAnalytics() {
           </ResponsiveContainer>
         </section>
         <section style={{ ...panelStyle(theme, { padding: 24, minHeight: 340 }) }}>
-          <h2 style={{ margin: "0 0 18px", fontFamily: "Product Sans, sans-serif", color: theme.text }}>Top posts by views</h2>
+          <h2 style={{ margin: "0 0 18px", fontFamily: "Outfit, sans-serif", color: theme.text }}>Top posts by views</h2>
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={topPosts.map((post) => ({ name: post.title.slice(0, 14), views: post.view_count || 0 }))}>
               <CartesianGrid strokeDasharray="3 3" stroke={theme.cardBorder} />
@@ -76,3 +76,4 @@ export default function BlogAnalytics() {
     </div>
   );
 }
+

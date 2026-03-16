@@ -7,6 +7,7 @@ import { apiFetch } from "../../hooks/useApi";
 import { clay, useTheme } from "../../hooks/useTheme";
 import { useViewport } from "../../hooks/useViewport";
 import BlogSidebar from "./BlogSidebar";
+import PublicBlogHeader from "./PublicBlogHeader";
 import RelatedPosts from "./RelatedPosts";
 import SchemaMarkup from "./SchemaMarkup";
 import SeoHead from "./SeoHead";
@@ -167,6 +168,7 @@ export default function BlogSingle() {
         }}
       />
       <SchemaMarkup schema={schema} />
+      <PublicBlogHeader />
       <div
         style={{
           maxWidth: 1340,
@@ -211,7 +213,7 @@ export default function BlogSingle() {
           <h1
             style={{
               margin: "0 0 16px",
-              fontFamily: "Product Sans, sans-serif",
+              fontFamily: "Outfit, sans-serif",
               fontSize: isMobile
                 ? "clamp(1.7rem, 9vw, 2.4rem)"
                 : "clamp(2rem, 4vw, 3.2rem)",
@@ -308,7 +310,7 @@ export default function BlogSingle() {
             <h3
               style={{
                 margin: "0 0 10px",
-                fontFamily: "Product Sans, sans-serif",
+                fontFamily: "Outfit, sans-serif",
                 color: theme.text
               }}
             >
@@ -337,3 +339,4 @@ export default function BlogSingle() {
     </div>
   );
 }
+

@@ -56,7 +56,7 @@ export default function BlogCard({ post, compact = false }) {
         <h2
           style={{
             margin: "0 0 12px",
-            fontFamily: "Product Sans, sans-serif",
+            fontFamily: "Outfit, sans-serif",
             fontWeight: 700,
             fontSize: compact ? "1.15rem" : "1.45rem",
             lineHeight: 1.08
@@ -100,3 +100,4 @@ export default function BlogCard({ post, compact = false }) {
     </article>
   );
 }
+

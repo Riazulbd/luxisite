@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import automationPathsBrandLogo from "../Automation Paths Logo (3).png";
 import abidinHeadshot from "./assets/headshots/abidin.webp";
 import CaseStudiesSection from "./CaseStudiesSection.jsx";
+import { apiFetch } from "./hooks/useApi";
 import loganHeadshot from "./assets/headshots/logan.webp";
 import orianaHeadshot from "./assets/headshots/oriana.webp";
 import ralphHeadshot from "./assets/headshots/ralph.webp";
@@ -168,6 +170,12 @@ const faqItems = [
     answer: "Yes. Most projects actually start as cleanups - reconnecting broken automations, rationalizing pipelines, and making your current stack trustworthy again before adding anything new.",
   },
 ];
+
+const blogDateFormatter = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
 
 const notRightFitItems = [
   "Budget is the primary decision driver - I build infrastructure, not cheap fixes.",
@@ -666,7 +674,145 @@ const FaqCard = ({ item, theme, clay, typography }) => (
   </div>
 );
 
+const HomeBlogCard = ({ post, theme, clay, typography, isMobile }) => (
+  <article
+    style={{
+      display: "grid",
+      gap: 16,
+      background: theme.card,
+      border: `1px solid ${theme.cardBorder}`,
+      borderRadius: 28,
+      padding: isMobile ? "18px" : "22px",
+      boxShadow: clay(theme.cardGlow),
+      minWidth: 0,
+    }}
+  >
+    {post.featured_image ? (
+      <Link
+        to={`/blog/${post.slug}`}
+        style={{
+          display: "block",
+          aspectRatio: "16 / 9",
+          borderRadius: 20,
+          overflow: "hidden",
+        }}
+      >
+        <img
+          src={post.featured_image}
+          alt={post.featured_image_alt || post.title}
+          loading="lazy"
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+      </Link>
+    ) : null}
+
+    <div style={{ display: "grid", gap: 12, minWidth: 0 }}>
+      {post.category ? (
+        <Link
+          to={`/blog/category/${post.category.slug}`}
+          style={{
+            display: "inline-flex",
+            justifySelf: "start",
+            padding: "6px 12px",
+            borderRadius: 999,
+            background: post.category.color ? `${post.category.color}18` : theme.tagBg,
+            color: post.category.color || theme.tagC,
+            textDecoration: "none",
+            fontFamily: typography.mono,
+            fontSize: "0.72rem",
+            fontWeight: 500,
+          }}
+        >
+          {post.category.name}
+        </Link>
+      ) : null}
+
+      <div>
+        <h3
+          style={{
+            margin: "0 0 10px",
+            fontFamily: typography.head,
+            fontSize: isMobile ? "1.2rem" : "1.35rem",
+            fontWeight: 800,
+            letterSpacing: "-0.04em",
+            lineHeight: 1.1,
+          }}
+        >
+          <Link
+            to={`/blog/${post.slug}`}
+            style={{ color: theme.text, textDecoration: "none" }}
+          >
+            {post.title}
+          </Link>
+        </h3>
+        <p
+          style={{
+            margin: 0,
+            color: theme.text2,
+            fontSize: "0.96rem",
+            lineHeight: 1.75,
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
+          {post.excerpt ||
+            "Explore how this article connects CRM architecture, automation, and revenue operations into one working system."}
+        </p>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          gap: 10,
+          flexWrap: "wrap",
+          color: theme.text3,
+          fontFamily: typography.body,
+          fontSize: "0.82rem",
+        }}
+      >
+        <span>{blogDateFormatter.format(new Date(post.published_at || post.created_at))}</span>
+        <span>•</span>
+        <span>{post.reading_time || 1} min read</span>
+      </div>
+    </div>
+  </article>
+);
+
 export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typography, upworkUrl }) {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [blogState, setBlogState] = useState("loading");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    apiFetch("/api/posts?limit=3")
+      .then((payload) => {
+        if (cancelled) {
+          return;
+        }
+        setBlogPosts(Array.isArray(payload?.posts) ? payload.posts.slice(0, 3) : []);
+        setBlogState("ready");
+      })
+      .catch(() => {
+        if (cancelled) {
+          return;
+        }
+        setBlogPosts([]);
+        setBlogState("error");
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const GradText = ({ children }) => (
     <span
       style={{
@@ -902,6 +1048,123 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
               <FaqCard key={item.question} item={item} theme={theme} clay={clay} typography={typography} />
             ))}
           </div>
+        </div>
+      </section>
+
+      <section id="blog" style={{ padding: isMobile ? "0 16px 56px" : "0 20px 72px", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto", display: "grid", gap: 28 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: isTablet ? "column" : "row",
+              alignItems: isTablet ? "stretch" : "flex-end",
+              justifyContent: "space-between",
+              gap: 18,
+            }}
+          >
+            <div style={{ maxWidth: 720 }}>
+              <SectionLabel theme={theme} clay={clay} typography={typography}>Latest Writing</SectionLabel>
+              <h2
+                style={{
+                  fontFamily: typography.head,
+                  fontSize: "clamp(1.95rem,4vw,3rem)",
+                  fontWeight: 800,
+                  lineHeight: 1.06,
+                  letterSpacing: "-0.04em",
+                  color: theme.text,
+                  marginTop: 18,
+                  marginBottom: 12,
+                }}
+              >
+                Notes from the build desk on <GradText>AI, CRM, and revenue systems.</GradText>
+              </h2>
+              <p style={{ color: theme.text2, lineHeight: 1.74, fontSize: "1rem", margin: 0 }}>
+                Read the playbooks, architecture breakdowns, and implementation lessons behind the same systems that power client engagements.
+              </p>
+            </div>
+
+            <Link
+              to="/blog"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                padding: "14px 22px",
+                borderRadius: 999,
+                background: theme.grad,
+                color: "#fff",
+                textDecoration: "none",
+                fontFamily: typography.body,
+                fontWeight: 700,
+                boxShadow: `${theme.btnGlow}, inset 0 2px 6px rgba(255,255,255,0.25)`,
+                whiteSpace: "nowrap",
+              }}
+            >
+              Explore the blog
+            </Link>
+          </div>
+
+          {(blogPosts || []).length ? (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : "repeat(3, minmax(0, 1fr))",
+                gap: 16,
+              }}
+            >
+              {blogPosts.map((post) => (
+                <HomeBlogCard
+                  key={post.id}
+                  post={post}
+                  theme={theme}
+                  clay={clay}
+                  typography={typography}
+                  isMobile={isMobile}
+                />
+              ))}
+            </div>
+          ) : (
+            <div
+              style={{
+                background: theme.card,
+                border: `1px solid ${theme.cardBorder}`,
+                borderRadius: 28,
+                padding: isMobile ? "24px 18px" : "28px 26px",
+                boxShadow: clay(theme.cardGlow),
+                display: "grid",
+                gap: 12,
+              }}
+            >
+              <div style={{ fontFamily: typography.head, fontSize: "1.25rem", fontWeight: 700, color: theme.text }}>
+                {blogState === "loading" ? "Loading recent articles..." : "The blog archive is live and ready."}
+              </div>
+              <p style={{ margin: 0, color: theme.text2, lineHeight: 1.75, maxWidth: 720 }}>
+                {blogState === "error"
+                  ? "The latest posts could not be loaded in this moment, but the full archive is still available."
+                  : "Fresh articles will appear here automatically as new posts are published."}
+              </p>
+              <div>
+                <Link
+                  to="/blog"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "12px 18px",
+                    borderRadius: 999,
+                    background: theme.tagBg,
+                    color: theme.tagC,
+                    textDecoration: "none",
+                    fontFamily: typography.body,
+                    fontWeight: 700,
+                  }}
+                >
+                  Open blog archive
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

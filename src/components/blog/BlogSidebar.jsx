@@ -20,7 +20,7 @@ function SidebarCard({ children, theme, title, compact }) {
       <h3
         style={{
           margin: "0 0 16px",
-          fontFamily: "Product Sans, sans-serif",
+          fontFamily: "Outfit, sans-serif",
           fontSize: "1.05rem",
           color: theme.text
         }}
@@ -108,7 +108,7 @@ export default function BlogSidebar() {
             >
               <div
                 style={{
-                  fontFamily: "Product Sans, sans-serif",
+                  fontFamily: "Outfit, sans-serif",
                   fontSize: "0.95rem",
                   marginBottom: 4
                 }}
@@ -177,3 +177,4 @@ export default function BlogSidebar() {
     </div>
   );
 }
+

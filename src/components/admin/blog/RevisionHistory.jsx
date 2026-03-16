@@ -27,7 +27,7 @@ export default function RevisionHistory({ postId, onRestore }) {
         <div key={revision.id} style={{ border: `1px solid ${theme.cardBorder}`, borderRadius: 16, padding: 12, display: "grid", gap: 10 }}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "center" }}>
             <div>
-              <div style={{ fontFamily: "Product Sans, sans-serif", color: theme.text }}>
+              <div style={{ fontFamily: "Outfit, sans-serif", color: theme.text }}>
                 {format(new Date(revision.created_at), "MMM dd, yyyy HH:mm")}
               </div>
               <div style={{ color: theme.text3, fontFamily: "IBM Plex Mono, monospace", fontSize: "0.78rem" }}>
@@ -48,3 +48,4 @@ export default function RevisionHistory({ postId, onRestore }) {
     </div>
   );
 }
+
