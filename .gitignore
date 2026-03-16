@@ -1,4 +1,5 @@
 node_modules/
+server/node_modules/
 dist/
 preview.png
 desktop-preview.png
@@ -6,3 +7,8 @@ mobile-preview.png
 vite.log
 .DS_Store
 npm-debug.log*
+.env
+server/data/*.db
+server/data/*.db-*
+uploads/blog/*
+!uploads/blog/.gitkeep

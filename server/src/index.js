@@ -1,0 +1,69 @@
+import compression from "compression";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+import helmet from "helmet";
+import morgan from "morgan";
+import path from "path";
+import { fileURLToPath } from "url";
+
+import { startScheduler } from "./cron/scheduler.js";
+import { initDatabase } from "./db/database.js";
+import { runMigrations } from "./db/migrations.js";
+import aiRoutes from "./routes/ai.js";
+import authRoutes from "./routes/auth.js";
+import categoriesRoutes from "./routes/categories.js";
+import feedRoutes from "./routes/feed.js";
+import mediaRoutes from "./routes/media.js";
+import postsRoutes from "./routes/posts.js";
+import revisionsRoutes from "./routes/revisions.js";
+import seoRoutes from "./routes/seo.js";
+import sitemapRoutes from "./routes/sitemap.js";
+import tagsRoutes from "./routes/tags.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+
+const app = express();
+const PORT = Number(process.env.PORT || 3001);
+
+const db = initDatabase(path.resolve(__dirname, "../data/blog.db"));
+runMigrations(db);
+app.locals.db = db;
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false
+  })
+);
+app.use(
+  cors({
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+    credentials: true
+  })
+);
+app.use(compression());
+app.use(express.json({ limit: "10mb" }));
+app.use(cookieParser());
+app.use(morgan("dev"));
+
+app.use("/uploads", express.static(path.resolve(__dirname, "../../uploads")));
+
+app.use("/api/auth", authRoutes);
+app.use("/api/posts", postsRoutes);
+app.use("/api/categories", categoriesRoutes);
+app.use("/api/tags", tagsRoutes);
+app.use("/api/media", mediaRoutes);
+app.use("/api", revisionsRoutes);
+app.use("/api/seo", seoRoutes);
+app.use("/api/ai", aiRoutes);
+app.use("/", sitemapRoutes);
+app.use("/", feedRoutes);
+
+startScheduler(db);
+
+app.listen(PORT, () => {
+  console.log(`[server] API running on http://localhost:${PORT}`);
+});

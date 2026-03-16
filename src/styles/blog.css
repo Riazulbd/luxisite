@@ -1,0 +1,112 @@
+.blog-content h2 {
+  font-family: "Product Sans", sans-serif;
+  font-size: 1.75rem;
+  margin: 2rem 0 1rem;
+}
+
+.blog-content h3 {
+  font-family: "Product Sans", sans-serif;
+  font-size: 1.35rem;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.blog-content p {
+  font-family: "Manrope", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin: 0 0 1.25rem;
+}
+
+.blog-content a {
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+.blog-content blockquote {
+  border-left: 3px solid var(--blog-accent, #c8742a);
+  padding: 1rem 1.5rem;
+  border-radius: 0 12px 12px 0;
+  font-style: italic;
+}
+
+.blog-content code {
+  font-family: "IBM Plex Mono", monospace;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.blog-content pre {
+  background: #1a1a2e;
+  color: #e0e0e0;
+  padding: 1.25rem;
+  border-radius: 12px;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.blog-content img {
+  border-radius: 12px;
+  max-width: 100%;
+  height: auto;
+}
+
+.blog-content iframe,
+.blog-content video {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 18px;
+}
+
+.blog-content table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.blog-content ul,
+.blog-content ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.blog-content li {
+  margin: 0.5rem 0;
+  line-height: 1.7;
+}
+
+.tiptap-editor .ProseMirror {
+  min-height: 500px;
+  outline: none;
+  overflow-wrap: anywhere;
+}
+
+.tiptap-editor,
+.tiptap-editor .ProseMirror {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.tiptap-editor .ProseMirror > * {
+  max-width: 100%;
+}
+
+.tiptap-editor .ProseMirror img,
+.tiptap-editor .ProseMirror video,
+.tiptap-editor .ProseMirror iframe {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.tiptap-editor .ProseMirror table,
+.tiptap-editor .ProseMirror pre {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}

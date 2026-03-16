@@ -1,0 +1,8 @@
+.admin-shell {
+  min-height: 100vh;
+}
+
+.admin-input::placeholder,
+.admin-textarea::placeholder {
+  color: rgba(100, 116, 139, 0.8);
+}
