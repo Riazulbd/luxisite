@@ -33,8 +33,10 @@ router.post("/analyze", requireAuth, (req, res) => {
       canonicalUrl: row.canonical_url || buildCanonicalUrl(row.slug),
       ogTitle: row.og_title,
       ogDescription: row.og_description,
+      ogImage: row.og_image,
       twitterTitle: row.twitter_title,
       twitterDescription: row.twitter_description,
+      twitterImage: row.twitter_image,
       excerpt: row.excerpt
     };
   }
@@ -55,8 +57,10 @@ router.post("/analyze", requireAuth, (req, res) => {
     canonicalUrl: payload.canonicalUrl || payload.canonical_url || buildCanonicalUrl(payload.slug || ""),
     ogTitle: payload.ogTitle || payload.og_title,
     ogDescription: payload.ogDescription || payload.og_description,
+    ogImage: payload.ogImage || payload.og_image,
     twitterTitle: payload.twitterTitle || payload.twitter_title,
     twitterDescription: payload.twitterDescription || payload.twitter_description,
+    twitterImage: payload.twitterImage || payload.twitter_image,
     excerpt: payload.excerpt
   });
 

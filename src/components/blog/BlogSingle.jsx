@@ -1,18 +1,18 @@
-import React, { useEffect, useMemo } from "react";
+import React, { Suspense, lazy, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import hljs from "highlight.js";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { apiFetch } from "../../hooks/useApi";
 import { clay, useTheme } from "../../hooks/useTheme";
 import { useViewport } from "../../hooks/useViewport";
 import BlogSidebar from "./BlogSidebar";
 import PublicBlogHeader from "./PublicBlogHeader";
-import RelatedPosts from "./RelatedPosts";
 import SchemaMarkup from "./SchemaMarkup";
 import SeoHead from "./SeoHead";
-import ShareButtons from "./ShareButtons";
-import TableOfContents from "./TableOfContents";
+
+const RelatedPosts = lazy(() => import("./RelatedPosts"));
+const ShareButtons = lazy(() => import("./ShareButtons"));
+const TableOfContents = lazy(() => import("./TableOfContents"));
 
 function slugHeading(text) {
   return text
@@ -32,15 +32,50 @@ function injectHeadingIds(content) {
   );
 }
 
+function buildResponsiveImage(post) {
+  const media = post?.featured_image_media;
+  const full = media?.full;
+  const medium = media?.medium;
+  const thumbnail = media?.thumbnail;
+  const fallbackUrl = post?.featured_image || "";
+
+  const src = full?.url || medium?.url || thumbnail?.url || fallbackUrl;
+  const sources = [
+    thumbnail?.url && thumbnail?.width
+      ? `${thumbnail.url} ${thumbnail.width}w`
+      : null,
+    medium?.url && medium?.width ? `${medium.url} ${medium.width}w` : null,
+    full?.url && full?.width ? `${full.url} ${full.width}w` : null
+  ].filter(Boolean);
+
+  return {
+    src,
+    srcSet: sources.length ? sources.join(", ") : undefined,
+    sizes: "(max-width: 767px) calc(100vw - 32px), 760px",
+    width: full?.width || medium?.width || thumbnail?.width || 1200,
+    height: full?.height || medium?.height || thumbnail?.height || 675
+  };
+}
+
 export default function BlogSingle() {
   const theme = useTheme();
   const { isMobile, isTablet } = useViewport();
   const { slug } = useParams();
   const location = useLocation();
   const preview = new URLSearchParams(location.search).get("preview");
+  const preloadedPost = useMemo(() => {
+    if (typeof window === "undefined" || preview) {
+      return null;
+    }
+
+    const payload = window.__PRELOADED_POST__;
+    return payload?.slug === slug ? payload : null;
+  }, [preview, slug]);
   const postQuery = useQuery({
     queryKey: ["blog-post", slug, preview],
-    queryFn: () => apiFetch(`/api/posts/${slug}${preview ? "?preview=true" : ""}`)
+    queryFn: () => apiFetch(`/api/posts/${slug}${preview ? "?preview=true" : ""}`),
+    initialData: preloadedPost ? { post: preloadedPost } : undefined,
+    enabled: !preloadedPost
   });
 
   const post = postQuery.data?.post;
@@ -48,11 +83,33 @@ export default function BlogSingle() {
     () => injectHeadingIds(post?.content || ""),
     [post?.content]
   );
+  const featuredImage = useMemo(() => buildResponsiveImage(post), [post]);
 
   useEffect(() => {
-    document.querySelectorAll(".blog-content pre code").forEach((block) => {
-      hljs.highlightElement(block);
-    });
+    if (!/<(?:pre|code)\b/i.test(contentWithAnchors)) {
+      return undefined;
+    }
+
+    let active = true;
+
+    (async () => {
+      const [{ default: hljs }] = await Promise.all([
+        import("highlight.js"),
+        import("highlight.js/styles/github-dark.css")
+      ]);
+
+      if (!active) {
+        return;
+      }
+
+      document.querySelectorAll(".blog-content pre code").forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    })();
+
+    return () => {
+      active = false;
+    };
   }, [contentWithAnchors]);
 
   const schema = useMemo(() => {
@@ -245,10 +302,21 @@ export default function BlogSingle() {
           {post.featured_image ? (
             <figure style={{ margin: "0 0 28px" }}>
               <img
-                src={post.featured_image}
+                src={featuredImage.src}
+                srcSet={featuredImage.srcSet}
+                sizes={featuredImage.sizes}
                 alt={post.featured_image_alt || post.title}
-                loading="lazy"
-                style={{ width: "100%", borderRadius: 24, display: "block" }}
+                width={featuredImage.width}
+                height={featuredImage.height}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: 24,
+                  display: "block"
+                }}
               />
               {post.featured_image_caption ? (
                 <figcaption
@@ -273,7 +341,13 @@ export default function BlogSingle() {
             }}
             dangerouslySetInnerHTML={{ __html: contentWithAnchors }}
           />
-          {isMobile ? <div style={{ marginTop: 22 }}><TableOfContents content={contentWithAnchors} /></div> : null}
+          {isMobile ? (
+            <div style={{ marginTop: 22 }}>
+              <Suspense fallback={null}>
+                <TableOfContents content={contentWithAnchors} />
+              </Suspense>
+            </div>
+          ) : null}
           {(post.tags || []).length ? (
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 28 }}>
               {post.tags.map((tag) => (
@@ -296,7 +370,9 @@ export default function BlogSingle() {
             </div>
           ) : null}
           <div style={{ marginTop: 28 }}>
-            <ShareButtons url={permalink} title={post.title} />
+            <Suspense fallback={null}>
+              <ShareButtons url={permalink} title={post.title} />
+            </Suspense>
           </div>
           <section
             style={{
@@ -329,10 +405,16 @@ export default function BlogSingle() {
               clearer revenue infrastructure.
             </p>
           </section>
-          <RelatedPosts postId={post.id} />
+          <Suspense fallback={null}>
+            <RelatedPosts postId={post.id} />
+          </Suspense>
         </div>
         <div style={{ display: "grid", gap: 18, alignSelf: "start", minWidth: 0 }}>
-          {!isMobile ? <TableOfContents content={contentWithAnchors} /> : null}
+          {!isMobile ? (
+            <Suspense fallback={null}>
+              <TableOfContents content={contentWithAnchors} />
+            </Suspense>
+          ) : null}
           <BlogSidebar />
         </div>
       </div>

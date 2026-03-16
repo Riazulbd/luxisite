@@ -4,6 +4,40 @@ import { getUploadsRoot as getConfiguredUploadsRoot } from "../config/storage.js
 
 const SITE_URL = process.env.SITE_URL || "https://automationpaths.com";
 
+export function getSiteUrl() {
+  return SITE_URL.replace(/\/$/, "");
+}
+
+export function toAbsoluteUrl(value = "") {
+  if (!value) {
+    return "";
+  }
+
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  return `${getSiteUrl()}${String(value).startsWith("/") ? value : `/${value}`}`;
+}
+
+export function escapeHtml(value = "") {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export function serializeForInlineScript(value) {
+  return JSON.stringify(value)
+    .replace(/</g, "\\u003c")
+    .replace(/>/g, "\\u003e")
+    .replace(/&/g, "\\u0026")
+    .replace(/\u2028/g, "\\u2028")
+    .replace(/\u2029/g, "\\u2029");
+}
+
 export function slugify(value = "") {
   return String(value)
     .toLowerCase()
@@ -44,6 +78,24 @@ export function stripHtml(html = "") {
     .replace(/&#39;/gi, "'")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+export function stripUploadVariantSuffix(uploadPath = "") {
+  return String(uploadPath).replace(/-(medium|thumb|og)(?=\.webp(?:$|\?))/i, "");
+}
+
+export function expandUploadVariantPaths(uploadPath = "") {
+  if (!uploadPath) {
+    return [];
+  }
+
+  const basePath = stripUploadVariantSuffix(uploadPath);
+  return [
+    basePath,
+    basePath.replace(/\.webp(?=$|\?)/i, "-medium.webp"),
+    basePath.replace(/\.webp(?=$|\?)/i, "-thumb.webp"),
+    basePath.replace(/\.webp(?=$|\?)/i, "-og.webp")
+  ];
 }
 
 export function countWords(text = "") {
@@ -292,6 +344,39 @@ export function serializePost(row) {
           name: row.author_name,
           avatar: row.author_avatar
         }
+      : null,
+    featured_image_media: row.featured_media_id
+      ? {
+          id: row.featured_media_id,
+          full: row.featured_media_file_path
+            ? {
+                url: row.featured_media_file_path,
+                width: row.featured_media_full_width,
+                height: row.featured_media_full_height
+              }
+            : null,
+          medium: row.featured_media_medium_path
+            ? {
+                url: row.featured_media_medium_path,
+                width: row.featured_media_medium_width,
+                height: row.featured_media_medium_height
+              }
+            : null,
+          thumbnail: row.featured_media_thumbnail_path
+            ? {
+                url: row.featured_media_thumbnail_path,
+                width: row.featured_media_thumbnail_width,
+                height: row.featured_media_thumbnail_height
+              }
+            : null,
+          og: row.featured_media_og_path
+            ? {
+                url: row.featured_media_og_path,
+                width: row.featured_media_og_width,
+                height: row.featured_media_og_height
+              }
+            : null
+        }
       : null
   };
 }
@@ -334,6 +419,32 @@ export function attachTagsToPosts(db, rows) {
   }));
 }
 
+export function getPostById(db, id) {
+  const rows = db
+    .prepare(
+      `
+        ${basePostSelect()}
+        WHERE p.id = ?
+      `
+    )
+    .all(id);
+
+  return attachTagsToPosts(db, rows)[0] || null;
+}
+
+export function getPostBySlug(db, slug) {
+  const rows = db
+    .prepare(
+      `
+        ${basePostSelect()}
+        WHERE p.slug = ?
+      `
+    )
+    .all(slug);
+
+  return attachTagsToPosts(db, rows)[0] || null;
+}
+
 export function basePostSelect() {
   return `
     SELECT
@@ -342,10 +453,24 @@ export function basePostSelect() {
       c.slug AS category_slug,
       c.color AS category_color,
       u.name AS author_name,
-      u.avatar AS author_avatar
+      u.avatar AS author_avatar,
+      fm.id AS featured_media_id,
+      fm.file_path AS featured_media_file_path,
+      fm.width AS featured_media_full_width,
+      fm.height AS featured_media_full_height,
+      fm.medium_path AS featured_media_medium_path,
+      fm.medium_width AS featured_media_medium_width,
+      fm.medium_height AS featured_media_medium_height,
+      fm.thumbnail_path AS featured_media_thumbnail_path,
+      fm.thumbnail_width AS featured_media_thumbnail_width,
+      fm.thumbnail_height AS featured_media_thumbnail_height,
+      fm.og_path AS featured_media_og_path,
+      fm.og_width AS featured_media_og_width,
+      fm.og_height AS featured_media_og_height
     FROM posts p
     LEFT JOIN categories c ON c.id = p.category_id
     LEFT JOIN users u ON u.id = p.author_id
+    LEFT JOIN media fm ON fm.file_path = p.featured_image
   `;
 }
 
@@ -358,7 +483,7 @@ export function prepareContentMetrics(content = "") {
 }
 
 export function buildCanonicalUrl(slug) {
-  return `${SITE_URL.replace(/\/$/, "")}/blog/${slug}`;
+  return `${getSiteUrl()}/blog/${slug}`;
 }
 
 export function removeFileIfExists(filePath) {
@@ -389,7 +514,9 @@ export function extractUploadCandidates(post) {
 
   for (const field of fields) {
     if (field && field.startsWith("/uploads/")) {
-      candidates.add(field);
+      for (const variant of expandUploadVariantPaths(field)) {
+        candidates.add(variant);
+      }
     }
   }
 

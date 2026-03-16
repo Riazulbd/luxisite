@@ -118,7 +118,12 @@ function average(values) {
   return values.reduce((sum, value) => sum + value, 0) / values.length;
 }
 
-function hasRepeatedSentenceStarts(sentences) {
+function getNumberSetting(settings, key, fallback) {
+  const parsed = Number(settings[key]);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function hasRepeatedSentenceStarts(sentences, maxRepeatedStarts = 2) {
   let streak = 1;
   let previous = "";
 
@@ -130,7 +135,7 @@ function hasRepeatedSentenceStarts(sentences) {
 
     if (start === previous) {
       streak += 1;
-      if (streak >= 3) {
+      if (streak > maxRepeatedStarts) {
         return true;
       }
     } else {
@@ -142,18 +147,24 @@ function hasRepeatedSentenceStarts(sentences) {
   return false;
 }
 
-function hasLongSentenceStreak(sentenceWordCounts) {
+function hasLongSentenceStreak(
+  sentenceWordCounts,
+  longSentenceWordCount = 25,
+  maxConsecutiveLongSentences = 2
+) {
   let streak = 0;
+
   for (const count of sentenceWordCounts) {
-    if (count > 25) {
+    if (count > longSentenceWordCount) {
       streak += 1;
-      if (streak >= 3) {
+      if (streak > maxConsecutiveLongSentences) {
         return true;
       }
     } else {
       streak = 0;
     }
   }
+
   return false;
 }
 
@@ -225,8 +236,10 @@ export function analyzeSeo(input = {}) {
   const metaDescription = input.metaDescription || "";
   const ogTitle = input.ogTitle || "";
   const ogDescription = input.ogDescription || "";
+  const ogImage = input.ogImage || "";
   const twitterTitle = input.twitterTitle || "";
   const twitterDescription = input.twitterDescription || "";
+  const twitterImage = input.twitterImage || "";
   const featuredImage = input.featuredImage || "";
   const featuredImageAlt = input.featuredImageAlt || "";
   const excerpt = input.excerpt || "";
@@ -298,11 +311,12 @@ export function analyzeSeo(input = {}) {
     titleLength: metaTitle.length,
     descriptionLength: metaDescription.length,
     slugLength: slug.length,
-    hasCanonical: Boolean(canonicalUrl || slug),
-    hasOgTags: Boolean((ogTitle || metaTitle) && (ogDescription || metaDescription)),
+    hasCanonical: Boolean(canonicalUrl),
+    hasOgTags: Boolean((ogTitle || metaTitle) && (ogDescription || metaDescription) && ogImage),
     hasTwitterCards: Boolean(
       (twitterTitle || ogTitle || metaTitle) &&
-        (twitterDescription || ogDescription || metaDescription)
+        (twitterDescription || ogDescription || metaDescription) &&
+        twitterImage
     ),
     hasSchema: Boolean(schemaJson)
   };
@@ -317,14 +331,86 @@ export function analyzeSeo(input = {}) {
     averageSentenceLength: Number(averageSentenceLength.toFixed(2))
   };
 
-  const minWordCount = Number(settings.min_word_count || 300);
-  const keywordDensityMin = Number(settings.keyword_density_min || 0.5);
-  const keywordDensityMax = Number(settings.keyword_density_max || 2.5);
-  const minHeadings = Number(settings.min_headings || 3);
-  const minInternalLinks = Number(settings.min_internal_links || 2);
-  const minExternalLinks = Number(settings.min_external_links || 1);
-  const minImages = Number(settings.min_images || 1);
+  const minWordCount = getNumberSetting(settings, "min_word_count", 300);
+  const minWordCountWarningRatio = getNumberSetting(
+    settings,
+    "min_word_count_warning_ratio",
+    0.7
+  );
+  const keywordDensityMin = getNumberSetting(settings, "keyword_density_min", 0.5);
+  const keywordDensityMax = getNumberSetting(settings, "keyword_density_max", 2.5);
+  const keywordDensityWarningMin = getNumberSetting(
+    settings,
+    "keyword_density_warning_min",
+    0.25
+  );
+  const keywordDensityWarningMax = getNumberSetting(
+    settings,
+    "keyword_density_warning_max",
+    3.5
+  );
+  const minHeadings = getNumberSetting(settings, "min_headings", 3);
+  const minInternalLinks = getNumberSetting(settings, "min_internal_links", 2);
+  const minExternalLinks = getNumberSetting(settings, "min_external_links", 1);
+  const minImages = getNumberSetting(settings, "min_images", 1);
   const imageAltRequired = parseBoolean(settings.image_alt_required || "true");
+  const paragraphMaxWords = getNumberSetting(settings, "paragraph_max_words", 150);
+  const paragraphWarningWords = getNumberSetting(settings, "paragraph_warning_words", 200);
+  const avgSentenceMaxWords = getNumberSetting(settings, "avg_sentence_max_words", 20);
+  const avgSentenceWarningWords = getNumberSetting(
+    settings,
+    "avg_sentence_warning_words",
+    24
+  );
+  const transitionWordsMin = getNumberSetting(settings, "transition_words_min", 3);
+  const longSentenceWordCount = getNumberSetting(settings, "long_sentence_word_count", 25);
+  const maxConsecutiveLongSentences = getNumberSetting(
+    settings,
+    "max_consecutive_long_sentences",
+    2
+  );
+  const metaTitleMinLength = getNumberSetting(settings, "meta_title_min_length", 30);
+  const metaTitleMaxLength = getNumberSetting(settings, "meta_title_max_length", 60);
+  const metaTitleWarningMinLength = getNumberSetting(
+    settings,
+    "meta_title_warning_min_length",
+    25
+  );
+  const metaTitleWarningMaxLength = getNumberSetting(
+    settings,
+    "meta_title_warning_max_length",
+    65
+  );
+  const metaDescMinLength = getNumberSetting(settings, "meta_desc_min_length", 120);
+  const metaDescMaxLength = getNumberSetting(settings, "meta_desc_max_length", 160);
+  const metaDescWarningMinLength = getNumberSetting(
+    settings,
+    "meta_desc_warning_min_length",
+    100
+  );
+  const metaDescWarningMaxLength = getNumberSetting(
+    settings,
+    "meta_desc_warning_max_length",
+    170
+  );
+  const slugMaxLength = getNumberSetting(settings, "slug_max_length", 75);
+  const passiveVoiceMaxPercent = getNumberSetting(
+    settings,
+    "passive_voice_max_percent",
+    10
+  );
+  const passiveVoiceWarningPercent = getNumberSetting(
+    settings,
+    "passive_voice_warning_percent",
+    20
+  );
+  const fleschGoodMin = getNumberSetting(settings, "flesch_good_min", 60);
+  const fleschWarningMin = getNumberSetting(settings, "flesch_warning_min", 45);
+  const sentenceStartRepetitionMax = getNumberSetting(
+    settings,
+    "sentence_start_repetition_max",
+    2
+  );
 
   const checks = [
     makeCheck({
@@ -376,7 +462,12 @@ export function analyzeSeo(input = {}) {
       id: "keyword_in_h2",
       name: "Focus keyword in H2",
       weight: 6,
-      score: h2Headings.some((heading) => keywordCount(heading.text, focusKeyword) > 0) ? 100 : focusKeyword ? 0 : 40,
+      score:
+        h2Headings.some((heading) => keywordCount(heading.text, focusKeyword) > 0)
+          ? 100
+          : focusKeyword
+            ? 0
+            : 40,
       passMessage: "An H2 heading uses the focus keyword.",
       failMessage: "No H2 heading includes the focus keyword.",
       fix: "Add the focus keyword to a natural H2 heading."
@@ -400,7 +491,8 @@ export function analyzeSeo(input = {}) {
           ? 40
           : keywordDensity >= keywordDensityMin && keywordDensity <= keywordDensityMax
             ? 100
-            : keywordDensity > 0
+            : keywordDensity >= keywordDensityWarningMin &&
+                keywordDensity <= keywordDensityWarningMax
               ? 55
               : 0,
       passMessage: "Keyword density is within the target range.",
@@ -417,7 +509,7 @@ export function analyzeSeo(input = {}) {
           ? 40
           : keywordDensity <= keywordDensityMax
             ? 100
-            : keywordDensity <= keywordDensityMax + 1
+            : keywordDensity <= keywordDensityWarningMax
               ? 50
               : 0,
       passMessage: "Keyword usage looks natural.",
@@ -449,7 +541,7 @@ export function analyzeSeo(input = {}) {
       score:
         words.length >= minWordCount
           ? 100
-          : words.length >= Math.round(minWordCount * 0.7)
+          : words.length >= Math.round(minWordCount * minWordCountWarningRatio)
             ? 60
             : 0,
       passMessage: "The article meets the recommended minimum length.",
@@ -461,7 +553,12 @@ export function analyzeSeo(input = {}) {
       id: "has_h2_h3",
       name: "Has H2 and H3 subheadings",
       weight: 6,
-      score: h2Headings.length && h3Headings.length ? 100 : h2Headings.length || h3Headings.length ? 55 : 0,
+      score:
+        h2Headings.length && h3Headings.length
+          ? 100
+          : h2Headings.length || h3Headings.length
+            ? 55
+            : 0,
       passMessage: "The article has both H2 and H3 headings.",
       warningMessage: "The article has some heading structure, but it needs more depth.",
       failMessage: "Add both H2 and H3 headings to improve structure.",
@@ -487,40 +584,41 @@ export function analyzeSeo(input = {}) {
       name: "Paragraphs are not too long",
       weight: 4,
       score:
-        paragraphWordCounts.every((count) => count <= 150)
+        paragraphWordCounts.every((count) => count <= paragraphMaxWords)
           ? 100
-          : paragraphWordCounts.some((count) => count > 200)
+          : paragraphWordCounts.some((count) => count > paragraphWarningWords)
             ? 0
             : 60,
       passMessage: "Paragraph lengths are reader-friendly.",
       warningMessage: "Some paragraphs are getting long.",
       failMessage: "Break up long paragraphs for readability.",
-      fix: "Split large paragraphs into shorter sections."
+      fix: `Keep paragraphs under ${paragraphMaxWords} words when possible.`
     }),
     makeCheck({
       id: "sentence_length",
-      name: "Average sentence length under 20 words",
+      name: "Average sentence length under target",
       weight: 5,
       score:
-        averageSentenceLength < 20
+        averageSentenceLength < avgSentenceMaxWords
           ? 100
-          : averageSentenceLength < 24
+          : averageSentenceLength < avgSentenceWarningWords
             ? 60
             : 0,
       passMessage: "Average sentence length is in a healthy range.",
       warningMessage: "Some sentences are a bit long.",
       failMessage: "Average sentence length is too high.",
-      fix: "Shorten long sentences and break ideas into smaller lines."
+      fix: `Keep average sentence length under ${avgSentenceMaxWords} words.`
     }),
     makeCheck({
       id: "transition_words",
       name: "Uses transition words",
       weight: 3,
-      score: transitionWordCount >= 3 ? 100 : transitionWordCount > 0 ? 60 : 0,
+      score:
+        transitionWordCount >= transitionWordsMin ? 100 : transitionWordCount > 0 ? 60 : 0,
       passMessage: "Transition words support the article flow.",
       warningMessage: "A few more transition words would improve flow.",
       failMessage: "Add more transition words between ideas.",
-      fix: "Use words like however, therefore, additionally, and meanwhile."
+      fix: `Use at least ${transitionWordsMin} transition words across the article.`
     }),
     makeCheck({
       id: "has_images",
@@ -587,55 +685,65 @@ export function analyzeSeo(input = {}) {
       id: "long_sentence_streak",
       name: "No consecutive long sentences",
       weight: 3,
-      score: hasLongSentenceStreak(sentenceWordCounts) ? 0 : 100,
+      score:
+        hasLongSentenceStreak(
+          sentenceWordCounts,
+          longSentenceWordCount,
+          maxConsecutiveLongSentences
+        )
+          ? 0
+          : 100,
       passMessage: "The article avoids streaks of long sentences.",
       failMessage: "Several long sentences appear back-to-back.",
-      fix: "Break up consecutive long sentences."
+      fix: `Avoid more than ${maxConsecutiveLongSentences} consecutive sentences over ${longSentenceWordCount} words.`
     }),
     makeCheck({
       id: "meta_title_length",
-      name: "Meta title length 30-60 characters",
+      name: "Meta title length is in range",
       weight: 8,
       score:
-        metaTitle.length >= 30 && metaTitle.length <= 60
+        metaTitle.length >= metaTitleMinLength && metaTitle.length <= metaTitleMaxLength
           ? 100
-          : metaTitle.length >= 25 && metaTitle.length <= 65
+          : metaTitle.length >= metaTitleWarningMinLength &&
+              metaTitle.length <= metaTitleWarningMaxLength
             ? 60
             : 0,
       passMessage: "Meta title length is in the ideal range.",
       warningMessage: "Meta title length is close to ideal.",
       failMessage: "Meta title length needs adjustment.",
-      fix: "Keep the meta title between 30 and 60 characters."
+      fix: `Keep the meta title between ${metaTitleMinLength} and ${metaTitleMaxLength} characters.`
     }),
     makeCheck({
       id: "meta_description_length",
-      name: "Meta description length 120-160 characters",
+      name: "Meta description length is in range",
       weight: 8,
       score:
-        metaDescription.length >= 120 && metaDescription.length <= 160
+        metaDescription.length >= metaDescMinLength &&
+          metaDescription.length <= metaDescMaxLength
           ? 100
-          : metaDescription.length >= 100 && metaDescription.length <= 170
+          : metaDescription.length >= metaDescWarningMinLength &&
+              metaDescription.length <= metaDescWarningMaxLength
             ? 60
             : 0,
       passMessage: "Meta description length is in the ideal range.",
       warningMessage: "Meta description length is close to ideal.",
       failMessage: "Meta description length needs adjustment.",
-      fix: "Keep the meta description between 120 and 160 characters."
+      fix: `Keep the meta description between ${metaDescMinLength} and ${metaDescMaxLength} characters.`
     }),
     makeCheck({
       id: "slug_quality",
       name: "Slug is concise",
       weight: 6,
       score:
-        slug.length > 0 && slug.length < 75 && keyword.inSlug
+        slug.length > 0 && slug.length < slugMaxLength && keyword.inSlug
           ? 100
-          : slug.length > 0 && slug.length < 75
+          : slug.length > 0 && slug.length < slugMaxLength
             ? 60
             : 0,
       passMessage: "The slug is concise and on-topic.",
       warningMessage: "The slug is concise but could align more closely with the keyword.",
       failMessage: "The slug is too long or unfocused.",
-      fix: "Use a short slug that includes the focus keyword."
+      fix: `Use a short slug under ${slugMaxLength} characters that includes the focus keyword.`
     }),
     makeCheck({
       id: "has_canonical",
@@ -653,7 +761,7 @@ export function analyzeSeo(input = {}) {
       score: meta.hasOgTags ? 100 : 0,
       passMessage: "Open Graph metadata is present.",
       failMessage: "Open Graph metadata is incomplete.",
-      fix: "Add Open Graph title and description."
+      fix: "Add Open Graph title, description, and image."
     }),
     makeCheck({
       id: "has_twitter_cards",
@@ -662,7 +770,7 @@ export function analyzeSeo(input = {}) {
       score: meta.hasTwitterCards ? 100 : 0,
       passMessage: "Twitter card metadata is present.",
       failMessage: "Twitter card metadata is incomplete.",
-      fix: "Add Twitter title and description metadata."
+      fix: "Add Twitter title, description, and image metadata."
     }),
     makeCheck({
       id: "has_schema",
@@ -695,7 +803,12 @@ export function analyzeSeo(input = {}) {
       id: "flesch_readability",
       name: "Flesch reading ease",
       weight: 5,
-      score: readingEase >= 60 ? 100 : readingEase >= 45 ? 60 : 0,
+      score:
+        readingEase >= fleschGoodMin
+          ? 100
+          : readingEase >= fleschWarningMin
+            ? 60
+            : 0,
       passMessage: "Readability is strong.",
       warningMessage: "Readability is acceptable but could improve.",
       failMessage: "Readability is too difficult for most readers.",
@@ -703,19 +816,27 @@ export function analyzeSeo(input = {}) {
     }),
     makeCheck({
       id: "passive_voice",
-      name: "Passive voice under 10%",
+      name: "Passive voice under target",
       weight: 4,
-      score: passiveVoicePercentage < 10 ? 100 : passiveVoicePercentage < 20 ? 60 : 0,
+      score:
+        passiveVoicePercentage < passiveVoiceMaxPercent
+          ? 100
+          : passiveVoicePercentage < passiveVoiceWarningPercent
+            ? 60
+            : 0,
       passMessage: "Passive voice stays within the target range.",
       warningMessage: "Passive voice is slightly high.",
       failMessage: "Passive voice is too frequent.",
-      fix: "Rewrite passive sentences into active voice."
+      fix: `Keep passive voice under ${passiveVoiceMaxPercent}% of sentences.`
     }),
     makeCheck({
       id: "sentence_start_variety",
       name: "Sentence start variety",
       weight: 3,
-      score: hasRepeatedSentenceStarts(sentences) ? 0 : 100,
+      score:
+        hasRepeatedSentenceStarts(sentences, sentenceStartRepetitionMax)
+          ? 0
+          : 100,
       passMessage: "Sentence openings feel varied.",
       failMessage: "Several sentences start with the same word in a row.",
       fix: "Vary sentence openings to improve rhythm."

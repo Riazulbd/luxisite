@@ -2,7 +2,13 @@ import express from "express";
 import { requireAuth } from "../middleware/auth.js";
 import { callOpenRouter } from "../services/openrouter.js";
 import { analyzeSeo } from "../services/seoAnalyzer.js";
-import { prepareContentMetrics, safeJsonParse } from "../utils/blog.js";
+import {
+  buildCanonicalUrl,
+  createRevision,
+  getPostById,
+  prepareContentMetrics,
+  safeJsonParse
+} from "../utils/blog.js";
 
 const router = express.Router();
 
@@ -30,6 +36,15 @@ function updatePostFields(db, postId, fields) {
   db.prepare(
     `UPDATE posts SET ${assignments}, updated_at = ? WHERE id = ?`
   ).run(...entries.map(([, value]) => value), now, postId);
+}
+
+function buildAiSnapshot(kind, raw, parsed = null) {
+  return JSON.stringify({
+    kind,
+    raw,
+    parsed,
+    createdAt: new Date().toISOString()
+  });
 }
 
 router.use(requireAuth);
@@ -64,8 +79,10 @@ router.post("/improve-seo", async (req, res) => {
           canonicalUrl: post.canonical_url,
           ogTitle: post.og_title,
           ogDescription: post.og_description,
+          ogImage: post.og_image,
           twitterTitle: post.twitter_title,
           twitterDescription: post.twitter_description,
+          twitterImage: post.twitter_image,
           excerpt: post.excerpt
         });
         issues = analysis.checks
@@ -92,6 +109,83 @@ router.post("/improve-seo", async (req, res) => {
   }
 });
 
+router.post("/apply-improvement", async (req, res) => {
+  try {
+    const db = req.app.locals.db;
+    const postId = Number(req.body?.postId);
+    const content = String(req.body?.content || "").trim();
+
+    if (!postId || !content) {
+      return res.status(400).json({ error: "postId and content are required" });
+    }
+
+    const post = getPost(db, postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    createRevision(db, postId, post, "ai_improvement", "AI SEO optimization applied");
+
+    const metrics = prepareContentMetrics(content);
+    const analysis = analyzeSeo({
+      title: post.title,
+      content,
+      contentRaw: metrics.contentRaw,
+      slug: post.slug,
+      focusKeyword: post.focus_keyword,
+      secondaryKeywords: post.secondary_keywords,
+      metaTitle: post.meta_title,
+      metaDescription: post.meta_description,
+      featuredImage: post.featured_image,
+      featuredImageAlt: post.featured_image_alt,
+      schemaJson: post.schema_json,
+      canonicalUrl: post.canonical_url || buildCanonicalUrl(post.slug),
+      ogTitle: post.og_title,
+      ogDescription: post.og_description,
+      ogImage: post.og_image,
+      twitterTitle: post.twitter_title,
+      twitterDescription: post.twitter_description,
+      twitterImage: post.twitter_image,
+      excerpt: post.excerpt
+    });
+
+    db.prepare(
+      `
+        UPDATE posts
+        SET
+          content = ?,
+          content_raw = ?,
+          reading_time = ?,
+          word_count = ?,
+          seo_score = ?,
+          readability_score = ?,
+          technical_seo_score = ?,
+          ai_improved_content = ?,
+          updated_at = ?
+        WHERE id = ?
+      `
+    ).run(
+      content,
+      metrics.contentRaw,
+      metrics.readingTime,
+      metrics.wordCount,
+      analysis.overallScore,
+      analysis.readabilityScore,
+      analysis.technicalSeoScore,
+      content,
+      new Date().toISOString(),
+      postId
+    );
+
+    return res.json({
+      post: getPostById(db, postId),
+      analysis
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message || "Applying AI changes failed" });
+  }
+});
+
 router.post("/generate-meta", async (req, res) => {
   try {
     const db = req.app.locals.db;
@@ -106,15 +200,18 @@ router.post("/generate-meta", async (req, res) => {
       focusKeyword = focusKeyword || post.focus_keyword;
     }
 
-    const result = parseJsonResponse(
-      await callOpenRouter(
+    const rawMeta = await callOpenRouter(
         "Generate SEO metadata for this blog article. Return ONLY valid JSON: {\"meta_title\":\"...(max 60 chars, keyword near start)\",\"meta_description\":\"...(120-155 chars, keyword included, compelling)\",\"og_title\":\"...(social-optimized)\",\"og_description\":\"...(100-200 chars)\",\"slug\":\"...(3-5 words, keyword included, kebab-case)\",\"excerpt\":\"...(1-2 sentences, max 160 chars)\"} No markdown, no explanation, no code fences. Pure JSON only.",
         `Focus keyword: ${focusKeyword || "Not set"}\nArticle title: ${title || ""}\nArticle content (first 500 words): ${prepareContentMetrics(content || "").contentRaw.split(/\s+/).slice(0, 500).join(" ")}`
-      )
-    );
+      );
+    const result = parseJsonResponse(rawMeta);
 
     if (postId) {
-      updatePostFields(db, postId, result);
+      updatePostFields(db, postId, {
+        ...result,
+        ai_generated_slug: result.slug || "",
+        ai_seo_suggestions: buildAiSnapshot("generate-meta", rawMeta, result)
+      });
     }
 
     return res.json(result);
@@ -257,7 +354,12 @@ router.post("/fix-issues", async (req, res) => {
       content = content || post.content;
       focusKeyword = focusKeyword || post.focus_keyword;
       if (!issues.length) {
-        issues = safeJsonParse(post.ai_seo_suggestions, []);
+        const stored = safeJsonParse(post.ai_seo_suggestions, []);
+        issues = Array.isArray(stored)
+          ? stored
+          : Array.isArray(stored?.issues)
+            ? stored.issues
+            : [];
       }
     }
 

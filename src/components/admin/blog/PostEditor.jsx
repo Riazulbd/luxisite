@@ -354,9 +354,26 @@ export default function PostEditor() {
             <AiDiffView
               original={post.content}
               improved={aiDraft}
-              onApply={() => {
-                handleFieldChange("content", aiDraft);
-                setAiDraft("");
+              loading={loadingKey === "apply-ai"}
+              onApply={async () => {
+                try {
+                  const ensuredId = await ensureSaved();
+                  setLoadingKey("apply-ai");
+                  const data = await apiFetch("/api/ai/apply-improvement", {
+                    method: "POST",
+                    body: JSON.stringify({ postId: ensuredId, content: aiDraft })
+                  });
+                  setPost(hydratePost(data.post));
+                  setAnalysis(data.analysis);
+                  setAiDraft("");
+                  setLastSavedAt(new Date().toISOString());
+                  setDirty(false);
+                  setNotice({ type: "success", message: "AI improvements applied." });
+                } catch (error) {
+                  setNotice({ type: "error", message: error.message });
+                } finally {
+                  setLoadingKey("");
+                }
               }}
               onDiscard={() => setAiDraft("")}
             />
@@ -466,12 +483,13 @@ export default function PostEditor() {
             }
           }}
           onImprove={async () => {
-            setLoadingKey("improve");
             try {
+              const ensuredId = await ensureSaved();
+              setLoadingKey("improve");
               const data = await apiFetch("/api/ai/improve-seo", {
                 method: "POST",
                 body: JSON.stringify({
-                  postId,
+                  postId: ensuredId,
                   content: post.content,
                   focusKeyword: post.focus_keyword,
                   issues: analysis?.checks?.filter((check) => check.status !== "pass").map((check) => check.fix || check.message)
@@ -485,11 +503,17 @@ export default function PostEditor() {
             }
           }}
           onGenerateMeta={async () => {
-            setLoadingKey("meta");
             try {
+              const ensuredId = await ensureSaved();
+              setLoadingKey("meta");
               const data = await apiFetch("/api/ai/generate-meta", {
                 method: "POST",
-                body: JSON.stringify({ postId, title: post.title, content: post.content, focusKeyword: post.focus_keyword })
+                body: JSON.stringify({
+                  postId: ensuredId,
+                  title: post.title,
+                  content: post.content,
+                  focusKeyword: post.focus_keyword
+                })
               });
               setPost((current) => ({
                 ...current,
@@ -500,7 +524,9 @@ export default function PostEditor() {
                 slug: data.slug || current.slug,
                 excerpt: data.excerpt || current.excerpt
               }));
-              setDirty(true);
+              setLastSavedAt(new Date().toISOString());
+              setDirty(false);
+              setNotice({ type: "success", message: "Metadata generated and saved." });
             } catch (error) {
               setNotice({ type: "error", message: error.message });
             } finally {

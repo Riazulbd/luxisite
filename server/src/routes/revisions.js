@@ -88,8 +88,10 @@ router.post("/posts/:id/revisions/:revId/restore", requireAuth, (req, res) => {
     canonicalUrl: post.canonical_url || buildCanonicalUrl(post.slug),
     ogTitle: post.og_title,
     ogDescription: post.og_description,
+    ogImage: post.og_image,
     twitterTitle: post.twitter_title,
     twitterDescription: post.twitter_description,
+    twitterImage: post.twitter_image,
     excerpt: revision.excerpt || post.excerpt
   });
 

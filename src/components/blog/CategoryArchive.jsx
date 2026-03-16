@@ -9,6 +9,8 @@ import PublicBlogHeader from "./PublicBlogHeader";
 import BlogSidebar from "./BlogSidebar";
 import SeoHead from "./SeoHead";
 
+const DEFAULT_OG_IMAGE = "https://automationpaths.com/og-default.svg";
+
 export default function CategoryArchive() {
   const theme = useTheme();
   const { isMobile, isTablet } = useViewport();
@@ -28,6 +30,23 @@ export default function CategoryArchive() {
         title={`${category?.meta_title || category?.name || "Category"} | Automation Paths Blog`}
         description={category?.meta_description || category?.description || "Category archive for the Automation Paths blog."}
         canonical={`https://automationpaths.com/blog/category/${slug}`}
+        og={{
+          title: `${category?.meta_title || category?.name || "Category"} | Automation Paths Blog`,
+          description:
+            category?.meta_description ||
+            category?.description ||
+            "Category archive for the Automation Paths blog.",
+          url: `https://automationpaths.com/blog/category/${slug}`,
+          image: DEFAULT_OG_IMAGE
+        }}
+        twitter={{
+          title: `${category?.meta_title || category?.name || "Category"} | Automation Paths Blog`,
+          description:
+            category?.meta_description ||
+            category?.description ||
+            "Category archive for the Automation Paths blog.",
+          image: DEFAULT_OG_IMAGE
+        }}
       />
       <div style={{ maxWidth: 1240, margin: "0 auto", display: "grid", gap: 28 }}>
         <PublicBlogHeader />

@@ -1,0 +1,32 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="36" fill="#0F172A"/>
+  <rect x="24" y="24" width="1152" height="582" rx="28" fill="url(#bg)"/>
+  <circle cx="947" cy="146" r="184" fill="url(#glow)" opacity="0.85"/>
+  <circle cx="1020" cy="520" r="216" fill="#C8742A" opacity="0.12"/>
+  <rect x="86" y="86" width="154" height="154" rx="77" fill="#FFF5EC"/>
+  <circle cx="163" cy="163" r="42" fill="#C8742A"/>
+  <text x="86" y="332" fill="#F8FAFC" font-family="Outfit, Arial, sans-serif" font-size="68" font-weight="800">
+    Automation Paths
+  </text>
+  <text x="86" y="408" fill="#E2E8F0" font-family="Outfit, Arial, sans-serif" font-size="34" font-weight="500">
+    Revenue Systems Architecture, AI Automation, and
+  </text>
+  <text x="86" y="454" fill="#E2E8F0" font-family="Outfit, Arial, sans-serif" font-size="34" font-weight="500">
+    CRM build-outs for agencies, operators, and consultants.
+  </text>
+  <rect x="86" y="506" width="348" height="58" rx="29" fill="#FFF5EC"/>
+  <text x="122" y="543" fill="#C8742A" font-family="IBM Plex Mono, Consolas, monospace" font-size="24" font-weight="600">
+    automationpaths.com
+  </text>
+  <defs>
+    <linearGradient id="bg" x1="54" y1="28" x2="1127" y2="598" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E293B"/>
+      <stop offset="0.5" stop-color="#111827"/>
+      <stop offset="1" stop-color="#1F2937"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(947 146) rotate(90) scale(184)">
+      <stop stop-color="#F59E0B"/>
+      <stop offset="1" stop-color="#F59E0B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

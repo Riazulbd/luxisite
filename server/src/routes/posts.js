@@ -108,6 +108,8 @@ function normalizePostInput(db, body, existing = null, userId = 1) {
     body.canonicalUrl ??
     existing?.canonical_url ??
     buildCanonicalUrl(slug);
+  const featuredImage = body.featured_image ?? body.featuredImage ?? existing?.featured_image ?? "";
+  const ogImageInput = body.og_image ?? body.ogImage ?? existing?.og_image ?? "";
 
   const record = {
     title,
@@ -115,7 +117,7 @@ function normalizePostInput(db, body, existing = null, userId = 1) {
     excerpt: body.excerpt ?? existing?.excerpt ?? "",
     content,
     content_raw: metrics.contentRaw,
-    featured_image: body.featured_image ?? body.featuredImage ?? existing?.featured_image ?? "",
+    featured_image: featuredImage,
     featured_image_alt:
       body.featured_image_alt ?? body.featuredImageAlt ?? existing?.featured_image_alt ?? "",
     featured_image_caption:
@@ -136,7 +138,7 @@ function normalizePostInput(db, body, existing = null, userId = 1) {
     canonical_url: canonicalUrl,
     og_title: body.og_title ?? body.ogTitle ?? existing?.og_title ?? "",
     og_description: body.og_description ?? body.ogDescription ?? existing?.og_description ?? "",
-    og_image: body.og_image ?? body.ogImage ?? existing?.og_image ?? "",
+    og_image: ogImageInput || featuredImage,
     twitter_title:
       body.twitter_title ?? body.twitterTitle ?? existing?.twitter_title ?? "",
     twitter_description:
@@ -185,8 +187,10 @@ function normalizePostInput(db, body, existing = null, userId = 1) {
     canonicalUrl: record.canonical_url,
     ogTitle: record.og_title,
     ogDescription: record.og_description,
+    ogImage: record.og_image,
     twitterTitle: record.twitter_title,
     twitterDescription: record.twitter_description,
+    twitterImage: record.twitter_image,
     excerpt: record.excerpt
   });
 
@@ -549,7 +553,6 @@ router.delete("/:id/permanent", requireAuth, (req, res) => {
 
   for (const uploadPath of extractUploadCandidates(existing)) {
     removeFileIfExists(resolveUploadPath(uploadPath));
-    removeFileIfExists(resolveUploadPath(uploadPath.replace(/\.webp$/, "-thumb.webp")));
   }
 
   db.prepare("DELETE FROM posts WHERE id = ?").run(postId);

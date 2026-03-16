@@ -3,6 +3,29 @@ import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import { clay, useTheme } from "../../hooks/useTheme";
 
+function buildResponsiveImage(post) {
+  const media = post.featured_image_media;
+  const full = media?.full;
+  const medium = media?.medium;
+  const thumbnail = media?.thumbnail;
+  const fallbackUrl = post.featured_image || "";
+  const src = medium?.url || thumbnail?.url || full?.url || fallbackUrl;
+  const sources = [
+    thumbnail?.url && thumbnail?.width
+      ? `${thumbnail.url} ${thumbnail.width}w`
+      : null,
+    medium?.url && medium?.width ? `${medium.url} ${medium.width}w` : null,
+    full?.url && full?.width ? `${full.url} ${full.width}w` : null
+  ].filter(Boolean);
+
+  return {
+    src,
+    srcSet: sources.length ? sources.join(", ") : undefined,
+    sizes:
+      "(max-width: 767px) calc(100vw - 48px), (max-width: 1024px) calc(100vw - 72px), 760px"
+  };
+}
+
 function formatDate(value) {
   if (!value) {
     return "Unscheduled";
@@ -12,6 +35,7 @@ function formatDate(value) {
 
 export default function BlogCard({ post, compact = false }) {
   const theme = useTheme();
+  const image = buildResponsiveImage(post);
 
   return (
     <article
@@ -27,9 +51,12 @@ export default function BlogCard({ post, compact = false }) {
       {post.featured_image ? (
         <Link to={`/blog/${post.slug}`} style={{ display: "block", aspectRatio: "16 / 9" }}>
           <img
-            src={post.featured_image}
+            src={image.src}
+            srcSet={image.srcSet}
+            sizes={image.sizes}
             alt={post.featured_image_alt || post.title}
             loading="lazy"
+            decoding="async"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         </Link>

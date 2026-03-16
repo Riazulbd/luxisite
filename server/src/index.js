@@ -29,6 +29,10 @@ import revisionsRoutes from "./routes/revisions.js";
 import seoRoutes from "./routes/seo.js";
 import sitemapRoutes from "./routes/sitemap.js";
 import tagsRoutes from "./routes/tags.js";
+import {
+  initializeSpaRenderer,
+  renderBlogRouteHtml
+} from "./services/spaRenderer.js";
 import { getJwtSecret } from "./utils/auth.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -43,6 +47,9 @@ const frontendDistPath = fs.existsSync(repoDistPath)
   : fs.existsSync(nginxDistPath)
     ? nginxDistPath
     : null;
+const cachedFrontendIndexHtml = frontendDistPath
+  ? initializeSpaRenderer(frontendDistPath)
+  : "";
 
 ensureStorageDirectories();
 hydrateStorageFromLegacy();
@@ -102,7 +109,20 @@ if (frontendDistPath) {
       return;
     }
 
-    res.sendFile(path.join(frontendDistPath, "index.html"));
+    if (req.path === "/blog" || req.path.startsWith("/blog/")) {
+      const rendered = renderBlogRouteHtml({
+        db,
+        pathname: req.path,
+        query: req.query
+      });
+
+      if (rendered?.html) {
+        res.status(rendered.statusCode || 200).type("html").send(rendered.html);
+        return;
+      }
+    }
+
+    res.type("html").send(cachedFrontendIndexHtml);
   });
 }
 

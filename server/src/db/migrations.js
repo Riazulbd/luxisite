@@ -1,5 +1,14 @@
 import bcrypt from "bcryptjs";
 
+function ensureColumn(db, tableName, columnName, definition) {
+  const columns = db.prepare(`PRAGMA table_info(${tableName})`).all();
+  if (columns.some((column) => column.name === columnName)) {
+    return;
+  }
+
+  db.exec(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} ${definition}`);
+}
+
 export function runMigrations(db) {
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
@@ -148,6 +157,16 @@ export function runMigrations(db) {
     CREATE INDEX IF NOT EXISTS idx_analytics_created ON analytics_events(created_at);
   `);
 
+  ensureColumn(db, "media", "medium_path", "TEXT");
+  ensureColumn(db, "media", "medium_width", "INTEGER");
+  ensureColumn(db, "media", "medium_height", "INTEGER");
+  ensureColumn(db, "media", "thumbnail_path", "TEXT");
+  ensureColumn(db, "media", "thumbnail_width", "INTEGER");
+  ensureColumn(db, "media", "thumbnail_height", "INTEGER");
+  ensureColumn(db, "media", "og_path", "TEXT");
+  ensureColumn(db, "media", "og_width", "INTEGER");
+  ensureColumn(db, "media", "og_height", "INTEGER");
+
   const insertSetting = db.prepare(
     "INSERT OR IGNORE INTO seo_settings (setting_key, setting_value, description) VALUES (?, ?, ?)"
   );
@@ -156,15 +175,35 @@ export function runMigrations(db) {
     ["max_word_count", "5000", "Ideal max word count"],
     ["keyword_density_min", "0.5", "Min keyword density %"],
     ["keyword_density_max", "2.5", "Max keyword density %"],
+    ["keyword_density_warning_min", "0.25", "Low-end warning band for keyword density %"],
+    ["keyword_density_warning_max", "3.5", "High-end warning band for keyword density %"],
     ["meta_title_min_length", "30", "Min meta title chars"],
     ["meta_title_max_length", "60", "Max meta title chars"],
+    ["meta_title_warning_min_length", "25", "Low-end warning band for meta title chars"],
+    ["meta_title_warning_max_length", "65", "High-end warning band for meta title chars"],
     ["meta_desc_min_length", "120", "Min meta description chars"],
     ["meta_desc_max_length", "160", "Max meta description chars"],
+    ["meta_desc_warning_min_length", "100", "Low-end warning band for meta description chars"],
+    ["meta_desc_warning_max_length", "170", "High-end warning band for meta description chars"],
     ["min_headings", "3", "Minimum H2/H3 headings"],
     ["min_internal_links", "2", "Min internal links"],
     ["min_external_links", "1", "Min external links"],
     ["min_images", "1", "Min images per post"],
     ["image_alt_required", "true", "Require alt text on all images"],
+    ["paragraph_max_words", "150", "Maximum ideal words per paragraph"],
+    ["paragraph_warning_words", "200", "Paragraph warning threshold in words"],
+    ["avg_sentence_max_words", "20", "Maximum ideal average sentence length"],
+    ["avg_sentence_warning_words", "24", "Average sentence warning threshold"],
+    ["transition_words_min", "3", "Minimum transition word count"],
+    ["long_sentence_word_count", "25", "Words that count as a long sentence"],
+    ["max_consecutive_long_sentences", "2", "Maximum consecutive long sentences allowed"],
+    ["slug_max_length", "75", "Maximum slug length for SEO"],
+    ["passive_voice_max_percent", "10", "Maximum passive voice percentage"],
+    ["passive_voice_warning_percent", "20", "Passive voice warning threshold"],
+    ["flesch_good_min", "60", "Minimum Flesch score for a pass"],
+    ["flesch_warning_min", "45", "Minimum Flesch score for a warning"],
+    ["sentence_start_repetition_max", "2", "Maximum repeated sentence starts allowed"],
+    ["min_word_count_warning_ratio", "0.7", "Warning ratio vs min word count"],
     ["readability_target", "grade_8", "Target Flesch-Kincaid grade"],
     ["openrouter_model", "anthropic/claude-sonnet-4", "Default AI model"],
     ["openrouter_api_key", "", "OpenRouter API key"]

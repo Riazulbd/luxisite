@@ -9,6 +9,8 @@ import PublicBlogHeader from "./PublicBlogHeader";
 import BlogSidebar from "./BlogSidebar";
 import SeoHead from "./SeoHead";
 
+const DEFAULT_OG_IMAGE = "https://automationpaths.com/og-default.svg";
+
 export default function BlogSearch() {
   const theme = useTheme();
   const { isMobile, isTablet } = useViewport();
@@ -25,6 +27,17 @@ export default function BlogSearch() {
         title={`Search: ${query || "Blog"} | Automation Paths`}
         description={`Search results for ${query || "Automation Paths blog"} on Automation Paths.`}
         canonical={`https://automationpaths.com/blog/search${query ? `?q=${encodeURIComponent(query)}` : ""}`}
+        og={{
+          title: `Search: ${query || "Blog"} | Automation Paths`,
+          description: `Search results for ${query || "Automation Paths blog"} on Automation Paths.`,
+          url: `https://automationpaths.com/blog/search${query ? `?q=${encodeURIComponent(query)}` : ""}`,
+          image: DEFAULT_OG_IMAGE
+        }}
+        twitter={{
+          title: `Search: ${query || "Blog"} | Automation Paths`,
+          description: `Search results for ${query || "Automation Paths blog"} on Automation Paths.`,
+          image: DEFAULT_OG_IMAGE
+        }}
       />
       <div style={{ maxWidth: 1240, margin: "0 auto", display: "grid", gap: 28 }}>
         <PublicBlogHeader />

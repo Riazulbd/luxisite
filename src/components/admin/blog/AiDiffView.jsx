@@ -37,7 +37,13 @@ function renderDiff(items, mode) {
   ));
 }
 
-export default function AiDiffView({ original = "", improved = "", onApply, onDiscard }) {
+export default function AiDiffView({
+  original = "",
+  improved = "",
+  onApply,
+  onDiscard,
+  loading = false
+}) {
   const theme = useTheme();
   const { isMobile } = useViewport();
   const diff = useMemo(() => diffWords(original, improved), [original, improved]);
@@ -47,8 +53,10 @@ export default function AiDiffView({ original = "", improved = "", onApply, onDi
       <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: isMobile ? "flex-start" : "center", flexDirection: isMobile ? "column" : "row" }}>
         <h3 style={{ margin: 0, fontFamily: "Outfit, sans-serif", color: theme.text }}>AI improvement diff</h3>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", width: isMobile ? "100%" : "auto" }}>
-          <button type="button" onClick={onApply} style={buttonStyle(theme, "primary")}>Apply Changes</button>
-          <button type="button" onClick={onDiscard} style={buttonStyle(theme, "ghost")}>Discard</button>
+          <button type="button" onClick={onApply} disabled={loading} style={buttonStyle(theme, "primary")}>
+            {loading ? "Applying..." : "Apply Changes"}
+          </button>
+          <button type="button" onClick={onDiscard} disabled={loading} style={buttonStyle(theme, "ghost")}>Discard</button>
         </div>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: isMobile ? "minmax(0, 1fr)" : "repeat(2, minmax(0, 1fr))", gap: 16 }}>

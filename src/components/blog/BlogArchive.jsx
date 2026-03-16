@@ -9,6 +9,8 @@ import PublicBlogHeader from "./PublicBlogHeader";
 import BlogSidebar from "./BlogSidebar";
 import SeoHead from "./SeoHead";
 
+const DEFAULT_OG_IMAGE = "https://automationpaths.com/og-default.svg";
+
 function Pagination({ pagination, setPage, theme }) {
   if (!pagination || pagination.totalPages <= 1) {
     return null;
@@ -98,7 +100,14 @@ export default function BlogArchive() {
           title: "Blog | Automation Paths",
           description:
             "Insights on GoHighLevel, AI automation, VAPI voice agents, and revenue system architecture for agencies and growth-stage businesses.",
-          url: "https://automationpaths.com/blog"
+          url: "https://automationpaths.com/blog",
+          image: DEFAULT_OG_IMAGE
+        }}
+        twitter={{
+          title: "Blog | Automation Paths",
+          description:
+            "Insights on GoHighLevel, AI automation, VAPI voice agents, and revenue system architecture for agencies and growth-stage businesses.",
+          image: DEFAULT_OG_IMAGE
         }}
       />
       <div style={{ maxWidth: 1240, margin: "0 auto" }}>
