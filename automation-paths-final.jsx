@@ -258,13 +258,12 @@ export default function App() {
   const isMobile = viewportWidth < 768;
   const isTablet = viewportWidth < 1024;
   const navigationItems = isMobile
-    ? [{ label: "Blog", href: "/#blog" }]
+    ? []
     : [
         { label: "About", href: "/#about" },
         { label: "Services", href: "/#services" },
         { label: "Process", href: "/#process" },
         { label: "Results", href: "/#results" },
-        { label: "Blog", href: "/#blog" },
         { label: "FAQ", href: "/#faq" },
       ];
 

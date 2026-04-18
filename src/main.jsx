@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
-import "./styles/blog.css";
 import "./styles/admin.css";
 
 if (typeof window !== "undefined" && typeof window.__AP_THEME_INDEX__ !== "number") {
