@@ -687,7 +687,7 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
         <div style={{ maxWidth: 1140, margin: "0 auto", display: "grid", gridTemplateColumns: isTablet ? "1fr" : "minmax(0, 1.05fr) minmax(320px, 0.95fr)", gap: 18, alignItems: "stretch" }}>
           <div style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 30, padding: isMobile ? "24px 18px" : "30px 30px", boxShadow: clay(theme.cardGlow) }}>
             <SectionLabel theme={theme} clay={clay} typography={typography}>Why This Structure Works</SectionLabel>
-            <h2 style={{ fontFamily: typography.head, fontSize: "clamp(2rem,4.1vw,3.25rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.04em", color: theme.text, marginTop: 18, marginBottom: 14 }}>
+            <h2 style={{ fontFamily: typography.display, fontSize: "clamp(2rem,4.1vw,3.25rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.02em", color: theme.text, marginTop: 18, marginBottom: 14 }}>
               More than automations. <GradText>It is operating design.</GradText>
             </h2>
             <p style={{ fontSize: "1rem", color: theme.text2, lineHeight: 1.76, maxWidth: 620, marginBottom: 20 }}>
@@ -743,7 +743,7 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
         <div style={{ maxWidth: 1140, margin: "0 auto" }}>
           <div style={{ marginBottom: 40 }}>
             <SectionLabel theme={theme} clay={clay} typography={typography}>What I Build</SectionLabel>
-            <h2 style={{ fontFamily: typography.head, fontSize: "clamp(2.2rem,4.5vw,3.4rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginTop: 16, marginBottom: 12 }}>
+            <h2 style={{ fontFamily: typography.display, fontSize: "clamp(2.2rem,4.5vw,3.4rem)", fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.02em", color: theme.text, marginTop: 16, marginBottom: 12 }}>
               Six core systems that create <GradText>a cleaner revenue engine.</GradText>
             </h2>
             <p style={{ fontSize: "1.05rem", color: theme.text2, maxWidth: 540, lineHeight: 1.7 }}>
@@ -803,7 +803,7 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
             <span style={{ width: 18, height: 18, borderRadius: "50%", background: theme.grad }} />
             How I Work
           </div>
-          <h2 style={{ fontFamily: typography.head, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginBottom: 12 }}>
+          <h2 style={{ fontFamily: typography.display, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.02em", color: theme.text, marginBottom: 12 }}>
             Think fractional CTO. <GradText>Not freelancer.</GradText>
           </h2>
           <p style={{ fontSize: "1rem", color: theme.text2, maxWidth: 500, lineHeight: 1.7, marginBottom: 40 }}>
@@ -825,7 +825,7 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
       <section id="results" style={{ padding: isMobile ? "64px 16px" : "80px 20px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
           <SectionLabel theme={theme} clay={clay} typography={typography}>Results</SectionLabel>
-          <h2 style={{ fontFamily: typography.head, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
+          <h2 style={{ fontFamily: typography.display, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 700, lineHeight: 1.12, letterSpacing: "-0.02em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
             Strong systems leave <GradText>visible evidence.</GradText>
           </h2>
           <p style={{ fontSize: "1rem", color: theme.text2, maxWidth: 700, lineHeight: 1.74, marginBottom: 34 }}>
@@ -912,7 +912,7 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
             <span style={{ width: 18, height: 18, borderRadius: "50%", background: theme.grad }} />
             Limited Availability
           </div>
-          <h2 style={{ fontFamily: typography.head, fontSize: "clamp(1.9rem,3.5vw,2.7rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.03em", color: theme.text, marginBottom: 12 }}>
+          <h2 style={{ fontFamily: typography.display, fontSize: "clamp(1.9rem,3.5vw,2.7rem)", fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.015em", color: theme.text, marginBottom: 12 }}>
             Your revenue system is either
             <br />
             <GradText>compounding or leaking.</GradText>

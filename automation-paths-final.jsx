@@ -403,11 +403,11 @@ export default function App() {
           Built for agencies, consultants, and operators fixing revenue systems
         </div>
 
-        <h1 style={{ fontFamily: TYPOGRAPHY.head, fontSize: isMobile ? "clamp(2.15rem,11vw,3.1rem)" : "clamp(4.1rem,7.6vw,6.3rem)", lineHeight: isMobile ? 0.88 : 0.9, letterSpacing: isMobile ? "-0.07em" : "-0.055em", maxWidth: isTablet ? 880 : 1040, marginBottom: isMobile ? 10 : 22, color: theme.text, position: "relative", zIndex: 2 }}>
-          <span style={{ display: "block", fontStyle: "normal", fontWeight: 800, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) both", transformOrigin: "center bottom" }}>Your revenue system is</span>
-          <span style={{ display: "block", fontStyle: "italic", fontWeight: 350, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) 0.12s both", transformOrigin: "center bottom" }}>either compounding or leaking.</span>
-          <span style={{ display: "block", fontStyle: "normal", fontWeight: 800, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) 0.24s both", transformOrigin: "center bottom" }}>
-            Most are <span style={{ color: theme.a1, fontWeight: 700, display: "inline-block", animation: "heroAccentPulse 2.8s ease-in-out 1.1s infinite", willChange: "transform" }}>leaking.</span>
+        <h1 style={{ fontFamily: TYPOGRAPHY.display, fontSize: isMobile ? "clamp(2.15rem,11vw,3.1rem)" : "clamp(4.1rem,7.6vw,6.3rem)", lineHeight: isMobile ? 0.9 : 0.92, letterSpacing: isMobile ? "-0.04em" : "-0.03em", maxWidth: isTablet ? 880 : 1040, marginBottom: isMobile ? 10 : 22, color: theme.text, position: "relative", zIndex: 2 }}>
+          <span style={{ display: "block", fontStyle: "normal", fontWeight: 900, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) both", transformOrigin: "center bottom" }}>Your revenue system is</span>
+          <span style={{ display: "block", fontStyle: "italic", fontWeight: 400, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) 0.12s both", transformOrigin: "center bottom" }}>either compounding or leaking.</span>
+          <span style={{ display: "block", fontStyle: "normal", fontWeight: 900, animation: "heroLineIn 0.82s cubic-bezier(0.16,1,0.3,1) 0.24s both", transformOrigin: "center bottom" }}>
+            Most are <span style={{ color: theme.a1, fontWeight: 900, display: "inline-block", animation: "heroAccentPulse 2.8s ease-in-out 1.1s infinite", willChange: "transform" }}>leaking.</span>
           </span>
         </h1>
 
