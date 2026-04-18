@@ -19,20 +19,8 @@ import {
 } from "./config/storage.js";
 import { initDatabase } from "./db/database.js";
 import { runMigrations } from "./db/migrations.js";
-import aiRoutes from "./routes/ai.js";
 import authRoutes from "./routes/auth.js";
-import categoriesRoutes from "./routes/categories.js";
-import feedRoutes from "./routes/feed.js";
-import mediaRoutes from "./routes/media.js";
-import postsRoutes from "./routes/posts.js";
-import revisionsRoutes from "./routes/revisions.js";
-import seoRoutes from "./routes/seo.js";
-import sitemapRoutes from "./routes/sitemap.js";
-import tagsRoutes from "./routes/tags.js";
-import {
-  initializeSpaRenderer,
-  renderBlogRouteHtml
-} from "./services/spaRenderer.js";
+import { initializeSpaRenderer } from "./services/spaRenderer.js";
 import { getJwtSecret } from "./utils/auth.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -80,15 +68,6 @@ app.use(morgan("dev"));
 app.use("/uploads", express.static(getUploadsRoot()));
 
 app.use("/api/auth", authRoutes);
-app.use("/api/posts", postsRoutes);
-app.use("/api/categories", categoriesRoutes);
-app.use("/api/tags", tagsRoutes);
-app.use("/api/media", mediaRoutes);
-app.use("/api", revisionsRoutes);
-app.use("/api/seo", seoRoutes);
-app.use("/api/ai", aiRoutes);
-app.use("/", sitemapRoutes);
-app.use("/", feedRoutes);
 
 if (frontendDistPath) {
   app.use(
@@ -107,19 +86,6 @@ if (frontendDistPath) {
     ) {
       next();
       return;
-    }
-
-    if (req.path === "/blog" || req.path.startsWith("/blog/")) {
-      const rendered = renderBlogRouteHtml({
-        db,
-        pathname: req.path,
-        query: req.query
-      });
-
-      if (rendered?.html) {
-        res.status(rendered.statusCode || 200).type("html").send(rendered.html);
-        return;
-      }
     }
 
     res.type("html").send(cachedFrontendIndexHtml);
