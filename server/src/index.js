@@ -20,7 +20,6 @@ import {
 import { initDatabase } from "./db/database.js";
 import { runMigrations } from "./db/migrations.js";
 import authRoutes from "./routes/auth.js";
-import { initializeSpaRenderer } from "./services/spaRenderer.js";
 import { getJwtSecret } from "./utils/auth.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -36,7 +35,7 @@ const frontendDistPath = fs.existsSync(repoDistPath)
     ? nginxDistPath
     : null;
 const cachedFrontendIndexHtml = frontendDistPath
-  ? initializeSpaRenderer(frontendDistPath)
+  ? fs.readFileSync(path.join(frontendDistPath, "index.html"), "utf-8")
   : "";
 
 ensureStorageDirectories();

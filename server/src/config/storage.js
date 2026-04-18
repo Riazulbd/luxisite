@@ -58,7 +58,6 @@ function copyDirectoryContents(sourceDir, targetDir) {
 export function ensureStorageDirectories() {
   fs.mkdirSync(path.dirname(databasePath), { recursive: true });
   fs.mkdirSync(uploadsRoot, { recursive: true });
-  fs.mkdirSync(path.join(uploadsRoot, "blog"), { recursive: true });
 }
 
 export function hydrateStorageFromLegacy() {
