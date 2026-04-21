@@ -66,5 +66,202 @@
     </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8MW1QYB871"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8MW1QYB871', {
+        send_page_view: true,
+        cookie_flags: 'SameSite=None;Secure',
+        custom_map: {
+          dimension1: 'user_segment',
+          dimension2: 'first_touch_source',
+          dimension3: 'first_touch_campaign',
+          dimension4: 'funnel_step',
+          dimension5: 'click_text'
+        }
+      });
+    </script>
+    <script>
+    (function () {
+
+      /* ── 1. UTM CAPTURE & PERSISTENCE ──────────────────────────────── */
+      const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id'];
+      const params   = new URLSearchParams(window.location.search);
+
+      let lastTouch  = JSON.parse(localStorage.getItem('_ap_utms_last')  || '{}');
+      let firstTouch = JSON.parse(localStorage.getItem('_ap_utms_first') || '{}');
+
+      const currentUtms = {};
+      UTM_KEYS.forEach(k => { if (params.get(k)) currentUtms[k] = params.get(k); });
+      const hasUtms = Object.keys(currentUtms).length > 0;
+
+      if (hasUtms) {
+        lastTouch = currentUtms;
+        localStorage.setItem('_ap_utms_last', JSON.stringify(lastTouch));
+        if (!firstTouch.utm_source) {
+          firstTouch = currentUtms;
+          localStorage.setItem('_ap_utms_first', JSON.stringify(firstTouch));
+        }
+      }
+
+      const clickIds = {};
+      ['gclid','fbclid','msclkid'].forEach(k => {
+        const v = params.get(k);
+        if (v) { clickIds[k] = v; localStorage.setItem('_ap_' + k, v); }
+        else   { const s = localStorage.getItem('_ap_' + k); if (s) clickIds[k] = s; }
+      });
+
+      function utm(key, source) {
+        const obj = source === 'first' ? firstTouch : lastTouch;
+        return obj[key] || 'direct';
+      }
+
+      /* ── 2. ENRICHED PAGE VIEW ──────────────────────────────────────── */
+      window.addEventListener('DOMContentLoaded', function () {
+        gtag('event', 'page_view_enriched', {
+          page_location:        window.location.href,
+          page_title:           document.title,
+          page_referrer:        document.referrer,
+          utm_source:           utm('utm_source'),
+          utm_medium:           utm('utm_medium'),
+          utm_campaign:         utm('utm_campaign'),
+          utm_content:          utm('utm_content'),
+          utm_term:             utm('utm_term'),
+          first_touch_source:   utm('utm_source',   'first'),
+          first_touch_campaign: utm('utm_campaign', 'first'),
+          gclid:  clickIds.gclid  || null,
+          fbclid: clickIds.fbclid || null
+        });
+      });
+
+      /* ── 3. SCROLL DEPTH ────────────────────────────────────────────── */
+      const scrollMilestones = [25, 50, 75, 90, 100];
+      const scrollFired = new Set();
+
+      window.addEventListener('scroll', function () {
+        const pct = Math.round(
+          (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100
+        );
+        scrollMilestones.forEach(function (m) {
+          if (pct >= m && !scrollFired.has(m)) {
+            scrollFired.add(m);
+            gtag('event', 'scroll_depth', {
+              percent_scrolled: m,
+              page_location: window.location.href
+            });
+          }
+        });
+      }, { passive: true });
+
+      /* ── 4. TIME ON PAGE (30s / 60s / 120s) ────────────────────────── */
+      [30, 60, 120].forEach(function (s) {
+        setTimeout(function () {
+          gtag('event', 'time_on_page', { seconds: s, page_location: window.location.href });
+        }, s * 1000);
+      });
+
+      /* ── 5. OUTBOUND LINK CLICKS ────────────────────────────────────── */
+      document.addEventListener('click', function (e) {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+        const href = link.href || '';
+        if (href.startsWith('http') && !href.includes(window.location.hostname)) {
+          gtag('event', 'outbound_click', {
+            link_url:      href,
+            link_text:     (link.innerText || '').trim().slice(0, 100),
+            page_location: window.location.href
+          });
+        }
+      });
+
+      /* ── 6. CTA / BUTTON CLICKS ─────────────────────────────────────── */
+      document.addEventListener('click', function (e) {
+        const btn = e.target.closest('button, [role="button"], .btn, .cta, a.btn, input[type="submit"]');
+        if (!btn) return;
+        const text = (btn.innerText || btn.value || btn.getAttribute('aria-label') || '').trim().slice(0, 100);
+        if (!text) return;
+        gtag('event', 'cta_click', {
+          click_text:    text,
+          click_url:     btn.href || window.location.href,
+          page_location: window.location.href,
+          utm_source:    utm('utm_source'),
+          utm_campaign:  utm('utm_campaign')
+        });
+      });
+
+      /* ── 7. FORM START + FORM SUBMIT ────────────────────────────────── */
+      const formStarted = new Set();
+
+      document.addEventListener('focusin', function (e) {
+        const form = e.target.closest('form');
+        if (!form) return;
+        const formId = form.id || form.getAttribute('name') || 'unknown_form';
+        if (!formStarted.has(formId)) {
+          formStarted.add(formId);
+          gtag('event', 'form_start', {
+            form_id:       formId,
+            page_location: window.location.href,
+            utm_source:    utm('utm_source'),
+            utm_campaign:  utm('utm_campaign')
+          });
+        }
+      });
+
+      document.addEventListener('submit', function (e) {
+        const form = e.target;
+        const formId = form.id || form.getAttribute('name') || 'unknown_form';
+        gtag('event', 'generate_lead', {
+          form_id:              formId,
+          page_location:        window.location.href,
+          utm_source:           utm('utm_source'),
+          utm_medium:           utm('utm_medium'),
+          utm_campaign:         utm('utm_campaign'),
+          utm_content:          utm('utm_content'),
+          first_touch_source:   utm('utm_source',   'first'),
+          first_touch_campaign: utm('utm_campaign', 'first'),
+          gclid:  clickIds.gclid  || null,
+          fbclid: clickIds.fbclid || null
+        });
+      });
+
+      /* ── 8. PHONE & EMAIL LINK CLICKS ──────────────────────────────── */
+      document.addEventListener('click', function (e) {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+        const href = link.href || '';
+        if (href.startsWith('tel:')) {
+          gtag('event', 'phone_click', {
+            phone_number:  href.replace('tel:', ''),
+            page_location: window.location.href,
+            utm_source:    utm('utm_source'),
+            utm_campaign:  utm('utm_campaign')
+          });
+        }
+        if (href.startsWith('mailto:')) {
+          gtag('event', 'email_click', {
+            email_address: href.replace('mailto:', '').split('?')[0],
+            page_location: window.location.href
+          });
+        }
+      });
+
+      /* ── 9. GLOBAL HELPER: window.apTrack() ────────────────────────── */
+      window.apTrack = function (eventName, extra) {
+        gtag('event', eventName, Object.assign({
+          page_location:        window.location.href,
+          utm_source:           utm('utm_source'),
+          utm_medium:           utm('utm_medium'),
+          utm_campaign:         utm('utm_campaign'),
+          first_touch_source:   utm('utm_source',   'first'),
+          first_touch_campaign: utm('utm_campaign', 'first')
+        }, extra || {}));
+      };
+
+    })();
+    </script>
   </body>
 </html>
