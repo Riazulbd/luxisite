@@ -19,9 +19,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ["react", "react-dom", "react-router-dom"],
-          editor: ["@tiptap/react", "@tiptap/starter-kit"],
-          charts: ["recharts"]
+          vendor: ["react", "react-dom", "react-router-dom"]
         }
       }
     },
