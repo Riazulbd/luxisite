@@ -14,9 +14,8 @@ const services = [
   { svg: ["VAPI", "Retell AI", "Twilio"], title: "Voice AI Agents", description: "Production-grade assistants on real phone lines. They qualify, book, handle objections, and keep working after hours.", tags: ["VAPI", "Retell", "Twilio"] },
   { svg: ["OpenAI", "Claude AI"], title: "SMS and Chat AI", description: "Intelligent conversational AI that nurtures leads and knows exactly when to hand off to a human.", tags: ["OpenAI", "Claude", "Custom"] },
   { svg: ["n8n", "Make"], title: "Automation Pipelines", description: "Complex workflows unifying CRM, AI agents, databases, and every third-party tool into one automated revenue machine.", tags: ["n8n", "Make", "Custom APIs"] },
-  { svg: ["Next.js", "Supabase"], title: "Full-Stack Applications", description: "Custom dashboards, lead capture tools, and client portals built from scratch with modern frameworks.", tags: ["Next.js", "React", "Supabase"] },
-  { svg: ["Playwright", "Pipedrive", "Supabase"], title: "Lead Routing Systems", description: "Automated sourcing, lead scoring, geographic qualification, and CRM enrichment that keeps your pipeline clean while you sleep.", tags: ["Playwright", "Pipedrive", "Supabase"] },
   { svg: ["Instantly", "Smartlead", "Google Workspace"], title: "Email Deliverability Systems", description: "Inbox-first architecture built for 40%+ open rates. Domain warming, sending infrastructure, and reputation management so your outbound actually lands.", tags: ["Instantly", "Smartlead", "Google Workspace"] },
+  { svg: ["Playwright", "Pipedrive", "Supabase"], title: "Lead Routing Systems", description: "Automated sourcing, lead scoring, geographic qualification, and CRM enrichment that keeps your pipeline clean while you sleep.", tags: ["Playwright", "Pipedrive", "Supabase"] },
 ];
 
 const processSteps = [
