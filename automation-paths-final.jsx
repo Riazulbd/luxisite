@@ -313,6 +313,15 @@ export default function App() {
           0%,100% { transform: translateY(0px); }
           50% { transform: translateY(-4px); }
         }
+        @keyframes sectionReveal {
+          from { opacity: 0; transform: translateY(32px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shimmerGrad {
+          0% { background-position: 0% center; }
+          100% { background-position: 200% center; }
+        }
+        nav a:hover { color: ${theme.a1} !important; transition: color 0.22s; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; scroll-padding-top: ${isMobile ? 24 : 32}px; }
         body { -webkit-font-smoothing: antialiased; }
@@ -400,7 +409,7 @@ export default function App() {
           <span style={{ width: 24, height: 24, background: "linear-gradient(135deg,#34D399,#2DD4BF)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", color: "#fff" }}>
             +
           </span>
-          Built for agencies, consultants, and operators fixing revenue systems
+          GoHighLevel + AI automation for agencies fixing revenue systems
         </div>
 
         <h1 style={{ fontFamily: TYPOGRAPHY.head, fontSize: isMobile ? "clamp(2.15rem,11vw,3.1rem)" : "clamp(4.1rem,7.6vw,6.3rem)", lineHeight: isMobile ? 0.88 : 0.9, letterSpacing: isMobile ? "-0.07em" : "-0.055em", maxWidth: isTablet ? 880 : 1040, marginBottom: isMobile ? 10 : 22, color: theme.text, position: "relative", zIndex: 2 }}>
@@ -412,7 +421,7 @@ export default function App() {
         </h1>
 
         <p style={{ fontSize: isMobile ? "0.9rem" : "1.14rem", color: theme.text2, maxWidth: isMobile ? 322 : 720, lineHeight: isMobile ? 1.58 : 1.78, marginBottom: isMobile ? 16 : 32, position: "relative", zIndex: 2, animation: "heroFadeUp 0.72s ease-out 0.32s both" }}>
-          I build the systems that generate, qualify, and close revenue - without you babysitting them. CRM architecture, Voice AI, automation pipelines, and reporting layers that actually compound.
+          I build GoHighLevel CRM systems, Voice AI agents, and automation pipelines that generate, qualify, and close revenue — without you babysitting them. Systems that compound.
         </p>
 
         <div style={{ display: isMobile ? "grid" : "flex", gap: isMobile ? 10 : 12, gridTemplateColumns: isMobile ? "repeat(2, minmax(0, 1fr))" : undefined, flexWrap: isMobile ? undefined : "wrap", width: isMobile ? "100%" : "auto", maxWidth: isMobile ? 340 : "none", justifyContent: "center", position: "relative", zIndex: 2, animation: "heroFadeUp 0.72s ease-out 0.44s both" }}>

@@ -10,12 +10,13 @@ import tonyHeadshot from "./assets/headshots/tony.jpg";
 import zacHeadshot from "./assets/headshots/zac.webp";
 
 const services = [
-  { svg: ["GoHighLevel", "HubSpot", "Salesforce"], title: "CRM Architecture", description: "Multi-pipeline systems with lifecycle automation, lead scoring, and dashboards designed for how your team actually sells.", tags: ["GoHighLevel", "HubSpot", "Salesforce"] },
+  { svg: ["GoHighLevel", "HubSpot", "Salesforce"], title: "GoHighLevel Architecture", description: "GHL-certified CRM builds — multi-pipeline systems, lifecycle automation, lead scoring, and dashboards engineered for how your team actually sells.", tags: ["GoHighLevel", "HubSpot", "Salesforce"] },
   { svg: ["VAPI", "Retell AI", "Twilio"], title: "Voice AI Agents", description: "Production-grade assistants on real phone lines. They qualify, book, handle objections, and keep working after hours.", tags: ["VAPI", "Retell", "Twilio"] },
   { svg: ["OpenAI", "Claude AI"], title: "SMS and Chat AI", description: "Intelligent conversational AI that nurtures leads and knows exactly when to hand off to a human.", tags: ["OpenAI", "Claude", "Custom"] },
+  { svg: ["OpenAI", "n8n", "Claude AI"], title: "AI Agent Orchestration", description: "Multi-agent systems that route decisions, trigger actions, and operate across your stack autonomously — no daily babysitting required.", tags: ["OpenAI", "Claude", "n8n"] },
   { svg: ["n8n", "Make"], title: "Automation Pipelines", description: "Complex workflows unifying CRM, AI agents, databases, and every third-party tool into one automated revenue machine.", tags: ["n8n", "Make", "Custom APIs"] },
   { svg: ["Instantly", "Smartlead", "Google Workspace"], title: "Email Deliverability Systems", description: "Inbox-first architecture built for 40%+ open rates. Domain warming, sending infrastructure, and reputation management so your outbound actually lands.", tags: ["Instantly", "Smartlead", "Google Workspace"] },
-  { svg: ["Playwright", "Pipedrive", "Supabase"], title: "Lead Routing Systems", description: "Automated sourcing, lead scoring, geographic qualification, and CRM enrichment that keeps your pipeline clean while you sleep.", tags: ["Playwright", "Pipedrive", "Supabase"] },
+  { svg: ["Playwright", "Pipedrive", "Supabase"], title: "Revenue Infrastructure Audits", description: "Systematic diagnosis of your full revenue stack — where leads die, where routing breaks, where conversion drops — delivered as an actionable rebuild plan.", tags: ["GoHighLevel", "Pipedrive", "Supabase"] },
 ];
 
 const processSteps = [
@@ -26,26 +27,10 @@ const processSteps = [
 ];
 
 const stats = [
-  {
-    value: "5,000+",
-    label: "Hours Delivered",
-    detail: "Across CRM builds, automation systems, AI workflows, and implementation support.",
-  },
-  {
-    value: "Top 1%",
-    label: "Upwork Worldwide",
-    detail: "Trusted for high-leverage systems work, not commodity task execution.",
-  },
-  {
-    value: "12+",
-    label: "Platforms Mastered",
-    detail: "From GoHighLevel and HubSpot to Twilio, n8n, Playwright, and Supabase.",
-  },
-  {
-    value: "US / UK",
-    label: "Client Base",
-    detail: "Built for agencies, consultants, operators, and service businesses shipping globally.",
-  },
+  { numeric: 5000, prefix: "", suffix: "+", label: "Hours Delivered", detail: "Across CRM builds, automation systems, AI workflows, and implementation support." },
+  { value: "Top 1%", label: "Upwork Worldwide", detail: "Trusted for high-leverage systems work, not commodity task execution." },
+  { numeric: 12, prefix: "", suffix: "+", label: "Platforms Mastered", detail: "From GoHighLevel and HubSpot to Twilio, n8n, Playwright, and Supabase." },
+  { numeric: 59.76, prefix: "$", suffix: "M", label: "Revenue Attributed", detail: "Across voice AI, SMS automation, CRM buildouts, and revenue system engagements." },
 ];
 
 const testimonials = [
@@ -174,6 +159,14 @@ const notRightFitItems = [
   "You want to DIY with guidance rather than a done-for-you build.",
   "You need 24/7 availability - I work CST-compatible hours and deliver async.",
   "You're looking for a VA or task executor - I architect systems, not run errands.",
+];
+
+const strongFitItems = [
+  "You're an agency owner, consultant, or coach with lead flow that's leaking at routing or conversion.",
+  "You need GoHighLevel built, audited, or scaled — not just explained or trained on.",
+  "You want a done-for-you revenue system with QA, documentation, and clean handoff.",
+  "You work CST-compatible hours and can operate async without daily standups.",
+  "You're investing in infrastructure that compounds revenue, not the cheapest path forward.",
 ];
 
 const LogoSVG = ({ name, size = 20 }) => {
@@ -318,6 +311,95 @@ const LogoSVG = ({ name, size = 20 }) => {
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       {icons[name] || <rect width={size} height={size} rx={4} fill="#888" />}
     </svg>
+  );
+};
+
+function useCountUp(end, duration, trigger) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!trigger || end === 0) return;
+    const t0 = performance.now();
+    let id;
+    function step(t) {
+      const p = Math.min((t - t0) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 4);
+      setVal(ease * end);
+      if (p < 1) id = requestAnimationFrame(step);
+      else setVal(end);
+    }
+    id = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(id);
+  }, [trigger, end, duration]);
+  return val;
+}
+
+function useReveal(threshold = 0.12) {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") { setVisible(true); return undefined; }
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return [ref, visible];
+}
+
+const SectionReveal = ({ children, delay = 0 }) => {
+  const [ref, visible] = useReveal(0.08);
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(28px)",
+        transition: `opacity 0.85s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.95s cubic-bezier(0.34,1.56,0.64,1) ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+const StatCard = ({ stat, index, theme, compact, clay, typography }) => {
+  const [ref, visible] = useReveal(0.2);
+  const rawNum = stat.numeric ?? null;
+  const count = useCountUp(rawNum ?? 0, 1800, visible && rawNum !== null);
+
+  let displayValue;
+  if (rawNum !== null) {
+    const n = rawNum % 1 === 0 ? Math.round(count).toLocaleString() : count.toFixed(2);
+    displayValue = `${stat.prefix ?? ""}${n}${stat.suffix ?? ""}`;
+  } else {
+    displayValue = stat.value;
+  }
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        background: theme.card,
+        border: `1px solid ${theme.cardBorder}`,
+        borderRadius: 24,
+        padding: compact ? "22px 18px" : "24px 20px",
+        textAlign: "left",
+        boxShadow: clay(theme.cardGlow),
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0) scale(1)" : "translateY(24px) scale(0.97)",
+        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${index * 80}ms, transform 0.8s cubic-bezier(0.34,1.56,0.64,1) ${index * 80}ms`,
+      }}
+    >
+      <div style={{ width: 56, height: 4, borderRadius: 999, background: theme.grad, marginBottom: 14 }} />
+      <div style={{ fontFamily: typography.head, fontSize: compact ? "2.25rem" : "2.7rem", fontWeight: 800, letterSpacing: "-0.06em", lineHeight: 0.95, color: theme.text, fontVariantNumeric: "tabular-nums", marginBottom: 8 }}>
+        {displayValue}
+      </div>
+      <div style={{ fontFamily: typography.head, fontWeight: 700, fontSize: "0.98rem", color: theme.text, marginBottom: 8 }}>{stat.label}</div>
+      <p style={{ fontSize: "0.84rem", lineHeight: 1.6, color: theme.text3 }}>{stat.detail}</p>
+    </div>
   );
 };
 
@@ -681,7 +763,7 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
   );
 
   return (
-    <div style={{ contentVisibility: "auto", containIntrinsicSize: isMobile ? "1px 5600px" : "1px 4700px" }}>
+    <div style={{ contentVisibility: "auto", containIntrinsicSize: isMobile ? "1px 6400px" : "1px 5500px" }}>
       <section id="about" style={{ padding: isMobile ? "30px 16px 40px" : "38px 20px 56px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", display: "grid", gridTemplateColumns: isTablet ? "1fr" : "minmax(0, 1.05fr) minmax(320px, 0.95fr)", gap: 18, alignItems: "stretch" }}>
           <div style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 30, padding: isMobile ? "24px 18px" : "30px 30px", boxShadow: clay(theme.cardGlow) }}>
@@ -740,15 +822,17 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
 
       <section id="services" style={{ padding: isMobile ? "64px 16px" : "80px 20px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+          <SectionReveal>
           <div style={{ marginBottom: 40 }}>
             <SectionLabel theme={theme} clay={clay} typography={typography}>What I Build</SectionLabel>
             <h2 style={{ fontFamily: typography.head, fontSize: "clamp(2.2rem,4.5vw,3.4rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginTop: 16, marginBottom: 12 }}>
-              Six core systems that create <GradText>a cleaner revenue engine.</GradText>
+              Seven revenue systems. <GradText>One compound engine.</GradText>
             </h2>
             <p style={{ fontSize: "1.05rem", color: theme.text2, maxWidth: 540, lineHeight: 1.7 }}>
               Every engagement is built around one outcome: a revenue stack that captures leads cleanly, routes them correctly, and gives you numbers you can actually trust - not dashboards you ignore.
             </p>
           </div>
+          </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
             {services.map((service, index) => (
@@ -823,24 +907,19 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
 
       <section id="results" style={{ padding: isMobile ? "64px 16px" : "80px 20px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <SectionLabel theme={theme} clay={clay} typography={typography}>Results</SectionLabel>
-          <h2 style={{ fontFamily: typography.head, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
-            Strong systems leave <GradText>visible evidence.</GradText>
-          </h2>
-          <p style={{ fontSize: "1rem", color: theme.text2, maxWidth: 700, lineHeight: 1.74, marginBottom: 34 }}>
-            Better systems show up in delivery speed, cleaner handoffs, stronger reporting, and client feedback that speaks for itself.
-          </p>
+          <SectionReveal>
+            <SectionLabel theme={theme} clay={clay} typography={typography}>Results</SectionLabel>
+            <h2 style={{ fontFamily: typography.head, fontSize: "clamp(2.1rem,4vw,3.2rem)", fontWeight: 900, lineHeight: 1.08, letterSpacing: "-0.03em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
+              Strong systems leave <GradText>visible evidence.</GradText>
+            </h2>
+            <p style={{ fontSize: "1rem", color: theme.text2, maxWidth: 700, lineHeight: 1.74, marginBottom: 34 }}>
+              Better systems show up in delivery speed, cleaner handoffs, stronger reporting, and client feedback that speaks for itself.
+            </p>
+          </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: isTablet ? "repeat(2, minmax(0, 1fr))" : "repeat(4, minmax(0, 1fr))", gap: 14, width: "100%", marginBottom: 22 }}>
-            {stats.map((stat) => (
-              <div key={stat.label} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: isMobile ? "22px 18px" : "24px 20px", textAlign: "left", boxShadow: clay(theme.cardGlow) }}>
-                <div style={{ width: 56, height: 4, borderRadius: 999, background: theme.grad, marginBottom: 14 }} />
-                <div style={{ fontFamily: typography.head, fontSize: isMobile ? "2.25rem" : "2.7rem", fontWeight: 800, letterSpacing: "-0.06em", lineHeight: 0.95, color: theme.text, fontVariantNumeric: "tabular-nums", marginBottom: 8 }}>
-                  {stat.value}
-                </div>
-                <div style={{ fontFamily: typography.head, fontWeight: 700, fontSize: "0.98rem", color: theme.text, marginBottom: 8 }}>{stat.label}</div>
-                <p style={{ fontSize: "0.84rem", lineHeight: 1.6, color: theme.text3 }}>{stat.detail}</p>
-              </div>
+            {stats.map((stat, index) => (
+              <StatCard key={stat.label} stat={stat} index={index} theme={theme} compact={isMobile} clay={clay} typography={typography} />
             ))}
           </div>
 
@@ -862,24 +941,57 @@ export default function BelowFoldSections({ theme, isMobile, isTablet, clay, typ
 
       <section style={{ padding: isMobile ? "0 16px 56px" : "0 20px 72px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: 1140, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 30px" }}>
-            <SectionLabel theme={theme} clay={clay} typography={typography}>Fit Check</SectionLabel>
-            <h2 style={{ fontFamily: typography.head, fontSize: "clamp(1.9rem,3.9vw,3rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.04em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
-              This Isn't the Right Engagement If
-            </h2>
-            <p style={{ color: theme.text2, lineHeight: 1.74, fontSize: "1rem" }}>
-              The strongest projects start with clean expectations on scope, ownership, and the kind of build you actually need.
-            </p>
-          </div>
+          <SectionReveal>
+            <div style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 30px" }}>
+              <SectionLabel theme={theme} clay={clay} typography={typography}>Strong Fit</SectionLabel>
+              <h2 style={{ fontFamily: typography.head, fontSize: "clamp(1.9rem,3.9vw,3rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.04em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
+                You'll get the most from this <GradText>if you recognize yourself here.</GradText>
+              </h2>
+              <p style={{ color: theme.text2, lineHeight: 1.74, fontSize: "1rem" }}>
+                The best projects start with the right fit. Here's who this work is built for.
+              </p>
+            </div>
+          </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, minmax(0, 1fr))", gap: 14 }}>
-            {notRightFitItems.map((item) => (
-              <div key={item} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: "22px 20px", boxShadow: clay(theme.cardGlow), display: "grid", gridTemplateColumns: "28px 1fr", gap: 12, alignItems: "start" }}>
-                <div style={{ width: 28, height: 28, borderRadius: "50%", background: theme.chipBg, color: theme.a1, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: typography.mono, fontSize: "0.78rem", fontWeight: 600 }}>
-                  -
+            {strongFitItems.map((item, i) => (
+              <SectionReveal key={item} delay={i * 60}>
+                <div style={{ background: theme.card, border: `1px solid rgba(20,168,0,0.18)`, borderRadius: 24, padding: "22px 20px", boxShadow: clay(theme.cardGlow), display: "grid", gridTemplateColumns: "28px 1fr", gap: 12, alignItems: "start" }}>
+                  <div style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(20,168,0,0.1)", color: "#14A800", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.88rem", fontWeight: 700, flexShrink: 0 }}>
+                    ✓
+                  </div>
+                  <p style={{ color: theme.text, lineHeight: 1.7, fontSize: "0.96rem" }}>{item}</p>
                 </div>
-                <p style={{ color: theme.text, lineHeight: 1.7, fontSize: "0.96rem" }}>{item}</p>
-              </div>
+              </SectionReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ padding: isMobile ? "0 16px 56px" : "0 20px 72px", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+          <SectionReveal>
+            <div style={{ textAlign: "center", maxWidth: 760, margin: "0 auto 30px" }}>
+              <SectionLabel theme={theme} clay={clay} typography={typography}>Fit Check</SectionLabel>
+              <h2 style={{ fontFamily: typography.head, fontSize: "clamp(1.9rem,3.9vw,3rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.04em", color: theme.text, marginTop: 18, marginBottom: 12 }}>
+                This Isn't the Right Engagement If
+              </h2>
+              <p style={{ color: theme.text2, lineHeight: 1.74, fontSize: "1rem" }}>
+                The strongest projects start with clean expectations on scope, ownership, and the kind of build you actually need.
+              </p>
+            </div>
+          </SectionReveal>
+
+          <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "repeat(2, minmax(0, 1fr))", gap: 14 }}>
+            {notRightFitItems.map((item, i) => (
+              <SectionReveal key={item} delay={i * 60}>
+                <div style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 24, padding: "22px 20px", boxShadow: clay(theme.cardGlow), display: "grid", gridTemplateColumns: "28px 1fr", gap: 12, alignItems: "start" }}>
+                  <div style={{ width: 28, height: 28, borderRadius: "50%", background: theme.chipBg, color: theme.a1, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: typography.mono, fontSize: "0.78rem", fontWeight: 600 }}>
+                    -
+                  </div>
+                  <p style={{ color: theme.text, lineHeight: 1.7, fontSize: "0.96rem" }}>{item}</p>
+                </div>
+              </SectionReveal>
             ))}
           </div>
         </div>
